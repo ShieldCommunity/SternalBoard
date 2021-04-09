@@ -3,18 +3,15 @@ package com.xIsm4.plugins;
 import com.xIsm4.plugins.HexColors.eventChat;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
-import lombok.Getter;
+
 import org.bukkit.Bukkit;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
+import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 
 @Getter
 public class Main extends JavaPlugin {

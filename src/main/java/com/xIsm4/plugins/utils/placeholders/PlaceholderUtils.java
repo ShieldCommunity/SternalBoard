@@ -1,9 +1,11 @@
 package com.xIsm4.plugins.utils.placeholders;
 
 import com.xIsm4.plugins.Main;
-import me.clip.placeholderapi.PlaceholderAPI;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class PlaceholderUtils {
 

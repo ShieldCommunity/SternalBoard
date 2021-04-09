@@ -1,13 +1,14 @@
 package com.xIsm4.plugins.HexColors;
 
-import net.md_5.bungee.api.ChatColor;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import net.md_5.bungee.api.ChatColor;
 
 public class eventChat implements Listener {
 

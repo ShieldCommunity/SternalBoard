@@ -1,14 +1,21 @@
 package com.xIsm4.plugins.api.scoreboard;
 
-import com.xIsm4.plugins.utils.compatibility.ReflectionUtils;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Objects;
+
+import com.xIsm4.plugins.utils.compatibility.ReflectionUtils;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class SternalBoard {
 

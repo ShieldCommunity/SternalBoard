@@ -1,12 +1,12 @@
 package com.xIsm4.plugins.utils.compatibility;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Optional;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class ReflectionUtils {
     public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";

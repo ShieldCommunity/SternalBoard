@@ -1,16 +1,18 @@
 package com.xIsm4.plugins.managers;
 
-import com.xIsm4.plugins.Main;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
-import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.ChatColor;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import com.xIsm4.plugins.Main;
+import com.xIsm4.plugins.api.scoreboard.SternalBoard;
+import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
+
+import org.bukkit.ChatColor;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
