@@ -2,6 +2,7 @@ package com.xIsm4.plugins.listeners;
 
 import com.xIsm4.plugins.Main;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
