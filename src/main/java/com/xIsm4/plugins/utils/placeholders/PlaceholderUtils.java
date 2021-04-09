@@ -34,6 +34,6 @@ public class PlaceholderUtils {
             }
         }
 
-        return text;
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 }
