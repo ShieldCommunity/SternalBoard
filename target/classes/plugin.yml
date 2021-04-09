@@ -1,0 +1,10 @@
+name: SternalBoard
+main: com.xIsm4.plugins.Main
+version: 1.0.0
+api-version: "1.13"
+authors: [xIsm4, ImLew_]
+
+commands:
+    reload:
+      description: Simple reload command
+      aliases: [sbreload]

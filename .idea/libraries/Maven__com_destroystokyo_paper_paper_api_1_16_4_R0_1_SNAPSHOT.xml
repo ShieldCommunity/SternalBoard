@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/destroystokyo/paper/paper-api/1.16.4-R0.1-SNAPSHOT/paper-api-1.16.4-R0.1-20210115.174432-154.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/destroystokyo/paper/paper-api/1.16.4-R0.1-SNAPSHOT/paper-api-1.16.4-R0.1-20210115.174432-154-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/destroystokyo/paper/paper-api/1.16.4-R0.1-SNAPSHOT/paper-api-1.16.4-R0.1-20210115.174432-154-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

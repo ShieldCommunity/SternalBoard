@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="[2NS] SternalBoard:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/_2NS__SternalBoard_jar</output-path>
+    <root id="archive" name="[2NS] SternalBoard.jar">
+      <element id="module-output" name="[2NS] SternalBoard" />
+    </root>
+  </artifact>
+</component>
