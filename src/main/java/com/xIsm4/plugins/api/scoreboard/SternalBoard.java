@@ -13,6 +13,7 @@ import java.util.ListIterator;
 import java.util.Objects;
 
 import com.xIsm4.plugins.utils.compatibility.ReflectionUtils;
+import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -146,7 +147,7 @@ public class SternalBoard {
             title = title.substring(0, 32);
         }
 
-        this.title = ChatColor.translateAlternateColorCodes('&', title);
+        this.title = PlaceholderUtils.colorize(title);
 
         try {
             sendObjectivePacket(ObjectiveMode.UPDATE);

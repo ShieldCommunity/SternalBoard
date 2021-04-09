@@ -1,6 +1,5 @@
 package com.xIsm4.plugins;
 
-import com.xIsm4.plugins.HexColors.eventChat;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
@@ -30,7 +29,6 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.getServer().getPluginManager().registerEvents(new eventChat(),this);
         this.saveConfig();
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[&6&lSternal&e&lBoard&2] &bby &9xIsm4"));
         instance = this;
