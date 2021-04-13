@@ -2,6 +2,7 @@ package com.xIsm4.plugins.listeners;
 
 import com.xIsm4.plugins.Main;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
+import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +24,9 @@ public class PlayerListener implements Listener {
 
         SternalBoard board = new SternalBoard(player);
         if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
-            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(core.getConfig().getString("settings.scoreboard.title")), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
         } else {
-            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(core.getConfig().getString("settings.scoreboard.title")));
+            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title"))));
         }
         core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
     }
