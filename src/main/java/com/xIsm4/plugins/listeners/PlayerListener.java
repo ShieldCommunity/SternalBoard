@@ -24,9 +24,9 @@ public class PlayerListener implements Listener {
 
         SternalBoard board = new SternalBoard(player);
         if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
-            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
         } else {
-            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title"))));
+            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))));
         }
         core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
     }
