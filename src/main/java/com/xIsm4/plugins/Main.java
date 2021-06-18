@@ -42,7 +42,6 @@ public class Main extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player)) {
             this.saveConfig();
-            this.reloadConfig();
             System.out.println("[SternalBoard] Reloaded Configuration");
             return true;
         }
@@ -51,7 +50,6 @@ public class Main extends JavaPlugin {
                 Player p = (Player) sender;
 
                 if (p.hasPermission("sternalboard.use")) {
-                    this.reloadConfig();
                     saveConfig();
                     p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bThe Plugin &2[&6&lSternal&e&lBoard&2] &ahas been reloaded!"));
                 } else {
