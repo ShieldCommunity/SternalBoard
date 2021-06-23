@@ -57,8 +57,9 @@ public class Main extends JavaPlugin {
             System.out.println("[SternalBoard] Reloaded Configuration");
             return true;
         }
-        if(args.length > 0) {
-            if(args[0].equalsIgnoreCase("reload")) {
+
+        if (args.length > 0) {
+            if (args[0].equalsIgnoreCase("reload")) {
                 Player p = (Player) sender;
 
                 if (p.hasPermission("sternalboard.use")) {
@@ -70,8 +71,8 @@ public class Main extends JavaPlugin {
             }
 
 
-        }else{
-            sender.sendMessage(ChatColor.RED+" Not enougth arguments");
+        } else {
+            sender.sendMessage(ChatColor.RED + " Not enougth arguments");
             return true;
         }
 
@@ -105,5 +106,6 @@ public class Main extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(  ChatColor.RED + " Error while checking update.");
         }
     }
+
 }
 

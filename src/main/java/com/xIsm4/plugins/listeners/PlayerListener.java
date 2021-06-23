@@ -40,5 +40,6 @@ public class PlayerListener implements Listener {
         if (board != null) {
             board.delete();
         }
+
     }
 }
