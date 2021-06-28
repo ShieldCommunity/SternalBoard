@@ -52,12 +52,14 @@ public class SternalBoard {
                 VERSION_TYPE = VersionType.V1_8;
             } else {
                 VERSION_TYPE = VersionType.V1_7;
+                
             }
 
             Class<?> craftChatMessageClass = ReflectionUtils.obcClass("util.CraftChatMessage");
             Class<?> entityPlayerClass = ReflectionUtils.nmsClass("EntityPlayer");
             Class<?> playerConnectionClass = ReflectionUtils.nmsClass("PlayerConnection");
             Class<?> craftPlayerClass = ReflectionUtils.obcClass("entity.CraftPlayer");
+            boolean sbTeamClass = VersionType.V1_17.isHigherOrEqual();
 
             MESSAGE_FROM_STRING = craftChatMessageClass.getDeclaredMethod("fromString", String.class);
             CHAT_COMPONENT_CLASS = ReflectionUtils.nmsClass("IChatBaseComponent");
@@ -542,8 +544,7 @@ public class SternalBoard {
     }
 
     enum VersionType {
-
-        V1_7, V1_8, V1_13;
+        V1_7, V1_8, V1_13, V1_17;
 
         public boolean isHigherOrEqual() {
             return VERSION_TYPE.ordinal() >= ordinal();

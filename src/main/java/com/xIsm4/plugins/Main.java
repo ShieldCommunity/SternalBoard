@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
@@ -16,6 +17,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.UUID;
 
 @Getter
 public class Main extends JavaPlugin {
@@ -24,6 +27,10 @@ public class Main extends JavaPlugin {
     private final String version = getVersion();
     private static Main instance;
 
+    //La descripcion que muchos querian para agregar el plugin en vez the this.
+
+    PluginDescriptionFile sb = getDescription();
+    public String Version = sb.getVersion();
     public static Main getInstance() {
         return instance;
     }
@@ -44,7 +51,13 @@ public class Main extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
-
+        private ArrayList<UUID> toggle = new ArrayList<>();
+    public void SternalBoard(Player p){
+        if (toggle.contains(p.getUniqueId())) {
+            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+            p.sendMessage(ChatColor.RED+"Scoreboard toggled");
+        }
+    }
     public String getLatestVersion() {
         return this.latestversion;
     }
@@ -68,6 +81,7 @@ public class Main extends JavaPlugin {
                 } else {
                     p.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.use) to preform this action");
                 }
+
             }
 
 
@@ -103,7 +117,7 @@ public class Main extends JavaPlugin {
                 }
             }
         } catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage(  ChatColor.RED + " Error while checking update.");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " Error while checking update.");
         }
     }
 
