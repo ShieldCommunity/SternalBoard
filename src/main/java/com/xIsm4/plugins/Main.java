@@ -42,7 +42,9 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        updateChecker();
+        Bukkit.getScheduler().runTaskAsynchronously(() -> { 
+            updateChecker()
+        });
         this.saveConfig();
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[&6&lSternal&e&lBoard&2] &bby &9xIsm4"));
         instance = this;
