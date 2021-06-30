@@ -53,9 +53,8 @@ public class ReflectionUtils {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static <E extends Enum<E>> E enumValueOf(Class<?> enumClass, String enumName) {
-        return Enum.valueOf((Class<E>) enumClass, enumName.toUpperCase(Locale.ROOT));
+    public static Object enumValueOf(Class<?> enumClass, String enumName) {
+        return Enum.valueOf(enumClass.asSubclass(Enum.class), enumName);
     }
 
     public static void setDeclaredField(Object o, String name, Object value) {
