@@ -74,21 +74,17 @@ public class SternalBoard {
             PACKET_SB_TEAM = ReflectionUtils.nmsClass("PacketPlayOutScoreboardTeam").getConstructor();
 
             if (VersionType.V1_8.isHigherOrEqual()) {
+                String enumSbActionClass = VersionType.V1_13.isHigherOrEqual()
+                        ? "ScoreboardServer$Action"
+                        : "PacketPlayOutScoreboardScore$EnumScoreboardAction";
                 ENUM_SB_HEALTH_DISPLAY = ReflectionUtils.nmsClass("IScoreboardCriteria$EnumScoreboardHealthDisplay");
-
-                if (VersionType.V1_13.isHigherOrEqual()) {
-                    ENUM_SB_ACTION = ReflectionUtils.nmsClass("ScoreboardServer$Action");
-                } else {
-                    ENUM_SB_ACTION = ReflectionUtils.nmsClass("PacketPlayOutScoreboardScore$EnumScoreboardAction");
-                }
-
+                ENUM_SB_ACTION = FastReflection.nmsClass(enumSbActionClass);
                 ENUM_SB_HEALTH_DISPLAY_INTEGER = ReflectionUtils.enumValueOf(ENUM_SB_HEALTH_DISPLAY, "INTEGER");
                 ENUM_SB_ACTION_CHANGE = ReflectionUtils.enumValueOf(ENUM_SB_ACTION, "CHANGE");
                 ENUM_SB_ACTION_REMOVE = ReflectionUtils.enumValueOf(ENUM_SB_ACTION, "REMOVE");
             } else {
                 ENUM_SB_HEALTH_DISPLAY = null;
                 ENUM_SB_ACTION = null;
-
                 ENUM_SB_HEALTH_DISPLAY_INTEGER = null;
                 ENUM_SB_ACTION_CHANGE = null;
                 ENUM_SB_ACTION_REMOVE = null;
@@ -114,7 +110,7 @@ public class SternalBoard {
     public SternalBoard(Player player) {
         this.player = Objects.requireNonNull(player, "player");
 
-        id = "fb-" + Double.toString(Math.random()).substring(2, 10);
+        this.id = "sb-" + Double.toString(Math.random()).substring(2, 10);
 
         try {
             sendObjectivePacket(ObjectiveMode.CREATE);
@@ -130,7 +126,7 @@ public class SternalBoard {
      * @return the scoreboard title
      */
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     /**
@@ -164,7 +160,7 @@ public class SternalBoard {
      * @return the scoreboard lines
      */
     public List<String> getLines() {
-        return new ArrayList<>(lines);
+        return new ArrayList<>(this.lines);
     }
 
     /**
@@ -175,9 +171,9 @@ public class SternalBoard {
      * @throws IndexOutOfBoundsException if the line is higher than {@code size}
      */
     public String getLine(int line) {
-        checkLineNumber(line, true);
+        checkLineNumber(line, true, false);
 
-        return lines.get(line);
+        return this.lines.get(line);
     }
 
     /**
@@ -187,18 +183,18 @@ public class SternalBoard {
      * @param text the new line text
      * @throws IndexOutOfBoundsException if the line is higher than {@code size} + 1
      */
-    public void updateLine(int line, String text) {
-        checkLineNumber(line, false);
+    public synchronized void updateLine(int line, String text) {
+        checkLineNumber(line, false, true);
 
         try {
             if (line < size()) {
-                lines.set(line, text);
+                this.lines.set(line, text);
 
                 sendTeamPacket(getScoreByLine(line), TeamMode.UPDATE);
                 return;
             }
 
-            List<String> newLines = new ArrayList<>(lines);
+            List<String> newLines = new ArrayList<>(this.lines);
 
             if (line > size()) {
                 for (int i = size(); i < line; i++) {
@@ -219,16 +215,16 @@ public class SternalBoard {
      *
      * @param line the line number
      */
-    public void removeLine(int line) {
+    public synchronized void removeLine(int line) {
         checkLineNumber(line, false);
 
         if (line >= size()) {
             return; // The line don't exists
         }
 
-        List<String> lines = new ArrayList<>(this.lines);
-        lines.remove(line);
-        updateLines(lines);
+        List<String> newLines = new ArrayList<>(this.lines);
+        newLines.remove(line);
+        updateLines(newLines);
     }
 
     /**
@@ -248,8 +244,9 @@ public class SternalBoard {
      * @param lines the new scoreboard lines
      * @throws IllegalStateException if {@link #delete()} was call before
      */
-    public void updateLines(Collection<String> lines) {
+    public synchronized void updateLines(Collection<String> lines) {
         Objects.requireNonNull(lines, "lines");
+        checkLineNumber(lines.size(), false, true);
 
         final List<String> oldLines = new ArrayList<>(this.lines);
         this.lines.clear();
@@ -274,7 +271,6 @@ public class SternalBoard {
                 if (oldLines.size() > linesSize) {
                     for (int i = oldLinesCopy.size(); i > linesSize; i--) {
                         sendTeamPacket(i - 1, TeamMode.REMOVE);
-
                         sendScorePacket(i - 1, ScoreboardAction.REMOVE);
 
                         oldLines.remove(0);
@@ -282,7 +278,6 @@ public class SternalBoard {
                 } else {
                     for (int i = oldLinesCopy.size(); i < linesSize; i++) {
                         sendScorePacket(i, ScoreboardAction.CHANGE);
-
                         sendTeamPacket(i, TeamMode.CREATE);
 
                         oldLines.add(oldLines.size() - i, getLineByScore(i));
@@ -306,7 +301,7 @@ public class SternalBoard {
      * @return current player for this FastBoard
      */
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     /**
@@ -315,7 +310,7 @@ public class SternalBoard {
      * @return the id
      */
     public String getId() {
-        return id;
+        return this.id;
     }
 
     /**
@@ -324,7 +319,7 @@ public class SternalBoard {
      * @return true if the scoreboard is deleted
      */
     public boolean isDeleted() {
-        return deleted;
+        return this.deleted;
     }
 
     /**
@@ -333,7 +328,7 @@ public class SternalBoard {
      * @return the size
      */
     public int size() {
-        return lines.size();
+        return this.lines.size();
     }
 
     /**
@@ -344,7 +339,7 @@ public class SternalBoard {
      */
     public void delete() {
         try {
-            for (int i = 0; i < lines.size(); i++) {
+            for (int i = 0; i < this.lines.size(); i++) {
                 sendTeamPacket(i, TeamMode.REMOVE);
             }
 
@@ -353,25 +348,44 @@ public class SternalBoard {
             throw new RuntimeException(e);
         }
 
-        deleted = true;
+        this.deleted = true;
+    }
+    
+        /**
+     * Return if the player has a prefix/suffix characters limit.
+     * By default, it returns true only in 1.12 or lower.
+     * This method can be overridden to fix compatibility with some versions support plugin.
+     *
+     * @return max length
+     */
+    protected boolean hasLinesMaxLength() {
+        return !VersionType.V1_13.isHigherOrEqual();
     }
 
-    private void checkLineNumber(int line, boolean checkMax) {
+    private void checkLineNumber(int line, boolean checkMax, boolean checkValid) {
         if (line < 0) {
             throw new IllegalArgumentException("Line number must be positive");
         }
 
-        if (checkMax && line >= lines.size()) {
-            throw new IllegalArgumentException("Line number must be under " + lines.size());
+        if (checkMax && line >= this.lines.size()) {
+            throw new IllegalArgumentException("Line number must be under " + this.lines.size());
+        }
+        
+        if (checkValid && line >= ChatColor.values().length - 1) {
+            throw new IllegalArgumentException("Line number is too high: " + this.lines.size());
         }
     }
 
+    private String getColorCode(int score) {
+        return ChatColor.values()[score].toString();
+    }
+    
     private int getScoreByLine(int line) {
-        return lines.size() - line - 1;
+        return this.lines.size() - line - 1;
     }
 
     private String getLineByScore(int score) {
-        return getLineByScore(lines, score);
+        return getLineByScore(this.lines, score);
     }
 
     private String getLineByScore(List<String> lines, int score) {
@@ -381,11 +395,11 @@ public class SternalBoard {
     private void sendObjectivePacket(ObjectiveMode mode) throws ReflectiveOperationException {
         Object packet = PACKET_SB_OBJ.newInstance();
 
-        setField(packet, String.class, id);
+        setField(packet, String.class, this.id);
         setField(packet, int.class, mode.ordinal());
 
         if (mode != ObjectiveMode.REMOVE) {
-            setComponentField(packet, title, 1);
+            setComponentField(packet, this.title, 1);
 
             if (VersionType.V1_8.isHigherOrEqual()) {
                 setField(packet, ENUM_SB_HEALTH_DISPLAY, ENUM_SB_HEALTH_DISPLAY_INTEGER);
@@ -401,7 +415,7 @@ public class SternalBoard {
         Object packet = PACKET_SB_DISPLAY_OBJ.newInstance();
 
         setField(packet, int.class, 1);
-        setField(packet, String.class, id);
+        setField(packet, String.class, this.id);
 
         sendPacket(packet);
     }
@@ -418,7 +432,7 @@ public class SternalBoard {
         }
 
         if (action == ScoreboardAction.CHANGE) {
-            setField(packet, String.class, id, 1);
+            setField(packet, String.class, this.id, 1);
             setField(packet, int.class, score);
         }
 
@@ -430,9 +444,10 @@ public class SternalBoard {
             throw new UnsupportedOperationException();
         }
 
+        int maxLength = hasLinesMaxLength() ? 16 : 1024;
         Object packet = PACKET_SB_TEAM.newInstance();
 
-        setField(packet, String.class, id + ':' + score); // Team name
+        setField(packet, String.class, this.id + ':' + score); // Team name
         setField(packet, int.class, mode.ordinal(), VERSION_TYPE == VersionType.V1_8 ? 1 : 0); // Update mode
 
         if (mode == TeamMode.CREATE || mode == TeamMode.UPDATE) {
@@ -442,11 +457,11 @@ public class SternalBoard {
 
             if (line == null || line.isEmpty()) {
                 prefix = getColorCode(score) + ChatColor.RESET;
-            } else if (line.length() <= 16 || VersionType.V1_13.isHigherOrEqual()) {
+            } else if (line.length() <= maxLength) {
                 prefix = line;
             } else {
                 // Prevent splitting color codes
-                int index = line.charAt(15) == ChatColor.COLOR_CHAR ? 15 : 16;
+                int index = line.charAt(maxLength - 1) == ChatColor.COLOR_CHAR ? (maxLength - 1) : maxLength;
                 prefix = line.substring(0, index);
                 String suffixTmp = line.substring(index);
                 ChatColor chatColor = null;
@@ -461,12 +476,10 @@ public class SternalBoard {
                 suffix = (addColor ? (color.isEmpty() ? ChatColor.RESET.toString() : color) : "") + suffixTmp;
             }
 
-            if (VERSION_TYPE != VersionType.V1_13) {
-                if (prefix.length() > 16 || (suffix != null && suffix.length() > 16)) {
-                    // Something went wrong, just cut to prevent client crash/kick
-                    prefix = prefix.substring(0, 16);
-                    suffix = (suffix != null) ? suffix.substring(0, 16) : null;
-                }
+            if (prefix.length() > maxLength || (suffix != null && suffix.length() > maxLength)) {
+                // Something went wrong, just cut to prevent client crash/kick
+                prefix = prefix.substring(0, maxLength);
+                suffix = (suffix != null) ? suffix.substring(0, maxLength) : null;
             }
 
             setComponentField(packet, prefix, 2); // Prefix
@@ -482,15 +495,11 @@ public class SternalBoard {
         sendPacket(packet);
     }
 
-    private String getColorCode(int score) {
-        return ChatColor.values()[score].toString();
-    }
-
     private void sendPacket(Object packet) throws ReflectiveOperationException {
-        if (deleted || !player.isOnline()) {
+        if (this.deleted || !this.player.isOnline()) {
             return;
         }
-        Object entityPlayer = PLAYER_GET_HANDLE.invoke(player);
+        Object entityPlayer = PLAYER_GET_HANDLE.invoke(this.player);
         Object playerConnection = PLAYER_CONNECTION.get(entityPlayer);
         SEND_PACKET.invoke(playerConnection, packet);
     }
@@ -501,11 +510,10 @@ public class SternalBoard {
 
     private void setField(Object object, Class<?> fieldType, Object value, int count) throws ReflectiveOperationException {
         int i = 0;
-
-        for (Field f : object.getClass().getDeclaredFields()) {
-            if (f.getType() == fieldType && i++ == count) {
-                f.setAccessible(true);
-                f.set(object, value);
+        for (Field field : object.getClass().getDeclaredFields()) {
+            if (field.getType() == fieldType && count == i++) {
+                field.setAccessible(true);
+                field.set(object, value);
             }
         }
     }
@@ -517,10 +525,10 @@ public class SternalBoard {
         }
 
         int i = 0;
-        for (Field f : object.getClass().getDeclaredFields()) {
-            if ((f.getType() == String.class || f.getType() == CHAT_COMPONENT_CLASS) && i++ == count) {
-                f.setAccessible(true);
-                f.set(object, Array.get(MESSAGE_FROM_STRING.invoke(null, value), 0));
+        for (Field field : object.getClass().getDeclaredFields()) {
+            if ((field.getType() == String.class || field.getType() == CHAT_COMPONENT_CLASS) && count == i++) {
+                field.setAccessible(true);
+                field.set(object, Array.get(MESSAGE_FROM_STRING.invoke(null, value), 0));
             }
         }
     }
