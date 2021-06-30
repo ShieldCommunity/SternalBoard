@@ -21,6 +21,7 @@ public class ReflectionUtils {
         throw new UnsupportedOperationException();
     }
 
+    //Returning NMS package + version type.
     public static String nmsClassName(String className) {
         return NMS_PACKAGE + '.' + VERSION + '.' + className;
     }

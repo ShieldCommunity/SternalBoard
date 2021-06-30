@@ -17,8 +17,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.UUID;
+
 
 @Getter
 public class Main extends JavaPlugin {
@@ -29,8 +28,6 @@ public class Main extends JavaPlugin {
 
     //La descripcion que muchos querian para agregar el plugin en vez the this.
 
-    PluginDescriptionFile sb = getDescription();
-    public String Version = sb.getVersion();
     public static Main getInstance() {
         return instance;
     }
@@ -50,13 +47,7 @@ public class Main extends JavaPlugin {
         scoreboardManager.init();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-    }
-        private ArrayList<UUID> toggle = new ArrayList<>();
-    public void SternalBoard(Player p){
-        if (toggle.contains(p.getUniqueId())) {
-            p.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
-            p.sendMessage(ChatColor.RED+"Scoreboard toggled");
-        }
+
     }
     public String getLatestVersion() {
         return this.latestversion;
@@ -103,7 +94,7 @@ public class Main extends JavaPlugin {
     public void updateChecker() {
         try {
             HttpURLConnection con = (HttpURLConnection) new URL(
-                    "https://api.spigotmc.org/legacy/update.php?resource=89245").openConnection();
+                    "https://api.spigotmc.org/legacy/update.php?resource=82876").openConnection();
             int timed_out = 1250;
             con.setConnectTimeout(timed_out);
             con.setReadTimeout(timed_out);

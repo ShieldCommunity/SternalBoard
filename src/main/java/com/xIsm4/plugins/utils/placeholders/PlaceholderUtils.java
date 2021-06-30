@@ -12,10 +12,12 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 
 public class PlaceholderUtils {
-    
+
+    //Rgb Colors
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-f0-9]{6}");
 
     public static String sanitizeString(Player player, String text) {
+        //Managing PlaceHolderAPI text.
         if (Main.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return colorize(PlaceholderAPI.setPlaceholders(player, text));
         } else {

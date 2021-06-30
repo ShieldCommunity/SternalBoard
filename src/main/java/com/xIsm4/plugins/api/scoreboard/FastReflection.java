@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public final class NMSUtily {
+public final class FastReflection {
 
     private static final String NM_PACKAGE = "net.minecraft";
     public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
@@ -23,7 +23,7 @@ public final class NMSUtily {
 
     private static volatile Object theUnsafe;
 
-    private NMSUtily() {
+    private FastReflection() {
         throw new UnsupportedOperationException();
     }
 
@@ -101,7 +101,7 @@ public final class NMSUtily {
         }
 
         if (theUnsafe == null) {
-            synchronized (NMSUtily.class) {
+            synchronized (FastReflection.class) {
                 if (theUnsafe == null) {
                     Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
                     Field theUnsafeField = unsafeClass.getDeclaredField("theUnsafe");

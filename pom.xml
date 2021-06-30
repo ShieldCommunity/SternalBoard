@@ -4,9 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>github.io.xIsm4</groupId>
     <artifactId>SternalBoard</artifactId>
     <version>1.0-SNAPSHOT</version>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,6 +29,7 @@
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
     </repositories>
+
 
     <build>
         <finalName>SternalCore</finalName>
@@ -66,11 +68,13 @@
         </plugins>
     </build>
 
+
+
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.16.4-R0.1-SNAPSHOT</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.17-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
