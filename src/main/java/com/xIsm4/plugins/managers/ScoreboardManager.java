@@ -28,7 +28,7 @@ public class ScoreboardManager {
         }
 
         core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            for (SternalBoard board : boards.values()) {
+            for (SternalBoard board : this.boards.values()) {
                 updateBoard(board);
             }
         }, 0, core.getConfig().getInt("settings.scoreboard.update", 20));
