@@ -53,10 +53,9 @@ public class ReflectionUtils {
             return Optional.empty();
         }
     }
-
-    @SuppressWarnings("unchecked")
-    public static <E extends Enum<E>> E enumValueOf(Class<?> enumClass, String enumName) {
-        return Enum.valueOf((Class<E>) enumClass, enumName.toUpperCase(Locale.ROOT));
+//Macaco XD
+    public static Object enumValueOf(Class<?> enumClass, String enumName) {
+        return Enum.valueOf(enumClass.asSubclass(Enum.class), enumName);
     }
 
     public static void setDeclaredField(Object o, String name, Object value) {

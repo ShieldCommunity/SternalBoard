@@ -95,7 +95,7 @@ public class Main extends JavaPlugin {
     public void updateChecker() {
         try {
             HttpURLConnection con = (HttpURLConnection) new URL(
-                    "https://api.spigotmc.org/legacy/update.php?resource=82876").openConnection();
+                    "https://api.spigotmc.org/legacy/update.php?resource=89245").openConnection();
             int timed_out = 1250;
             con.setConnectTimeout(timed_out);
             con.setReadTimeout(timed_out);
