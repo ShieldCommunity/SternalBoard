@@ -10,9 +10,6 @@ commands:
     reload:
       description: Reload command for SternalBoard
       aliases: [sternalboard]
-    help:
-      description: Help command for SternalBoard
-      aliases: [ sternalboard ]
     toggle:
         description: Toggle command for SternalBoard
         aliases: [ sternalboard ]
