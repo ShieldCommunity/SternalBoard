@@ -539,7 +539,7 @@ public class SternalBoard {
 
     private void sendPacket(Object packet) throws Throwable {
         if (this.deleted) {
-            throw new IllegalStateException("This FastBoard is deleted");
+            throw new IllegalStateException("This SternalBoard is deleted");
         }
 
         if (this.player.isOnline()) {

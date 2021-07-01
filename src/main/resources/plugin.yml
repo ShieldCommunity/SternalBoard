@@ -1,7 +1,7 @@
 name: SternalBoard
 main: com.xIsm4.plugins.Main
-version: 1.13.3
-api-version: "1.17"
+version: 1.13.5
+api-version: "1.13"
 authors: [xIsm4]
 website: https://github.com/xIsm4
 softdepend: [PlaceholderAPI]
@@ -10,6 +10,6 @@ commands:
     reload:
       description: Reload command for SternalBoard
       aliases: [sternalboard]
-    toggle:
+    Shelp:
         description: Toggle command for SternalBoard
-        aliases: [ sternalboard ]
+        aliases: [ sternalhelp ]

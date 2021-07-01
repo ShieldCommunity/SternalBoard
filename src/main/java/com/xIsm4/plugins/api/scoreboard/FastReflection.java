@@ -115,6 +115,7 @@ public final class FastReflection {
         return () -> allocateMethod.invoke(theUnsafe, packetClass);
     }
 
+    //Packets-
     @FunctionalInterface
     interface PacketConstructor {
         Object invoke() throws Throwable;

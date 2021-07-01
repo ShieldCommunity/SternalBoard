@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
@@ -17,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.channels.AsynchronousCloseException;
 
 
 @Getter
@@ -26,7 +26,6 @@ public class Main extends JavaPlugin {
     private final String version = getVersion();
     private static Main instance;
 
-    //La descripcion que muchos querian para agregar el plugin en vez the this.
 
     public static Main getInstance() {
         return instance;
@@ -40,7 +39,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
             updateChecker();
-
+        //AsynchronousCloseException
         this.saveConfig();
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[&6&lSternal&e&lBoard&2] &bby &9xIsm4"));
         instance = this;
@@ -93,6 +92,8 @@ public class Main extends JavaPlugin {
     }
 
     public void updateChecker() {
+
+        //Ticks are like reseting every 10s, cause runs Async
         try {
             HttpURLConnection con = (HttpURLConnection) new URL(
                     "https://api.spigotmc.org/legacy/update.php?resource=89245").openConnection();
