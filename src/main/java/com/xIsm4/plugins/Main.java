@@ -16,8 +16,17 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.channels.AsynchronousCloseException;
+//import java.nio.channels.AsynchronousCloseException;
 
+/**
+ * SternalBoard it's for those servers that they need a simple+optimizied scoreboard.
+ * Actualy u can do PullRequests <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
+ * Thanks to MrMicky.
+ * ---------------
+ * @author xIsm4
+ * @version 1.3.5
+ * ---------------
+ */
 
 @Getter
 public class Main extends JavaPlugin {
@@ -40,6 +49,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
             updateChecker();
         //AsynchronousCloseException
+        this.PlaceHolderApiEXC();
         this.saveConfig();
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[&6&lSternal&e&lBoard&2] &bby &9xIsm4"));
         instance = this;
@@ -49,10 +59,19 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
     }
+
+    private void PlaceHolderApiEXC() {
+        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null || !this.getServer().getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&7[&b&lSternal&f&lBoard &b- &9Debug mode&7]"));
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&cYou must download &bPlaceHolderApi"));
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"Link:"+ChatColor.GREEN+" https://spigotmc.org/resources/6245/");
+            this.setEnabled(true);
+        }
+    }
+
     public String getLatestVersion() {
         return this.latestversion;
     }
-
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -72,11 +91,9 @@ public class Main extends JavaPlugin {
                 } else {
                     p.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.use) to preform this action");
                 }
-
             }
 
-
-        } else {
+        }else {
             sender.sendMessage(ChatColor.RED + " Not enougth arguments");
             return true;
         }
@@ -92,27 +109,19 @@ public class Main extends JavaPlugin {
     }
 
     public void updateChecker() {
-
-        //Ticks are like reseting every 10s, cause runs Async
         try {
-            HttpURLConnection con = (HttpURLConnection) new URL(
-                    "https://api.spigotmc.org/legacy/update.php?resource=89245").openConnection();
-            int timed_out = 1250;
+            final HttpURLConnection con = (HttpURLConnection) new URL("https://api.spigotmc.org/legacy/update.php?resource=89245").openConnection();
+            final int timed_out = 1250;
             con.setConnectTimeout(timed_out);
             con.setReadTimeout(timed_out);
-            latestversion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
-            if (latestversion.length() <= 7) {
-                if (!version.equals(latestversion)) {
-                    Bukkit.getConsoleSender().sendMessage( ChatColor.RED + " There is a new version available. "
-                            + ChatColor.YELLOW + "(" + ChatColor.GRAY + latestversion + ChatColor.YELLOW + ")");
-                    Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "You can download it at: " + ChatColor.WHITE
-                            + "https://www.spigotmc.org/resources/sternalboard-optimized-async-scoreboard-hex-support-1-7-1-17.89245/");
-                }
+            this.latestversion = new BufferedReader(new InputStreamReader(con.getInputStream())).readLine();
+            if (this.latestversion.length() <= 7 && !this.version.equals(this.latestversion)) {
+                Bukkit.getConsoleSender().sendMessage(org.bukkit.ChatColor.RED + "There is a new version available .. " + org.bukkit.ChatColor.YELLOW + "(" + org.bukkit.ChatColor.GRAY + this.latestversion + org.bukkit.ChatColor.YELLOW + ")");
+                Bukkit.getConsoleSender().sendMessage(org.bukkit.ChatColor.RED + "You can download it at: " + org.bukkit.ChatColor.WHITE + "https://www.spigotmc.org/resources/sternalboard-optimized-async-scoreboard-hex-support-1-7-1-17.89245/");
             }
         } catch (Exception ex) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " Error while checking update.");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error checking update.");
         }
     }
-
 }
 
