@@ -1,5 +1,6 @@
 package com.xIsm4.plugins;
 
+import com.xIsm4.plugins.commands.MainCMD;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
@@ -7,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
@@ -24,15 +26,20 @@ import java.net.URL;
  * Thanks to MrMicky.
  * ---------------
  * @author xIsm4
- * @version 1.3.5
+ * @version 1.3.6
  * ---------------
  */
 
+
 @Getter
 public class Main extends JavaPlugin {
+    public String rutaConfig;
+    PluginDescriptionFile xIsm4 = getDescription();
+    public String version = xIsm4.getVersion();
+    public String nombre = ChatColor.YELLOW + "[" + ChatColor.RED + xIsm4.getName() + ChatColor.YELLOW + "]";
     private ScoreboardManager scoreboardManager;
-    private String latestversion;
-    private final String version = getVersion();
+    public String latestversion;
+    private final String ver = getVersion();
     private static Main instance;
 
 
@@ -47,6 +54,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        registrarComandos();
             updateChecker();
         //AsynchronousCloseException
         this.PlaceHolderApiEXC();
@@ -73,32 +81,8 @@ public class Main extends JavaPlugin {
         return this.latestversion;
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            this.reloadConfig();
-            System.out.println("[SternalBoard] Reloaded Configuration");
-            return true;
-        }
-
-        if (args.length > 0) {
-            if (args[0].equalsIgnoreCase("reload")) {
-                Player p = (Player) sender;
-
-                if (p.hasPermission("sternalboard.use")) {
-                    this.reloadConfig();
-                    p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bThe Plugin &2[&6&lSternal&e&lBoard&2] &ahas been reloaded!"));
-                } else {
-                    p.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.use) to preform this action");
-                }
-            }
-
-        }else {
-            sender.sendMessage(ChatColor.RED + " Not enougth arguments");
-            return true;
-        }
-
-        return true;
+    public void registrarComandos() {
+        this.getCommand("sternalboard").setExecutor(new MainCMD(this));
     }
 
     @Override
@@ -123,5 +107,6 @@ public class Main extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error checking update.");
         }
     }
+
 }
 

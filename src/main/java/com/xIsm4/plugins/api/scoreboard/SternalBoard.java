@@ -460,7 +460,7 @@ public class SternalBoard {
         } else {
             setField(packet, int.class, action.ordinal(), 1); // Action
         }
-
+//Returns exception packets for color
         if (action == ScoreboardAction.CHANGE) {
             setField(packet, String.class, this.id, 1); // Objective Name
             setField(packet, int.class, score); // Score
