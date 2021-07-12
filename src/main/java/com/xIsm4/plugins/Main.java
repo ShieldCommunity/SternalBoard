@@ -5,6 +5,7 @@ import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,7 +53,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         registrarComandos();
-            updateChecker();
+        updateChecker();
         //AsynchronousCloseException
         this.PlaceHolderApiEXC();
         this.saveConfig();
@@ -67,9 +68,9 @@ public class Main extends JavaPlugin {
 
     private void PlaceHolderApiEXC() {
         if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null || !this.getServer().getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&7[&b&lSternal&f&lBoard &b- &9Debug mode&7]"));
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&',"&cYou must download &bPlaceHolderApi"));
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"Link:"+ChatColor.GREEN+" https://spigotmc.org/resources/6245/");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&b&lSternal&f&lBoard &b- &9Debug mode&7]"));
+            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must download &bPlaceHolderApi"));
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "Link:" + ChatColor.GREEN + " https://spigotmc.org/resources/6245/");
             this.setEnabled(true);
         }
     }
@@ -103,7 +104,8 @@ public class Main extends JavaPlugin {
         } catch (Exception ex) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Error checking update.");
         }
-    }
 
+    }
 }
+
 

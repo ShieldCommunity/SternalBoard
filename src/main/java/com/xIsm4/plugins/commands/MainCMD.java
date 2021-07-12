@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 
 public class MainCMD implements CommandExecutor {
 
@@ -20,6 +23,8 @@ public class MainCMD implements CommandExecutor {
     public MainCMD(Main plugin) {
         this.plugin = plugin;
     }
+
+    ArrayList<UUID> toggle = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command comando, String label, String[] args) {
@@ -53,34 +58,18 @@ public class MainCMD implements CommandExecutor {
                         p.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.use) to preform this action");
                     }
                     return true;
+                }else {
 
-                } else if (args[0].equalsIgnoreCase("toggle")) {
-                    SternalBoard board = new SternalBoard((Player) sender);
-                    if (plugin.getConfig().getInt("settings.scoreboard.update") > 0) {
-                        plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(p, plugin.getConfig().getString("settings.scoreboard.title"))), 0, plugin.getConfig().getInt("settings.scoreboard.update", 20));
-                    } else {
-                        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(p, plugin.getConfig().getString("settings.scoreboard.title"))));
-                    }
-                    plugin.getScoreboardManager().getBoards().put(p.getUniqueId(), board);
-                } else {
-                    SternalBoard board = plugin.getScoreboardManager().getBoards().remove(p.getUniqueId());
-
-                    if (board != null) {
-                        board.delete();
-                    }
-                }
-
-
-                if (sender instanceof Player){
-                    p.sendMessage(plugin.nombre+ChatColor.RED+" The command doesn't exist!");
+                    p.sendMessage(plugin.nombre + ChatColor.RED + " The command doesn't exist!");
                     return true;
                 }
-
-            } else {
-                p.sendMessage(plugin.nombre+ChatColor.translateAlternateColorCodes('&'," &fUse &e/sternalboard help &fto see more info about the plugin"));
-                return true;
+                    } else {
+                        p.sendMessage(plugin.nombre + ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
+                        return true;
+                    }
+                }
             }
         }
-        return true;
-    }
-}
+
+
+//Close the main thread of commands.
