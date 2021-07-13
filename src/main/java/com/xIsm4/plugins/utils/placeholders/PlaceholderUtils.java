@@ -35,7 +35,7 @@ public class PlaceholderUtils {
                 match = HEX_PATTERN.matcher(text);
             }
         }
-
+            //Returning the colors with &
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 }

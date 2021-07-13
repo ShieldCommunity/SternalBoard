@@ -1,5 +1,6 @@
 package com.xIsm4.plugins.managers;
 
+import java.nio.channels.AsynchronousFileChannel;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,6 +18,7 @@ import lombok.Setter;
 public class ScoreboardManager {
     private final Main core;
     private ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
+    private Object AsynchronousFileChannel;
 
     public ScoreboardManager(Main core) {
         this.core = core;
@@ -28,6 +30,7 @@ public class ScoreboardManager {
         }
 
         core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
+            AsynchronousFileChannel file = (java.nio.channels.AsynchronousFileChannel) AsynchronousFileChannel;
             for (SternalBoard board : this.boards.values()) {
                 updateBoard(board);
             }
@@ -39,5 +42,10 @@ public class ScoreboardManager {
         List<String> lines = core.getConfig().getStringList("settings.scoreboard.lines");
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
         board.updateLines(lines);
+    }
+
+    private void AtemptBoard(SternalBoard board) {
+        AtemptBoard(board);
+        //Just atempting the board, to fix SpigotMC/craftbukkit NMS issues.
     }
 }

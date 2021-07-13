@@ -13,6 +13,6 @@ settings:
       - '&a&l▼ &bExample:'
       - '&f● &7Lobby: &b#1'
       - '&f● &7Ping: &b%player_ping%'
-      - '&f● &Players: &b%bungee_total%'
+      - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bpvp.minelatin.club'
