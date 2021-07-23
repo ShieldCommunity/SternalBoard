@@ -1,30 +1,24 @@
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Main;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
-import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 
 public class MainCMD implements CommandExecutor {
-
     private Main plugin;
 
     public MainCMD(Main plugin) {
         this.plugin = plugin;
     }
-
-    ArrayList<UUID> toggle = new ArrayList<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command comando, String label, String[] args) {
@@ -50,7 +44,7 @@ public class MainCMD implements CommandExecutor {
                     p.sendMessage(ChatColor.YELLOW + "----------------------------------------------------------------");
                     return true;
                 } else if (args[0].equalsIgnoreCase("reload")) {
-
+                        //Removed some catching threads.
                     if (p.hasPermission("sternalboard.use")) {
                         plugin.reloadConfig();
                         p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bThe Plugin &2[&6&lSternal&e&lBoard&2] &ahas been reloaded!"));
@@ -58,11 +52,10 @@ public class MainCMD implements CommandExecutor {
                         p.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.use) to preform this action");
                     }
                     return true;
-                }else {
-
-                    p.sendMessage(plugin.nombre + ChatColor.RED + " The command doesn't exist!");
-                    return true;
-                }
+                }else{
+                            p.sendMessage(plugin.nombre + ChatColor.RED + " The command doesn't exist!");
+                            return true;
+                        }
                     } else {
                         p.sendMessage(plugin.nombre + ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
                         return true;
@@ -70,6 +63,9 @@ public class MainCMD implements CommandExecutor {
                 }
             }
         }
+
+
+
 
 
 //Close the main thread of commands.

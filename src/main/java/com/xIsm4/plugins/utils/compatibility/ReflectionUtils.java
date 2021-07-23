@@ -2,7 +2,6 @@ package com.xIsm4.plugins.utils.compatibility;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Locale;
 import java.util.Optional;
 
 import org.bukkit.Bukkit;
@@ -75,7 +74,6 @@ public class ReflectionUtils {
             playerConnection.getClass().getMethod("sendPacket", nmsClass("Packet")).
                     invoke(playerConnection, packet);
         } catch (Exception ex) {
-            //Do something
         }
     }
 

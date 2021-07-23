@@ -21,7 +21,7 @@ import java.net.URL;
 /**
  * SternalBoard it's for those servers that they need a simple+optimizied scoreboard.
  * Actualy u can do PullRequests <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
- * Thanks to MrMicky.
+ * Thanks to MrMicky (Bringing FR) com.xIsm4.plugins.FastReflection.
  * ---------------
  * @author xIsm4
  * @version 1.3.6
@@ -54,10 +54,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         registrarComandos();
         updateChecker();
-        //AsynchronousCloseException
+        //AsynchronousCloseException();
         this.PlaceHolderApiEXC();
         this.saveConfig();
-        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&2[&6&lSternal&e&lBoard&2] &bby &9xIsm4"));
+        System.out.println("SternalBoard has been enabled");
         instance = this;
         scoreboardManager = new ScoreboardManager(this);
         scoreboardManager.init();

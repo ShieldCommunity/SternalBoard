@@ -143,13 +143,13 @@ public class SternalBoard {
      */
     public SternalBoard(Player player) {
         this.player = Objects.requireNonNull(player, "player");
-        this.id = "fb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
+        this.id = "sb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
 
         try {
             sendObjectivePacket(ObjectiveMode.CREATE);
             sendDisplayObjectivePacket();
         } catch (Throwable t) {
-            throw new RuntimeException("Unable to create scoreboard", t);
+            throw new RuntimeException("Unable to create SternalBoard", t);
         }
     }
 
@@ -183,7 +183,7 @@ public class SternalBoard {
         try {
             sendObjectivePacket(ObjectiveMode.UPDATE);
         } catch (Throwable t) {
-            throw new RuntimeException("Unable to update scoreboard title", t);
+            throw new RuntimeException("Unable to update SternalBoard title", t);
         }
     }
 

@@ -1,6 +1,6 @@
 name: SternalBoard
 main: com.xIsm4.plugins.Main
-version: 1.13.6
+version: 1.13.8
 api-version: "1.13"
 authors: [xIsm4]
 website: https://github.com/xIsm4
