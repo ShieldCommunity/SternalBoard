@@ -1,11 +1,11 @@
 package com.xIsm4.plugins;
 
 import com.xIsm4.plugins.commands.MainCMD;
+import com.xIsm4.plugins.commands.toggleX;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,10 +52,9 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        registrarComandos();
+        commandHandler();
         updateChecker();
         //AsynchronousCloseException();
-        this.PlaceHolderApiEXC();
         this.saveConfig();
         System.out.println("SternalBoard has been enabled");
         instance = this;
@@ -66,21 +65,13 @@ public class Main extends JavaPlugin {
 
     }
 
-    private void PlaceHolderApiEXC() {
-        if (this.getServer().getPluginManager().getPlugin("PlaceholderAPI") == null || !this.getServer().getPluginManager().getPlugin("PlaceholderAPI").isEnabled()) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&b&lSternal&f&lBoard &b- &9Debug mode&7]"));
-            Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou must download &bPlaceHolderApi"));
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "Link:" + ChatColor.GREEN + " https://spigotmc.org/resources/6245/");
-            this.setEnabled(true);
-        }
-    }
-
     public String getLatestVersion() {
         return this.latestversion;
     }
 
-    public void registrarComandos() {
+    public void commandHandler() {
         this.getCommand("sternalboard").setExecutor(new MainCMD(this));
+        this.getCommand("toggle").setExecutor(new toggleX(this));
     }
 
     @Override

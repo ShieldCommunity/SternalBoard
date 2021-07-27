@@ -1,6 +1,6 @@
 name: SternalBoard
 main: com.xIsm4.plugins.Main
-version: 1.13.8
+version: 1.13.10
 api-version: "1.13"
 authors: [xIsm4]
 website: https://github.com/xIsm4
@@ -10,3 +10,6 @@ commands:
     sternalboard:
       description: Main command for sternalboard
       aliases: [sternalboard]
+    toggle:
+      description: Command for toggle sternalboard
+      aliases: [sbtoggle]

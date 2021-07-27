@@ -43,9 +43,4 @@ public class ScoreboardManager {
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
         board.updateLines(lines);
     }
-
-    private void AtemptBoard(SternalBoard board) {
-        AtemptBoard(board);
-        //Just atempting the board, to fix SpigotMC/craftbukkit NMS issues.
-    }
 }
