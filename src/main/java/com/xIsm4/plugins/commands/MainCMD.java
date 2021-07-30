@@ -26,19 +26,11 @@ public class MainCMD implements CommandExecutor {
             Player p = (Player) sender;
             if (args.length > 0) {
                 if (args[0].equalsIgnoreCase("version")) {
-                    p.sendMessage(plugin.getName() + ChatColor.WHITE + " The version of the plugin is " + ChatColor.GREEN + plugin.getVersion());
+                    p.sendMessage(plugin.getName() + ChatColor.WHITE + " The version of the plugin is 1.13.10");
                     return true;
                 } else if (args[0].equalsIgnoreCase("help")) {
                     if (p.hasPermission("sternalboard.help")) ;
-                    p.sendMessage(ChatColor.YELLOW + "----------------------------------------------------------------");
-                    p.sendMessage(plugin.nombre + ChatColor.WHITE + " Whats SternalBoard? - What advantages does it have?");
-                    p.sendMessage(plugin.nombre + ChatColor.WHITE + " It's a simple scoreboard plugin with the fastest Timings!");
-                    p.sendMessage(plugin.nombre + ChatColor.WHITE + " Actually it's free, and it doesnt have any dependency");
-                    p.sendMessage(plugin.nombre + ChatColor.GOLD + "  Also, supports" + ChatColor.RED + " 1.7 x 1.17");
-                    p.sendMessage(plugin.nombre + ChatColor.GREEN + " Issues?, contact me" + ChatColor.RED + " xIsm4#9127");
-                    p.sendMessage(plugin.nombre + ChatColor.BLUE + "  Don't forget rate 5 stars to the plugin!");
-                    sender.sendMessage(ChatColor.YELLOW + " https://www.spigotmc.org/resources/sternalboard-optimized-async-scoreboard-hex-support-1-7-1-17.89245/");
-                    p.sendMessage(ChatColor.YELLOW + "----------------------------------------------------------------");
+                    p.sendMessage(ChatColor.translateAlternateColorCodes('&',"&bThis server it's runing &9&lSternal&f&lBoard"));
                     return true;
                 } else if (args[0].equalsIgnoreCase("reload")) {
                         //Removed some catching threads.
@@ -50,11 +42,11 @@ public class MainCMD implements CommandExecutor {
                     }
                     return true;
                 }else{
-                            p.sendMessage(plugin.nombre + ChatColor.RED + " The command doesn't exist!");
+                            p.sendMessage(ChatColor.RED + " The command doesn't exist!");
                             return true;
                         }
                     } else {
-                        p.sendMessage(plugin.nombre + ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
+                        p.sendMessage(ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
                         return true;
                     }
                 }

@@ -595,5 +595,5 @@ public class SternalBoard {
             return VERSION_TYPE.ordinal() >= ordinal();
         }
     }
-    //Updated the api
+    //Soon will change the api again.
 }

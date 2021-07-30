@@ -20,10 +20,12 @@ public class ScoreboardManager {
     private ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
     private Object AsynchronousFileChannel;
 
+    //Implementing Main.
     public ScoreboardManager(Main core) {
         this.core = core;
     }
 
+    //Update tasks > 20
     public void init() {
         if (core.getConfig().getInt("settings.scoreboard.update") <= 0) {
             core.getConfig().set("settings.scoreboard.update", 20);
@@ -37,7 +39,7 @@ public class ScoreboardManager {
         }, 0, core.getConfig().getInt("settings.scoreboard.update", 20));
 
     }
-
+//Updating the scoreboard
     private void updateBoard(SternalBoard board) {
         List<String> lines = core.getConfig().getStringList("settings.scoreboard.lines");
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));

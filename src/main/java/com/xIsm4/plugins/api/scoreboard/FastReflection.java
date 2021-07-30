@@ -121,3 +121,5 @@ public final class FastReflection {
         Object invoke() throws Throwable;
     }
 }
+
+//Soon fixing NMS ISSUES with pupur fork.

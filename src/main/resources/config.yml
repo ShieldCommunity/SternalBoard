@@ -1,5 +1,6 @@
 settings:
   scoreboard:
+    toggle: true
     update: 20
     title: '&b&lSternal&f&lBoard'
     lines:
