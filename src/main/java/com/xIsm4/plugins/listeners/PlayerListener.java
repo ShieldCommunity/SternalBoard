@@ -36,6 +36,9 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
 
         SternalBoard board = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
-//Fixed the api, so now i don't really need to force remove board.
+        
+        if (board != null) {
+            board.delete();
+        }
     }
 }
