@@ -14,9 +14,7 @@ import lombok.Getter;
 
 @Getter
 public class Main extends JavaPlugin {
-    public String rutaConfig;
     private ScoreboardManager scoreboardManager;
-    public String latestversion;
     private static Main instance;
 
 
