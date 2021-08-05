@@ -1,7 +1,7 @@
 package com.xIsm4.plugins;
 
 import com.xIsm4.plugins.commands.MainCMD;
-import com.xIsm4.plugins.commands.toggleX;
+import com.xIsm4.plugins.commands.ToggleCMD;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
@@ -14,11 +14,8 @@ import lombok.Getter;
 
 @Getter
 public class Main extends JavaPlugin {
-    public String rutaConfig;
     private ScoreboardManager scoreboardManager;
-    public String latestversion;
     private static Main instance;
-
 
     public static Main getInstance() {
         return instance;
@@ -47,7 +44,11 @@ public class Main extends JavaPlugin {
 
     public void commandHandler() {
         this.getCommand("sternalboard").setExecutor(new MainCMD(this));
-        this.getCommand("toggle").setExecutor(new toggleX(this));
+        this.getCommand("toggle").setExecutor(new ToggleCMD(this));
+    }
+
+    public ScoreboardManager getScoreboardManager() {
+        return this.scoreboardManager;
     }
 }
 

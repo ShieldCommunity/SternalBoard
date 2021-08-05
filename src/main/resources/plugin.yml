@@ -13,3 +13,6 @@ commands:
     toggle:
       description: Command for toggle sternalboard
       aliases: [sbtoggle]
+    gui:
+      description: Simple gui for the plugin sternalboard
+      aliases: [sbgui]

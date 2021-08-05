@@ -24,7 +24,6 @@ public class ScoreboardManager {
     public ScoreboardManager(Main core) {
         this.core = core;
     }
-
     //Update tasks > 20
     public void init() {
         if (core.getConfig().getInt("settings.scoreboard.update") <= 0) {
