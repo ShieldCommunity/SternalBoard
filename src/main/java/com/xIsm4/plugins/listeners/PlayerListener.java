@@ -4,6 +4,7 @@ import com.xIsm4.plugins.Main;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,8 @@ public class PlayerListener implements Listener {
 
     private final Main core;
 
+    FileConfiguration configuration = Main.get().getConfig();
+
     public PlayerListener(Main core) {
         this.core = core;
     }
@@ -21,23 +24,23 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-
-        SternalBoard board = new SternalBoard(player);
-        if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
-            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
-        } else {
-            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))));
-        }
-        core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-    }
-
-    @EventHandler
-    private void onQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        SternalBoard board = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
-
-        if (board != null) {
-            board.delete();
+        if (configuration.getBoolean("SternalBoard.enable")) {
+            SternalBoard board = new SternalBoard(player);
+            if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
+                core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+            } else {
+                core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))));
+            }
+            core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
         }
     }
-}
+
+        @EventHandler
+        private void onQuit (PlayerQuitEvent e){
+            Player player = e.getPlayer();
+            SternalBoard board = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
+            if (board != null) {
+                board.delete();
+            }
+        }
+    }

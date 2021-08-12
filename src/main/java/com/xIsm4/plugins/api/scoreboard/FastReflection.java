@@ -31,6 +31,13 @@ public final class FastReflection {
         return NMS_REPACKAGED;
     }
 
+    //ALREADY SUPPORTING 1.18!!
+    //-
+    //public static String isNmsRepackaged() {
+    // return NMS_PACKAGE;
+    //}
+    //-
+
     public static String nmsClassName(String post1_17package, String className) {
         if (NMS_REPACKAGED) {
             String classPackage = post1_17package == null ? NM_PACKAGE : NM_PACKAGE + '.' + post1_17package;
@@ -121,5 +128,3 @@ public final class FastReflection {
         Object invoke() throws Throwable;
     }
 }
-
-//Soon fixing NMS ISSUES with pupur fork.

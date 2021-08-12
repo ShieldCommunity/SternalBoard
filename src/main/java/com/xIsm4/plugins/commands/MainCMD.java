@@ -22,7 +22,7 @@ public class MainCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command comando, String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] ยกU aren't a player!");
+            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] U aren't a player!");
             return true;
         }
 
@@ -63,4 +63,4 @@ public class MainCMD implements CommandExecutor {
         return true;
     }
 }
-//thanks jona :)
+//Thanks for cleaning the cmd Jonalks ;)

@@ -286,7 +286,7 @@ public class SternalBoard {
             int lineCount = 0;
             for (String s : lines) {
                 if (s != null && s.length() > 30) {
-                    s = s.substring(0, 30);
+                    s = s.substring(0, 30); //throw new IllegalArgumentException("Line " + lineCount + " is longer than 30 chars"); Removed
                 }
                 lineCount++;
             }
@@ -595,5 +595,5 @@ public class SternalBoard {
             return VERSION_TYPE.ordinal() >= ordinal();
         }
     }
-    //Soon will change the api again.
+    //Fixed 1.17.1 packet issues
 }

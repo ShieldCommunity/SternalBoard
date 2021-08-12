@@ -9,8 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import lombok.Getter;
 
-//import java.nio.channels.AsynchronousCloseException;
-
 
 @Getter
 public class Main extends JavaPlugin {
@@ -41,15 +39,22 @@ public class Main extends JavaPlugin {
         instance = null;
         scoreboardManager = null;
     }
-
+//Commands
     public void commandHandler() {
         this.getCommand("sternalboard").setExecutor(new MainCMD(this));
         this.getCommand("toggle").setExecutor(new ToggleCMD(this));
     }
-
+//Scoreboard manager
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
+
+    //Registering next updates
+    public static Main get() {
+        return getPlugin(Main.class);
+    }
+
 }
+
 
 
