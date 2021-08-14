@@ -39,13 +39,14 @@ public class Main extends JavaPlugin {
         instance = null;
         scoreboardManager = null;
     }
-//Commands
+
+    //Commands
     public void commandHandler() {
         this.getCommand("sternalboard").setExecutor(new MainCMD(this));
         this.getCommand("toggle").setExecutor(new ToggleCMD(this));
-<<<<<<< HEAD
     }
-//Scoreboard manager
+
+    //Scoreboard manager
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
@@ -56,14 +57,3 @@ public class Main extends JavaPlugin {
     }
 
 }
-
-
-
-=======
-    }
-
-    public ScoreboardManager getScoreboardManager() {
-        return this.scoreboardManager;
-    }
-}
->>>>>>> 39366a0e86e66e519cb803224ddf401af2689f7e
