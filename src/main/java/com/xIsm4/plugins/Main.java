@@ -50,4 +50,8 @@ public class Main extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
+
+    public static Main get() {
+        return getPlugin(Main.class);
+    }
 }

@@ -3,19 +3,18 @@ package com.xIsm4.plugins.listeners;
 import com.xIsm4.plugins.Main;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
     private final Main core;
+
+    FileConfiguration configuration = Main.get().getConfig();
 
     public PlayerListener(Main core) {
         this.core = core;
@@ -24,14 +23,14 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        SternalBoard board = new SternalBoard(player);
-        if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
-            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
-        } else {
-            core.getServer().getScheduler().runTaskAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))));
+        if (configuration.getBoolean("SternalBoard.enable")) {
+            SternalBoard board = new SternalBoard(player);
+            if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
+                core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+                }
+                core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
+            }
         }
-        core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-    }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
