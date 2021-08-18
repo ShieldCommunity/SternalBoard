@@ -63,4 +63,3 @@ public class MainCMD implements CommandExecutor {
         return true;
     }
 }
-//Thanks for cleaning the cmd Jonalks ;)
