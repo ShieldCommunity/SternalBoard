@@ -2,6 +2,8 @@ package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Main;
 
+import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,28 +36,28 @@ public class MainCMD implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("version")) {
-            player.sendMessage(plugin.getName() + ChatColor.WHITE + " The version of the plugin is 1.13.10");
+            player.sendMessage(plugin.getName() + PlaceholderUtils.colorize("&bThe version of the plugin it's stable build."));
             return true;
 
         } else if (args[0].equalsIgnoreCase("help")) {
 
             if (!(player.hasPermission("sternalboard.help"))) {
-                player.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.help) to preform this action");
+                player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                 return true;
             }
 
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',"&bThis server it's runing &9&lSternal&f&lBoard"));
+            player.sendMessage(PlaceholderUtils.colorize("&9This server is runing &b&lSternal&f&lBoard &9by xIsm4"));
             return true;
 
         } else if (args[0].equalsIgnoreCase("reload")) {
 
             if (!(player.hasPermission("sternalboard.reload"))) {
-                player.sendMessage(ChatColor.DARK_RED + " [X] U don't have the permission (sternalboard.reload) to preform this action");
+                player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                 return true;
             }
 
             plugin.reloadConfig();
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bThe Plugin &2[&6&lSternal&e&lBoard&2] &ahas been reloaded!"));
+            player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));
             return true;
         } else {
             player.sendMessage(ChatColor.RED + " The command doesn't exist!");

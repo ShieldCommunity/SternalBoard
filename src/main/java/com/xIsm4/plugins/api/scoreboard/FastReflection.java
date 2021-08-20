@@ -111,7 +111,6 @@ public final class FastReflection {
             }
         }
 
-
         //Method allocateMethod == theUnsafe.getClass(SternalBoard).getMethod("handler", Class.class);
         Method allocateMethod = theUnsafe.getClass().getMethod("allocateInstance", Class.class);
         return () -> allocateMethod.invoke(theUnsafe, packetClass);

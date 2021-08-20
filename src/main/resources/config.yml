@@ -16,6 +16,3 @@ settings:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bpvp.minelatin.club'
-
-Sternalboard:
-  enable: true

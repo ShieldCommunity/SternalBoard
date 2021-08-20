@@ -51,7 +51,9 @@ public class Main extends JavaPlugin {
         return this.scoreboardManager;
     }
 
-    public static Main get() {
-        return getPlugin(Main.class);
-    }
+
+//Maybe for next update with more things in config.
+   // public static Main get() {
+    //  return getPlugin(Main.class);
+    // }
 }

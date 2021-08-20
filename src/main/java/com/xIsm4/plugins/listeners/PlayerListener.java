@@ -14,8 +14,6 @@ public class PlayerListener implements Listener {
 
     private final Main core;
 
-    FileConfiguration configuration = Main.get().getConfig();
-
     public PlayerListener(Main core) {
         this.core = core;
     }
@@ -23,13 +21,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        if (configuration.getBoolean("SternalBoard.enable")) {
             SternalBoard board = new SternalBoard(player);
             if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
                 core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
                 }
                 core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-            }
         }
 
     @EventHandler
