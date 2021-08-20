@@ -38,11 +38,11 @@ public class SternalBoard {
     private static final MethodHandle SEND_PACKET;
     private static final MethodHandle PLAYER_GET_HANDLE;
     // Scoreboard packets
-    private static final FastReflection.PacketConstructor PACKET_SB_OBJ;
-    private static final FastReflection.PacketConstructor PACKET_SB_DISPLAY_OBJ;
-    private static final FastReflection.PacketConstructor PACKET_SB_SCORE;
-    private static final FastReflection.PacketConstructor PACKET_SB_TEAM;
-    private static final FastReflection.PacketConstructor PACKET_SB_SERIALIZABLE_TEAM;
+    private static final NMSFlections.PacketConstructor PACKET_SB_OBJ;
+    private static final NMSFlections.PacketConstructor PACKET_SB_DISPLAY_OBJ;
+    private static final NMSFlections.PacketConstructor PACKET_SB_SCORE;
+    private static final NMSFlections.PacketConstructor PACKET_SB_TEAM;
+    private static final NMSFlections.PacketConstructor PACKET_SB_SERIALIZABLE_TEAM;
     // Scoreboard enums
     private static final Class<?> ENUM_SB_HEALTH_DISPLAY;
     private static final Class<?> ENUM_SB_ACTION;
@@ -54,45 +54,46 @@ public class SternalBoard {
         try {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
 
-            if (FastReflection.isRepackaged()) {
+            if (NMSFlections.isRepackaged()) {
                 VERSION_TYPE = VersionType.V1_17;
-            } else if (FastReflection.nmsOptionalClass(null, "ScoreboardServer$Action").isPresent()) {
+            } else if (NMSFlections.nmsOptionalClass(null, "ScoreboardServer$Action").isPresent()) {
                 VERSION_TYPE = VersionType.V1_13;
-            } else if (FastReflection.nmsOptionalClass(null, "IScoreboardCriteria$EnumScoreboardHealthDisplay").isPresent()) {
+            } else if (NMSFlections.nmsOptionalClass(null, "IScoreboardCriteria$EnumScoreboardHealthDisplay").isPresent()) {
                 VERSION_TYPE = VersionType.V1_8;
             } else {
                 VERSION_TYPE = VersionType.V1_7;
             }
 
+            //switched cause github forced
             String gameProtocolPackage = "network.protocol.game";
-            Class<?> craftPlayerClass = FastReflection.obcClass("entity.CraftPlayer");
-            Class<?> craftChatMessageClass = FastReflection.obcClass("util.CraftChatMessage");
-            Class<?> entityPlayerClass = FastReflection.nmsClass("server.level", "EntityPlayer");
-            Class<?> playerConnectionClass = FastReflection.nmsClass("server.network", "PlayerConnection");
-            Class<?> packetClass = FastReflection.nmsClass("network.protocol", "Packet");
-            Class<?> packetSbObjClass = FastReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardObjective");
-            Class<?> packetSbDisplayObjClass = FastReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardDisplayObjective");
-            Class<?> packetSbScoreClass = FastReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardScore");
-            Class<?> packetSbTeamClass = FastReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardTeam");
+            Class<?> craftPlayerClass = NMSFlections.obcClass("entity.CraftPlayer");
+            Class<?> craftChatMessageClass = NMSFlections.obcClass("util.CraftChatMessage");
+            Class<?> entityPlayerClass = NMSFlections.nmsClass("server.level", "EntityPlayer");
+            Class<?> playerConnectionClass = NMSFlections.nmsClass("server.network", "PlayerConnection");
+            Class<?> packetClass = NMSFlections.nmsClass("network.protocol", "Packet");
+            Class<?> packetSbObjClass = NMSFlections.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardObjective");
+            Class<?> packetSbDisplayObjClass = NMSFlections.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardDisplayObjective");
+            Class<?> packetSbScoreClass = NMSFlections.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardScore");
+            Class<?> packetSbTeamClass = NMSFlections.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardTeam");
             Class<?> sbTeamClass = VersionType.V1_17.isHigherOrEqual()
-                    ? FastReflection.innerClass(packetSbTeamClass, innerClass -> !innerClass.isEnum()) : null;
+                    ? NMSFlections.innerClass(packetSbTeamClass, innerClass -> !innerClass.isEnum()) : null;
             Field playerConnectionField = Arrays.stream(entityPlayerClass.getFields())
                     .filter(field -> field.getType().isAssignableFrom(playerConnectionClass))
                     .findFirst().orElseThrow(NoSuchFieldException::new);
 
             MESSAGE_FROM_STRING = lookup.unreflect(craftChatMessageClass.getMethod("fromString", String.class));
-            CHAT_COMPONENT_CLASS = FastReflection.nmsClass("network.chat", "IChatBaseComponent");
-            CHAT_FORMAT_ENUM = FastReflection.nmsClass(null, "EnumChatFormat");
+            CHAT_COMPONENT_CLASS = NMSFlections.nmsClass("network.chat", "IChatBaseComponent");
+            CHAT_FORMAT_ENUM = NMSFlections.nmsClass(null, "EnumChatFormat");
             EMPTY_MESSAGE = Array.get(MESSAGE_FROM_STRING.invoke(""), 0);
-            RESET_FORMATTING = FastReflection.enumValueOf(CHAT_FORMAT_ENUM, "RESET", 21);
+            RESET_FORMATTING = NMSFlections.enumValueOf(CHAT_FORMAT_ENUM, "RESET", 21);
             PLAYER_GET_HANDLE = lookup.findVirtual(craftPlayerClass, "getHandle", MethodType.methodType(entityPlayerClass));
             PLAYER_CONNECTION = lookup.unreflectGetter(playerConnectionField);
             SEND_PACKET = lookup.findVirtual(playerConnectionClass, "sendPacket", MethodType.methodType(void.class, packetClass));
-            PACKET_SB_OBJ = FastReflection.findPacketConstructor(packetSbObjClass, lookup);
-            PACKET_SB_DISPLAY_OBJ = FastReflection.findPacketConstructor(packetSbDisplayObjClass, lookup);
-            PACKET_SB_SCORE = FastReflection.findPacketConstructor(packetSbScoreClass, lookup);
-            PACKET_SB_TEAM = FastReflection.findPacketConstructor(packetSbTeamClass, lookup);
-            PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : FastReflection.findPacketConstructor(sbTeamClass, lookup);
+            PACKET_SB_OBJ = NMSFlections.findPacketConstructor(packetSbObjClass, lookup);
+            PACKET_SB_DISPLAY_OBJ = NMSFlections.findPacketConstructor(packetSbDisplayObjClass, lookup);
+            PACKET_SB_SCORE = NMSFlections.findPacketConstructor(packetSbScoreClass, lookup);
+            PACKET_SB_TEAM = NMSFlections.findPacketConstructor(packetSbTeamClass, lookup);
+            PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : NMSFlections.findPacketConstructor(sbTeamClass, lookup);
 
             for (Class<?> clazz : Arrays.asList(packetSbObjClass, packetSbDisplayObjClass, packetSbScoreClass, packetSbTeamClass, sbTeamClass)) {
                 if (clazz == null) {
@@ -111,11 +112,11 @@ public class SternalBoard {
                 String enumSbActionClass = VersionType.V1_13.isHigherOrEqual()
                         ? "ScoreboardServer$Action"
                         : "PacketPlayOutScoreboardScore$EnumScoreboardAction";
-                ENUM_SB_HEALTH_DISPLAY = FastReflection.nmsClass("world.scores.criteria", "IScoreboardCriteria$EnumScoreboardHealthDisplay");
-                ENUM_SB_ACTION = FastReflection.nmsClass("server", enumSbActionClass);
-                ENUM_SB_HEALTH_DISPLAY_INTEGER = FastReflection.enumValueOf(ENUM_SB_HEALTH_DISPLAY, "INTEGER", 0);
-                ENUM_SB_ACTION_CHANGE = FastReflection.enumValueOf(ENUM_SB_ACTION, "CHANGE", 0);
-                ENUM_SB_ACTION_REMOVE = FastReflection.enumValueOf(ENUM_SB_ACTION, "REMOVE", 1);
+                ENUM_SB_HEALTH_DISPLAY = NMSFlections.nmsClass("world.scores.criteria", "IScoreboardCriteria$EnumScoreboardHealthDisplay");
+                ENUM_SB_ACTION = NMSFlections.nmsClass("server", enumSbActionClass);
+                ENUM_SB_HEALTH_DISPLAY_INTEGER = NMSFlections.enumValueOf(ENUM_SB_HEALTH_DISPLAY, "INTEGER", 0);
+                ENUM_SB_ACTION_CHANGE = NMSFlections.enumValueOf(ENUM_SB_ACTION, "CHANGE", 0);
+                ENUM_SB_ACTION_REMOVE = NMSFlections.enumValueOf(ENUM_SB_ACTION, "REMOVE", 1);
             } else {
                 ENUM_SB_HEALTH_DISPLAY = null;
                 ENUM_SB_ACTION = null;

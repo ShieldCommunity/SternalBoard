@@ -60,7 +60,7 @@ public class MainCMD implements CommandExecutor {
             player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));
             return true;
         } else {
-            player.sendMessage(ChatColor.RED + " The command doesn't exist!");
+            player.sendMessage(PlaceholderUtils.colorize(" The command doesn't exist!"));
         }
         return true;
     }
