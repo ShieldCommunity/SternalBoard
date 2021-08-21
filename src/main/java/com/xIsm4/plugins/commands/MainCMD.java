@@ -36,7 +36,7 @@ public class MainCMD implements CommandExecutor {
         }
 
         if (args[0].equalsIgnoreCase("version")) {
-            player.sendMessage(plugin.getName() + PlaceholderUtils.colorize("&bThe version of the plugin it's stable build."));
+            player.sendMessage(PlaceholderUtils.colorize("&bThe version of the plugin it's stable build."));
             return true;
 
         } else if (args[0].equalsIgnoreCase("help")) {
@@ -60,7 +60,7 @@ public class MainCMD implements CommandExecutor {
             player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));
             return true;
         } else {
-            player.sendMessage(PlaceholderUtils.colorize(" The command doesn't exist!"));
+            player.sendMessage(PlaceholderUtils.colorize("&cThe command doesn't exist!"));
         }
         return true;
     }
