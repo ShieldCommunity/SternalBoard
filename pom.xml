@@ -30,7 +30,7 @@
     </repositories>
     <!-- Build stuff. -->
     <build>
-        <finalName>SternalCore</finalName>
+        <finalName>SternalBoard</finalName>
         <defaultGoal>clean package</defaultGoal>
         <resources>
             <resource>

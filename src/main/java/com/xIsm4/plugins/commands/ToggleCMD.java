@@ -32,7 +32,7 @@ public class ToggleCMD implements CommandExecutor {
         } else {
             Player p = (Player) sender;
 
-            if (args.length > 0) {
+            if (args.length > 1) {
                 disableScore(p);
             } else {
                 enableScore(p);

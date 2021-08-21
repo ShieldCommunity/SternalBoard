@@ -39,7 +39,7 @@ public class ScoreboardManager {
 
     }
 //Updating the scoreboard
-    private void updateBoard(SternalBoard board) {
+     private void updateBoard(SternalBoard board) {
         List<String> lines = core.getConfig().getStringList("settings.scoreboard.lines");
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
         board.updateLines(lines);
