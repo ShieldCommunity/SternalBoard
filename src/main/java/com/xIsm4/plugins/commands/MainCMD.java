@@ -22,7 +22,6 @@ public class MainCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command comando, String label, String[] args) {
-
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] U aren't a player!");
             return true;
