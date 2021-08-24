@@ -25,7 +25,7 @@ public class Main extends JavaPlugin {
        saveDefaultConfig();
        commandHandler();
        this.saveConfig();
-       System.out.println("SternalBoard has been enabled");
+       getLogger().info("SternalBoard has been enabled");
        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
        instance = this;
        scoreboardManager = new ScoreboardManager(this);
@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-      System.out.println("Disabling [SternalBoard]");
+      getLogger().info("Disabling [SternalBoard]");
     }
 
     //Commands
