@@ -35,6 +35,8 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
       getLogger().info("Disabling [SternalBoard]");
+        instance = null;
+        scoreboardManager = null;
     }
 
     //Commands
@@ -46,13 +48,9 @@ public class Main extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
-}
 
 
-/*Maybe for next update with more things in config.
     public static Main get() {
      return getPlugin(Main.class);
      }
 }
-
- */
