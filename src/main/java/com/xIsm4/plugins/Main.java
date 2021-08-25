@@ -17,40 +17,36 @@ public class Main extends JavaPlugin {
     private static Main instance;
 
     public static Main getInstance() {
-      return instance;
+        return instance;
     }
 
     @Override
     public void onEnable() {
-       saveDefaultConfig();
-       commandHandler();
-       this.saveConfig();
-       getLogger().info("SternalBoard has been enabled");
-       getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
-       instance = this;
-       scoreboardManager = new ScoreboardManager(this);
-       scoreboardManager.init();
+        saveDefaultConfig();
+        commandHandler();
+        this.saveConfig();
+        getLogger().info("SternalBoard has been enabled");
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        instance = this;
+        scoreboardManager = new ScoreboardManager(this);
+        scoreboardManager.init();
     }
 
     @Override
     public void onDisable() {
-      getLogger().info("Disabling [SternalBoard]");
+        getLogger().info("Disabling [SternalBoard]");
         instance = null;
         scoreboardManager = null;
     }
 
     //Commands
     public void commandHandler() {
-      this.getCommand("sternalboard").setExecutor(new MainCMD(this));
-      this.getCommand("toggle").setExecutor(new ToggleCMD(this));
+        this.getCommand("sternalboard").setExecutor(new MainCMD(this));
+        this.getCommand("toggle").setExecutor(new ToggleCMD(this));
     }
 
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
 
-
-    public static Main get() {
-     return getPlugin(Main.class);
-     }
 }

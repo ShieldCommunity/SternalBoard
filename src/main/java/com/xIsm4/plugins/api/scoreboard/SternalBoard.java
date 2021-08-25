@@ -1,5 +1,7 @@
 package com.xIsm4.plugins.api.scoreboard;
 
+import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -32,6 +34,7 @@ public class SternalBoard {
 
     private static final Map<Class<?>, Field[]> PACKETS = new HashMap<>(8);
     private static final String[] COLOR_CODES = Arrays.stream(ChatColor.values())
+
             .map(Object::toString)
             .toArray(String[]::new);
     private static final VersionType VERSION_TYPE;
@@ -603,5 +606,6 @@ public class SternalBoard {
             return VERSION_TYPE.ordinal() >= ordinal();
         }
     }
-}
-    //Fixed 1.17.1 packet issues
+
+ }
+
