@@ -54,12 +54,4 @@ public class ScoreboardManager {
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
         board.updateLines(lines);
     }
-
-    public void viaVersionIdentifier() {
-        if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
-            Bukkit.getConsoleSender().sendMessage("ViaVersion it's used by ur server, u should use SternalBoard-Fix version");
-            Bukkit.getConsoleSender().sendMessage("This will avoid scoreboard cuts & prevent spam-console");
-            Bukkit.getConsoleSender().sendMessage(PlaceholderUtils.colorize("&chttps://github.com/xIsm4/SternalBoard"));
-        }
-    }
 }
