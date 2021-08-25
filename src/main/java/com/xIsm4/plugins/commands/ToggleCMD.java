@@ -34,6 +34,7 @@ public class ToggleCMD implements CommandExecutor {
         Player p = (Player) sender;
         if (args.length <= 0) {
             enableScore(p);
+            return true;
         }
 
         disableScore(p);
@@ -42,20 +43,19 @@ public class ToggleCMD implements CommandExecutor {
 
     public void enableScore(Player player) {
         SternalBoard board = new SternalBoard(player);
-        if (plugin.getConfig().getInt("settings.scoreboard.update") > 0) {
+        if (plugin.getConfig().getInt("settings.scoreboard.update") > 0) 
             plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title"))), 0, plugin.getConfig().getInt("settings.scoreboard.update", 20));
-        } else {
+        else
             plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title"))));
-        }
+        
         plugin.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
     }
 
     public void disableScore(Player player) {
-            SternalBoard board = plugin.getScoreboardManager().getBoards().remove(player.getUniqueId());
+        SternalBoard board = plugin.getScoreboardManager().getBoards().remove(player.getUniqueId());
 
-            if (board != null) {
-                board.delete();
-            }
-        }
+        if (board != null)
+            board.delete();
     }
+}
 
