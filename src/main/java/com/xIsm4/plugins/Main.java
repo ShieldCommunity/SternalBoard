@@ -1,8 +1,5 @@
 package com.xIsm4.plugins;
 
-import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.commands.MainCMD;
 import com.xIsm4.plugins.commands.ToggleCMD;
 
@@ -17,13 +14,8 @@ import lombok.Getter;
 @Getter
 public class Main extends JavaPlugin {
 
-    private final Player player;
     private ScoreboardManager scoreboardManager;
     private static Main instance;
-
-    public Main(Player player) {
-        this.player = player;
-    }
 
     public static Main getInstance() {
         return instance;
