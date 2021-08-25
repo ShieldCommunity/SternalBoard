@@ -29,17 +29,15 @@ public class ToggleCMD implements CommandExecutor {
         if (!(sender instanceof Player)) {
             Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] U aren't a player!");
             return false;
-        } else {
-            Player p = (Player) sender;
-
-            if (args.length > 1) {
-                disableScore(p);
-            } else {
-                enableScore(p);
-            }
-
-            return true;
         }
+
+        Player p = (Player) sender;
+        if (args.length <= 1) {
+            enableScore(p);
+        }
+
+        disableScore(p);
+        return true;
     }
 
     public void enableScore(Player player) {

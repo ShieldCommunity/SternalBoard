@@ -17,6 +17,3 @@ settings:
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
 
-
-REFRESH_REALTIME:
-  PLACEHOLDERS: true

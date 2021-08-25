@@ -20,7 +20,6 @@ public class PlaceholderUtils {
      public static String sanitizeString(Player player, String text) {
 
           if (Main.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            Bukkit.getLogger().log(Level.INFO, "[SB] Hook complete into PlaceHolderAPI");
             return colorize(PlaceholderAPI.setPlaceholders(player, text));
 
            } else {
