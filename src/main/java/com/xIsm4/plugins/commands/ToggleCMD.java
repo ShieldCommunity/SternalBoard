@@ -1,61 +1,57 @@
-package com.xIsm4.plugins.commands;
+package  com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Main;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
+import  com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 public class ToggleCMD implements CommandExecutor {
-
-
-    private Main plugin;
-    private final Map<UUID, SternalBoard> boards = new HashMap<>();
-
-    public ToggleCMD(Main plugin) {
-        this.plugin = plugin;
+    private boolean toggle = true;
+    private Main core;
+    public ToggleCMD(Main core){
+        this.core = core;
     }
-
     @Override
-    public boolean onCommand(CommandSender sender, Command comando, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] U aren't a player!");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if(!(sender instanceof Player)){
+            core.getLogger().warning(ChatColor.RED+("&cYou cannot run commands from the console"));
             return false;
         }
+        Player player = (Player) sender;
+        if(args.length > 0){
+            if (args[0].equalsIgnoreCase("toggle")) {
+                if (!player.hasPermission("sternalboard.toggle")) {
+                    player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
+                    return false;
+                }
+                if (getToggle()) {
+                    SternalBoard board = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
+                    if (board != null) {
+                        board.delete();
+                        setToggle(false);
+                    }
+                }else{
+                    SternalBoard board = new SternalBoard(player);
+                    if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
+                        core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+                    }
 
-        Player p = (Player) sender;
-        if (args.length <= 0) {
-            enableScore(p);
-        }
-
-        disableScore(p);
-        return true;
-    }
-
-    public void enableScore(Player player) {
-        SternalBoard board = new SternalBoard(player);
-        if (plugin.getConfig().getInt("settings.scoreboard.update") > 0) {
-            plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title"))), 0, plugin.getConfig().getInt("settings.scoreboard.update", 20));
-        } else {
-            plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title"))));
-        }
-        plugin.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-    }
-
-    public void disableScore(Player player) {
-            SternalBoard board = plugin.getScoreboardManager().getBoards().remove(player.getUniqueId());
-
-            if (board != null) {
-                board.delete();
+                    core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
+                    setToggle(true);
+                }
             }
         }
+        return true;
     }
-
+    public boolean getToggle(){
+        return toggle;
+    }
+    public void setToggle(boolean toggle){
+        this.toggle = toggle;
+    }
+}
