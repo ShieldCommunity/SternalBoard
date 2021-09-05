@@ -1,6 +1,6 @@
 package com.xIsm4.plugins.listeners;
 
-import com.xIsm4.plugins.Main;
+import com.xIsm4.plugins.Structure;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
@@ -14,16 +14,16 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
-    private final Main core;
+    private final Structure core;
 
-    public PlayerListener(Main core) {
+    public PlayerListener(Structure core) {
         this.core = core;
     }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-            SternalBoard board = new SternalBoard(player);
+        SternalBoard board = new SternalBoard(player);
             if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
                 core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
                 }

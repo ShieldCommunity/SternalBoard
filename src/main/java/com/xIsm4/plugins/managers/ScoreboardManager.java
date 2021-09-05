@@ -7,7 +7,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.xIsm4.plugins.Main;
+import com.xIsm4.plugins.Structure;
 import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
@@ -19,12 +19,12 @@ import lombok.Setter;
 @Setter
 public class ScoreboardManager {
 
-    private final Main core;
+    private final Structure core;
     private ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
     private Object AsynchronousFileChannel;
 
     //Implementing Main.
-    public ScoreboardManager(Main core) {
+    public ScoreboardManager(Structure core) {
         this.core = core;
     }
 

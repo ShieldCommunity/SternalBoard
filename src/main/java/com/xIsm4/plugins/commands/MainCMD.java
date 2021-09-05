@@ -1,10 +1,9 @@
 
 package com.xIsm4.plugins.commands;
 
-import com.xIsm4.plugins.Main;
+import com.xIsm4.plugins.Structure;
 
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,9 +14,9 @@ import org.bukkit.entity.Player;
 
 public class MainCMD implements CommandExecutor {
 
-    private Main plugin;
+    private Structure plugin;
 
-    public MainCMD(Main plugin) {
+    public MainCMD(Structure plugin) {
         this.plugin = plugin;
     }
 

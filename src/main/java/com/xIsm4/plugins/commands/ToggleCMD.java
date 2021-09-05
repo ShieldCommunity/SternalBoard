@@ -1,6 +1,6 @@
 package  com.xIsm4.plugins.commands;
 
-import com.xIsm4.plugins.Main;
+import com.xIsm4.plugins.Structure;
 import  com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 import org.bukkit.ChatColor;
@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ToggleCMD implements CommandExecutor {
     private boolean toggle = true;
-    private Main core;
-    public ToggleCMD(Main core){
+    private Structure core;
+    public ToggleCMD(Structure core){
         this.core = core;
     }
     @Override

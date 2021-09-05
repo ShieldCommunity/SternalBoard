@@ -12,12 +12,12 @@ import lombok.Getter;
 
 
 @Getter
-public class Main extends JavaPlugin {
+public class Structure extends JavaPlugin {
 
     private ScoreboardManager scoreboardManager;
-    private static Main instance;
+    private static Structure instance;
 
-    public static Main getInstance() {
+    public static Structure getInstance() {
         return instance;
     }
 
