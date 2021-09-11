@@ -33,9 +33,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        SternalBoard board = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
-        if (board != null) {
-            board.delete();
+        SternalBoard b = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
+        if (b != null) {
+            b.delete();
         }
     }
 }
