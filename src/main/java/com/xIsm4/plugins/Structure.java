@@ -6,7 +6,6 @@ import com.xIsm4.plugins.commands.ToggleCMD;
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import lombok.Getter;
 
@@ -26,7 +25,6 @@ public class Structure extends JavaPlugin {
         saveDefaultConfig();
         commandHandler();
         this.saveConfig();
-        getLogger().info("SternalBoard has been enabled");
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         instance = this;
         scoreboardManager = new ScoreboardManager(this);
@@ -35,7 +33,7 @@ public class Structure extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling [SternalBoard]");
+        getLogger().info("Disabling SternalBoard");
         instance = null;
         scoreboardManager = null;
     }
