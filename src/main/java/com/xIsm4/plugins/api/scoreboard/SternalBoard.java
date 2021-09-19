@@ -1,7 +1,5 @@
 package com.xIsm4.plugins.api.scoreboard;
 
-import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
