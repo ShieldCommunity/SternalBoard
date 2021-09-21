@@ -17,7 +17,6 @@ public class PlaceholderUtils {
     public static String sanitizeString(Player player, String text) {
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return colorize(PlaceholderAPI.setPlaceholders(player, text));
-
         }
         else {
             return colorize(text);
@@ -40,6 +39,9 @@ public class PlaceholderUtils {
 
     //Parse PlaceholderAPI variables
     public static String parsePAPI(Player player, String text){
-        return PlaceholderAPI.setPlaceholders(player, text);
+        if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            return colorize(PlaceholderAPI.setPlaceholders(player, text));
+        }
+        return text;
     }
 }
