@@ -14,7 +14,6 @@ import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 public class ScoreboardManager {
@@ -35,13 +34,14 @@ public class ScoreboardManager {
             core.getConfig().set("settings.scoreboard.update", 20);
         }
 
-        core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            AsynchronousFileChannel file = (java.nio.channels.AsynchronousFileChannel) AsynchronousFileChannel;
-            for (SternalBoard board : this.boards.values()) {
-                updateBoard(board);
-            }
-        }, 0, core.getConfig().getInt("settings.scoreboard.update", 20));
-
+        if (!core.isAnimationEnabled()){
+            core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
+                AsynchronousFileChannel file = (java.nio.channels.AsynchronousFileChannel) AsynchronousFileChannel;
+                for (SternalBoard board : this.boards.values()) {
+                    updateBoard(board);
+                }
+            }, 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+        }
     }
 
     //Updating the scoreboard
