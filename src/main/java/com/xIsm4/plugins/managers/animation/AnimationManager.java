@@ -33,7 +33,7 @@ public class AnimationManager {
             this.title = titleLines.get(0);
 
             TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
-            titleUpdateTask.runTaskTimer(core, updateRate, updateRate);
+            titleUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
 
             //Initializing Score line update
             List<String> linesList = Lists.newArrayList();
@@ -51,7 +51,7 @@ public class AnimationManager {
                 linesList.add(list.get(0));
 
                 LineUpdateTask lineUpdateTask = new LineUpdateTask(list, lineNumber);
-                lineUpdateTask.runTaskTimer(core, updateRate, updateRate);
+                lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
             }
 
             this.lines = linesList.toArray(new String[0]);
