@@ -30,6 +30,11 @@ public class ScoreboardManager {
         this.core = core;
     }
 
+    //Some compilers seem to not add getBoards() on compile time, so this is how this exists now xd
+    public ConcurrentMap<UUID, SternalBoard> getBoards(){
+        return this.boards;
+    }
+
     //Update tasks > 20
     public void init() {
         taskIds = new Integer[2];
