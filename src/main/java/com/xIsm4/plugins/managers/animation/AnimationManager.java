@@ -88,60 +88,62 @@ public class AnimationManager {
         //Reset taskId list
         this.taskIds = new ArrayList<>();
 
-        //Title update
-        //Initializing Title line update tasks
-        List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
-        int updateRate = config.getInt("scoreboard-animated.title.update-rate");
+        if (core.isAnimationEnabled()) {
+            //Title update
+            //Initializing Title line update tasks
+            List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
+            int updateRate = config.getInt("scoreboard-animated.title.update-rate");
 
-        for (int i = 0; i < titleLines.size(); i++){
-            titleLines.set(i, PlaceholderUtils.colorize(titleLines.get(i)));
-        }
+            for (int i = 0; i < titleLines.size(); i++) {
+                titleLines.set(i, PlaceholderUtils.colorize(titleLines.get(i)));
+            }
 
-        this.title = titleLines.get(0);
+            this.title = titleLines.get(0);
 
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
-        titleUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
-        taskIds.add(titleUpdateTask.getTaskId());
+            TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
+            titleUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
+            taskIds.add(titleUpdateTask.getTaskId());
 
-        //Line update
-        List<String> linesList = Lists.newArrayList();
-        ConfigurationSection configSection = config.getConfigurationSection("scoreboard-animated.score-lines");
+            //Line update
+            List<String> linesList = Lists.newArrayList();
+            ConfigurationSection configSection = config.getConfigurationSection("scoreboard-animated.score-lines");
 
-        //Removing unused lines, if any
-        int newLinesLength = configSection.getKeys(false).size();
+            //Removing unused lines, if any
+            int newLinesLength = configSection.getKeys(false).size();
 
-        if (newLinesLength < lines.length){
-            ScoreboardManager scoreboardManager = core.getScoreboardManager();
-            int linesToDelete = lines.length - newLinesLength;
+            if (newLinesLength < lines.length) {
+                ScoreboardManager scoreboardManager = core.getScoreboardManager();
+                int linesToDelete = lines.length - newLinesLength;
 
-            for (int i = 1; i <= linesToDelete; i++){
-                int lineToDelete = lines.length - i;
+                for (int i = 1; i <= linesToDelete; i++) {
+                    int lineToDelete = lines.length - i;
 
-                for (SternalBoard sb : scoreboardManager.getBoards().values()){
-                    sb.removeLine(lineToDelete);
+                    for (SternalBoard sb : scoreboardManager.getBoards().values()) {
+                        sb.removeLine(lineToDelete);
+                    }
                 }
             }
-        }
 
-        //Initializing Line update tasks
-        for (String key : configSection.getKeys(false)) {
-            List<String> list = configSection.getStringList(key + ".lines");
-            updateRate = configSection.getInt(key + ".update-rate");
-            int lineNumber = Integer.parseInt(key);
+            //Initializing Line update tasks
+            for (String key : configSection.getKeys(false)) {
+                List<String> list = configSection.getStringList(key + ".lines");
+                updateRate = configSection.getInt(key + ".update-rate");
+                int lineNumber = Integer.parseInt(key);
 
-            for (int i = 0; i < list.size(); i++){
-                list.set(i, PlaceholderUtils.colorize(list.get(i)));
+                for (int i = 0; i < list.size(); i++) {
+                    list.set(i, PlaceholderUtils.colorize(list.get(i)));
+                }
+
+                linesList.add(list.get(0));
+
+                LineUpdateTask lineUpdateTask = new LineUpdateTask(list, lineNumber);
+                lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
+                taskIds.add(lineUpdateTask.getTaskId());
             }
 
-            linesList.add(list.get(0));
-
-            LineUpdateTask lineUpdateTask = new LineUpdateTask(list, lineNumber);
-            lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
-            taskIds.add(lineUpdateTask.getTaskId());
+            //Set initial lines;
+            this.lines = linesList.toArray(new String[0]);
         }
-
-        //Set initial lines;
-        this.lines = linesList.toArray(new String[0]);
     }
 
     public String getLine(int lineNumber){
