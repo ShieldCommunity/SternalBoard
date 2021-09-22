@@ -2,8 +2,8 @@
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Structure;
-
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -51,6 +51,12 @@ public class MainCMD implements CommandExecutor {
                 return true;
             }
             plugin.reloadConfig();
+
+            if (plugin.isAnimationEnabled()){
+                plugin.loadAnimConfig();
+                plugin.getAnimationManager().reload();
+            }
+
             player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));
             return true;
         } else {
