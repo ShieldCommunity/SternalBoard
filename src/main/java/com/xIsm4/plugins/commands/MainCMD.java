@@ -2,6 +2,7 @@
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Structure;
+import com.xIsm4.plugins.managers.animation.AnimationManager;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
 import org.bukkit.Bukkit;
@@ -51,10 +52,23 @@ public class MainCMD implements CommandExecutor {
                 return true;
             }
             plugin.reloadConfig();
+            plugin.setAnimateScore(plugin.getConfig().getBoolean("settings.animated"));
+            plugin.getScoreboardManager().reload();
 
             if (plugin.isAnimationEnabled()){
-                plugin.loadAnimConfig();
-                plugin.getAnimationManager().reload();
+                if (plugin.getAnimationManager() != null){
+                    plugin.loadAnimConfig();
+                    plugin.getAnimationManager().reload();
+                }
+                else {
+                    plugin.loadAnimConfig();
+                    plugin.setAnimationManager(new AnimationManager());
+                }
+            }
+            else {
+                if (plugin.getAnimationManager() != null){
+                    plugin.getAnimationManager().reload();
+                }
             }
 
             player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));

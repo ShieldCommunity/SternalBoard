@@ -40,10 +40,10 @@ public class Structure extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         instance = this;
 
-        animateScore = getConfig().getBoolean("settings.animated");
+        setAnimateScore(getConfig().getBoolean("settings.animated"));
         loadAnimConfig();
         if (animateScore){
-            this.animationManager = new AnimationManager();
+            setAnimationManager(new AnimationManager());
         }
 
         scoreboardManager = new ScoreboardManager(this);
@@ -81,6 +81,14 @@ public class Structure extends JavaPlugin {
 
             this.animConfig = animConfig;
         }
+    }
+
+    public void setAnimateScore(boolean animateScore){
+        this.animateScore = animateScore;
+    }
+
+    public void setAnimationManager(AnimationManager animationManager){
+        this.animationManager = animationManager;
     }
 
     public ScoreboardManager getScoreboardManager() {
