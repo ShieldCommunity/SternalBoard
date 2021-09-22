@@ -1,0 +1,105 @@
+scoreboard-animated:
+  title:
+    update-rate: 1 #In ticks
+    lines:
+      - "&f&lS&b&lternal&f&lBoard"
+      - "&f&lSt&b&lernal&f&lBoard"
+      - "&f&lSte&b&lrnal&f&lBoard"
+      - "&b&lS&f&lter&b&lnal&f&lBoard"
+      - "&b&lSt&f&lern&b&lal&f&lBoard"
+      - "&b&lSte&f&lrna&b&ll&f&lBoard"
+      - "&b&lSte&f&lrna&b&ll&f&lBoard"
+      - "&b&lSter&f&lnal&f&lBoard"
+      - "&b&lStern&f&lal&f&lBoard"
+      - "&b&lSterna&f&ll&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&b&lB&f&loard"
+      - "&b&lSternal&b&lBo&f&lard"
+      - "&b&lSternal&b&lBoa&f&lrd"
+      - "&b&lSternal&f&lB&b&loar&f&ld"
+      - "&b&lSternal&f&lBo&b&lard"
+      - "&b&lSternal&f&lBoa&b&lrd"
+      - "&b&lSternal&f&lBoar&b&ld"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+      - "&b&lSternal&f&lBoard"
+  score-lines:
+    0:
+      update-rate: 20 #In ticks
+      lines:
+        - "&8&m+-------------------+"
+    1:
+      update-rate: 20 #In ticks
+      lines:
+        - ""
+    2:
+      update-rate: 20 #In ticks
+      lines:
+        - "&a&l▼ &bData:"
+    3:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Nick: &b%player_name%"
+    4:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Rank: &b%vault_rank%"
+    5:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Coins: &e%vault_eco_balance_formatted%"
+    6:
+      update-rate: 20 #In ticks
+      lines:
+        - ""
+    7:
+      update-rate: 20 #In ticks
+      lines:
+        - "&a&l▼ &bExample:"
+    8:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Lobby: &b#1"
+    9:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Ping: &b%player_ping%"
+    10:
+      update-rate: 20 #In ticks
+      lines:
+        - "&f● &7Players: &b%bungee_total%"
+    11:
+      update-rate: 20 #In ticks
+      lines:
+        - ""
+    12:
+      update-rate: 1 #In ticks
+      lines:
+        - "       &fs&berver.example"
+        - "       &fse&brver.example"
+        - "       &fser&bver.example"
+        - "       &bs&ferv&ber.example"
+        - "       &bse&frve&br.example"
+        - "       &bser&fver&b.example"
+        - "       &bserv&fer.&bexample"
+        - "       &bserve&fr.e&bxample"
+        - "       &bserver&f.ex&bample"
+        - "       &bserver.&fexa&bmple"
+        - "       &bserver.e&fxam&bple"
+        - "       &bserver.ex&famp&ble"
+        - "       &bserver.exa&fmpl&be"
+        - "       &bserver.exam&fple"
+        - "       &bserver.examp&fle"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"
+        - "       &bserver.example"

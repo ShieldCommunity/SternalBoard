@@ -1,4 +1,5 @@
 settings:
+  animated: false	#When true, use animated-board.yml
   scoreboard:
     update: 20
     title: '&b&lSternal&f&lBoard'
@@ -16,4 +17,3 @@ settings:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
-
