@@ -37,11 +37,12 @@ public class ToggleCMD implements CommandExecutor {
                     }
                 }else{
                     SternalBoard board = new SternalBoard(player);
-                    if (core.getConfig().getInt("settings.scoreboard.update") > 0) {
-                        core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title"))), 0, core.getConfig().getInt("settings.scoreboard.update", 20));
+                    core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
+
+                    if (!core.isAnimateScore() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
+                        board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
                     }
 
-                    core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
                     setToggle(true);
                 }
             }
