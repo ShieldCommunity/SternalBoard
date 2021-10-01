@@ -52,7 +52,7 @@ public class MainCMD implements CommandExecutor {
                 return true;
             }
             plugin.reloadConfig();
-            plugin.setAnimateScore(plugin.getConfig().getBoolean("settings.animated"));
+            plugin.setAnimateScoreboard(plugin.getConfig().getBoolean("settings.animated"));
             plugin.getScoreboardManager().reload();
 
             if (plugin.isAnimationEnabled()){
