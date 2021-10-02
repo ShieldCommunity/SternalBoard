@@ -39,7 +39,7 @@ public class ToggleCMD implements CommandExecutor {
                     SternalBoard board = new SternalBoard(player);
                     core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
 
-                    if (!core.isAnimateScore() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
+                    if (!core.isAnimationEnabled() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
                         board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
                     }
 
