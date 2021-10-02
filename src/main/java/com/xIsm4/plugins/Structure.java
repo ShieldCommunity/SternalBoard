@@ -2,13 +2,14 @@ package com.xIsm4.plugins;
 
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
+import com.xIsm4.plugins.managers.SetupManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import lombok.Getter;
 
 @Getter
-public class Structure extends PlLoader {
+public class Structure extends SetupManager {
     private static Structure instance;
 
     public static Structure getInstance() {
