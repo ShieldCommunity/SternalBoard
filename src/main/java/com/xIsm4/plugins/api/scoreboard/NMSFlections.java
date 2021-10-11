@@ -113,8 +113,8 @@ public final class NMSFlections {
             }
         }
 
-             MethodType allocateMethodType = MethodType.methodType(Object.class, Class.class);
-             MethodHandle allocateMethod = lookup.findVirtual(theUnsafe.getClass(), "allocateInstance", allocateMethodType);
+        MethodType allocateMethodType = MethodType.methodType(Object.class, Class.class);
+        MethodHandle allocateMethod = lookup.findVirtual(theUnsafe.getClass(), "allocateInstance", allocateMethodType);
         return () -> allocateMethod.invoke(theUnsafe, packetClass);
     }
 
