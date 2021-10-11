@@ -2,7 +2,6 @@ package com.xIsm4.plugins;
 
 import com.xIsm4.plugins.listeners.PlayerListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
-import com.xIsm4.plugins.managers.SetupManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 
 import org.bukkit.configuration.file.YamlConfiguration;

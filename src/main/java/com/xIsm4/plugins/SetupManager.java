@@ -1,9 +1,9 @@
-package com.xIsm4.plugins.managers;
+package com.xIsm4.plugins;
 
 import com.google.common.base.Charsets;
-import com.xIsm4.plugins.Structure;
 import com.xIsm4.plugins.commands.MainCMD;
 import com.xIsm4.plugins.commands.ToggleCMD;
+import com.xIsm4.plugins.managers.ScoreboardManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,10 +13,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class SetupManager extends JavaPlugin {
-    public ScoreboardManager scoreboardManager;
-    public AnimationManager animationManager;
-    public YamlConfiguration animConfig;
-    public boolean animateScoreboard;
+    ScoreboardManager scoreboardManager;
+    AnimationManager animationManager;
+    YamlConfiguration animConfig;
+    boolean animateScoreboard;
 
     //Load config.yml
     public void loadConfig(){
