@@ -5,7 +5,6 @@
 
     <modelVersion>4.0.0</modelVersion>
     <!-- Info of the plugin. -->
-
     <licenses>
         <license>
             <name>MIT License</name>
@@ -13,17 +12,9 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <name>Ism4</name>
-            <email>git@xIsm4.com</email>
-            <url>https://github.com/xIsm4</url>
-        </developer>
-    </developers>
-
     <groupId>io.github.xIsm4</groupId>
     <artifactId>SternalBoard</artifactId>
-    <version>1.3.7-SNAPSHOT</version>
+    <version>1.3.8-SNAPSHOT</version>
 
     <!-- Config. -->
     <properties>
@@ -47,43 +38,25 @@
         </repository>
     </repositories>
     <!-- Build stuff. -->
+
     <build>
-        <finalName>SternalBoard</finalName>
-        <defaultGoal>clean package</defaultGoal>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
+                    <release>11</release>
+                    <compilerArgument>-proc:none</compilerArgument>
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     <!-- Dependencies. -->
     <dependencies>

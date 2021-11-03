@@ -29,7 +29,12 @@ public class ScoreboardManager {
     public ScoreboardManager(Structure core) {
         this.core = core;
     }
-    
+
+    //Fixing symbol-find
+    public ConcurrentMap<UUID, SternalBoard> getBoards(){
+        return this.boards;
+    }
+
     //Update tasks > 20
     public void init() {
         taskIds = new Integer[2];
