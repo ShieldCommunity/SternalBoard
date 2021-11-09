@@ -1,6 +1,7 @@
 package com.xIsm4.plugins;
 
-import com.xIsm4.plugins.listeners.PlayerListener;
+import com.xIsm4.plugins.listeners.AddBoardsListener;
+import com.xIsm4.plugins.listeners.RemoveBoardsListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 
@@ -27,7 +28,8 @@ public class Structure extends SetupManager {
         loadScoreboardMgr(this);
 
         //Load listeners and commands
-        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new AddBoardsListener(this), this);
+        getServer().getPluginManager().registerEvents(new RemoveBoardsListener(this), this);
         commandHandler(this);
     }
 

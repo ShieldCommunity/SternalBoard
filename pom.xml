@@ -14,7 +14,7 @@
 
     <groupId>io.github.xIsm4</groupId>
     <artifactId>SternalBoard</artifactId>
-    <version>1.3.8-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
 
     <!-- Config. -->
     <properties>
