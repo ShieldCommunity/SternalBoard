@@ -2,7 +2,6 @@ package com.xIsm4.plugins;
 
 import com.google.common.base.Charsets;
 import com.xIsm4.plugins.commands.MainCMD;
-import com.xIsm4.plugins.commands.ToggleCMD;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,7 +58,6 @@ public class SetupManager extends JavaPlugin {
     //Load commands
     public void commandHandler(Structure plugin) {
         this.getCommand("sternalboard").setExecutor(new MainCMD(plugin));
-        this.getCommand("toggle").setExecutor(new ToggleCMD(plugin));
     }
 
     public void setAnimateScoreboard(boolean animateScoreboard){

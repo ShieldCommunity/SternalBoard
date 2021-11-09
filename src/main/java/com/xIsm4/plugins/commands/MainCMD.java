@@ -2,6 +2,7 @@
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Structure;
+import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
@@ -15,6 +16,7 @@ import org.bukkit.entity.Player;
 
 public class MainCMD implements CommandExecutor {
 
+    private boolean toggle = true;
     private Structure plugin;
 
     public MainCMD(Structure plugin) {
@@ -33,9 +35,27 @@ public class MainCMD implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("version")) {
-            player.sendMessage(PlaceholderUtils.colorize("&bThe version of the plugin it's stable build."));
-            return true;
+            if (args[0].equalsIgnoreCase("toggle")) {
+                if (!player.hasPermission("sternalboard.toggle")) {
+                    player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
+                    return false;
+                }
+                if (getToggle()) {
+                    SternalBoard board = plugin.getScoreboardManager().getBoards().remove(player.getUniqueId());
+                    if (board != null) {
+                        board.delete();
+                        setToggle(false);
+                    }
+
+                }else{
+                    SternalBoard board = new SternalBoard(player);
+                    plugin.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
+
+                    if (!plugin.isAnimationEnabled() && plugin.getConfig().getInt("settings.scoreboard.update") == 0) {
+                        board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title")));
+                    }
+                    setToggle(true);
+                }
 
         } else if (args[0].equalsIgnoreCase("help")) {
             if (!(player.hasPermission("sternalboard.help"))) {
@@ -77,5 +97,12 @@ public class MainCMD implements CommandExecutor {
             player.sendMessage(PlaceholderUtils.colorize("&cThe command doesn't exist!"));
         }
         return true;
+    }
+
+    public boolean getToggle(){
+        return toggle;
+    }
+    public void setToggle(boolean toggle){
+        this.toggle = toggle;
     }
 }
