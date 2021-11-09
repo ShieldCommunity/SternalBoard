@@ -16,14 +16,14 @@ import org.bukkit.entity.Player;
 
 public class MainCMD implements CommandExecutor {
 
-    private Structure plugin;
+    private Structure core;
     public MainCMD(Structure plugin) {
-        this.plugin = plugin;
+        this.core = plugin;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            Bukkit.getConsoleSender().sendMessage(ChatColor.RED + " [X] U aren't a player!");
+            core.getLogger().warning("U are not a player!");
             return false;
         }
         Player player = (Player) sender;
@@ -31,20 +31,20 @@ public class MainCMD implements CommandExecutor {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
             return true;
         }
-
+        
             if (args[0].equalsIgnoreCase("toggle")) {
                 if (!player.hasPermission("sternalboard.toggle")) {
                     player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                     return false;
                 }
-                SternalBoard board = plugin.getScoreboardManager().getBoards().remove(player.getUniqueId());
-                if (board != null) {
-                    board.delete(); 
+                SternalBoard b = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
+                if (b != null) {
+                    b.delete();
                 }else{
                     SternalBoard board = new SternalBoard(player);
-                    plugin.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-                    if (!plugin.isAnimationEnabled() && plugin.getConfig().getInt("settings.scoreboard.update") == 0) {
-                        board.updateTitle(PlaceholderUtils.sanitizeString(player, plugin.getConfig().getString("settings.scoreboard.title")));
+                    core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
+                    if (!core.isAnimationEnabled() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
+                        board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
                     }
                 }
 
@@ -53,6 +53,7 @@ public class MainCMD implements CommandExecutor {
                 player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                 return true;
             }
+
             player.sendMessage(PlaceholderUtils.colorize("&9This server is runing &b&lSternal&f&lBoard &9by xIsm4"));
             return true;
         } else if (args[0].equalsIgnoreCase("reload")) {
@@ -60,24 +61,27 @@ public class MainCMD implements CommandExecutor {
                 player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                 return true;
             }
-            plugin.reloadConfig();
-            plugin.setAnimateScoreboard(plugin.getConfig().getBoolean("settings.animated"));
-            plugin.getScoreboardManager().reload();
-            if (plugin.isAnimationEnabled()){
-                if (plugin.getAnimationManager() != null){
-                    plugin.loadAnimConfig();
-                    plugin.getAnimationManager().reload();
+
+            core.reloadConfig();
+                core.setAnimateScoreboard(core.getConfig().getBoolean("settings.animated"));
+                core.getScoreboardManager().reload();
+            if (core.isAnimationEnabled()){
+                if (core.getAnimationManager() != null){
+                    core.loadAnimConfig();
+                    core.getAnimationManager().reload();
                 }else {
-                    plugin.loadAnimConfig();
-                    plugin.setAnimationManager(new AnimationManager());
+                    core.loadAnimConfig();
+                    core.setAnimationManager(new AnimationManager());
                 }     
             }else {
-                if (plugin.getAnimationManager() != null){
-                    plugin.getAnimationManager().reload();
+                if (core.getAnimationManager() != null){
+                    core.getAnimationManager().reload();
                 }
             }
+
             player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded sucesfully"));
             return true;
+
         } else {
             player.sendMessage(PlaceholderUtils.colorize("&cThe command doesn't exist!"));
         }

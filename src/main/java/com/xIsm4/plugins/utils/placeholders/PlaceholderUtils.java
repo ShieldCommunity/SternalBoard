@@ -17,8 +17,8 @@ public class PlaceholderUtils {
     public static String sanitizeString(Player player, String text) {
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return colorize(PlaceholderAPI.setPlaceholders(player, text));
-        }
-        else {
+
+        } else {
             return colorize(text);
         }
     }
@@ -26,14 +26,12 @@ public class PlaceholderUtils {
     public static String colorize(String text) {
         if (Bukkit.getVersion().contains("1.16")) {
             Matcher match = HEX_PATTERN.matcher(text);
-
             while (match.find()) {
                 String color = text.substring(match.start(), match.end());
                 text = text.replace(color, ChatColor.of(color) + "");
                 match = HEX_PATTERN.matcher(text);
             }
         }
-
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
@@ -42,6 +40,6 @@ public class PlaceholderUtils {
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return PlaceholderAPI.setPlaceholders(player, text);
         }
-        return text;
+        return (colorize(text));
     }
 }
