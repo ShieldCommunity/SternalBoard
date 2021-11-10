@@ -14,6 +14,7 @@ import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 @Getter
 @Setter
@@ -61,6 +62,22 @@ public class ScoreboardManager {
         }
     }
 
+    public void setScoreboard(Player player) {
+        SternalBoard board = new SternalBoard(player);
+        getBoards().put(player.getUniqueId(), board);
+
+        if (!core.isAnimationEnabled() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
+            board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
+        }
+    }
+
+    public void removeScoreboard(Player player) {
+        SternalBoard board = getBoards().remove(player.getUniqueId());
+        if (board != null) {
+            board.delete();
+        }
+    }
+
     public void reload(){
         for (Integer taskId : taskIds){
             if (taskId != null){
@@ -75,6 +92,16 @@ public class ScoreboardManager {
         }
 
         init();
+    }
+
+    public void toggle(Player player) {
+        SternalBoard oldBoard = getBoards().remove(player.getUniqueId());
+        if (oldBoard != null) {
+            oldBoard.delete();
+        }else{
+            setScoreboard(player);
+        }
+
     }
 
     //Updating the scoreboard
