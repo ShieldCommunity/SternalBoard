@@ -22,13 +22,6 @@ public class AddBoardsListener implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        SternalBoard board = new SternalBoard(player);
-        core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-
-        //Checks if animations are enabled, updates PlaceHolders
-        if (!core.isAnimationEnabled() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
-            board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
-        }
+        core.getScoreboardManager().setScoreboard(e.getPlayer());
     }
 }
