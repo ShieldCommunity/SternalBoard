@@ -6,8 +6,6 @@ import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,10 +14,12 @@ import org.bukkit.entity.Player;
 
 public class MainCMD implements CommandExecutor {
 
-    private Structure core;
+    private final Structure core;
+
     public MainCMD(Structure plugin) {
         this.core = plugin;
     }
+
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -28,26 +28,16 @@ public class MainCMD implements CommandExecutor {
         }
         Player player = (Player) sender;
         if (!(args.length > 0)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', " &fUse &e/sternalboard help &fto see more info about the plugin"));
+            player.sendMessage(PlaceholderUtils.colorize(" &fUse &e/sternalboard help &fto see more info about the plugin"));
             return true;
         }
-        
-            if (args[0].equalsIgnoreCase("toggle")) {
-                if (!player.hasPermission("sternalboard.toggle")) {
-                    player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
-                    return false;
-                }
-                SternalBoard b = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
-                if (b != null) {
-                    b.delete();
-                }else{
-                    SternalBoard board = new SternalBoard(player);
-                    core.getScoreboardManager().getBoards().put(player.getUniqueId(), board);
-                    if (!core.isAnimationEnabled() && core.getConfig().getInt("settings.scoreboard.update") == 0) {
-                        board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
-                    }
-                }
 
+        if (args[0].equalsIgnoreCase("toggle")) {
+            if (!player.hasPermission("sternalboard.toggle")) {
+                player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
+                return false;
+            }
+            core.getScoreboardManager().toggle(player);
         } else if (args[0].equalsIgnoreCase("help")) {
             if (!(player.hasPermission("sternalboard.help"))) {
                 player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));

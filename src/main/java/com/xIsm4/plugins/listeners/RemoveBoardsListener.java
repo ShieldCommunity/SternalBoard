@@ -17,11 +17,6 @@ public class RemoveBoardsListener implements Listener {
 
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        SternalBoard b = core.getScoreboardManager().getBoards().remove(player.getUniqueId());
-        if (b != null) {
-            //Avoids memory leak
-            b.delete();
-        }
+        core.getScoreboardManager().removeScoreboard(e.getPlayer());
     }
 }
