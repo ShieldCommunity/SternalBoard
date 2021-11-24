@@ -9,5 +9,5 @@ softdepend: [PlaceholderAPI]
 commands:
     sternalboard:
       description: Main command for sternalboard plugin.
-      aliases: [sternalboard]
+      aliases: [sternalboard, sb]
 

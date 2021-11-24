@@ -2,6 +2,7 @@ package com.xIsm4.plugins.managers;
 
 import java.nio.channels.AsynchronousFileChannel;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,6 +24,7 @@ public class ScoreboardManager {
     private final Structure core;
     private ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
     private Object AsynchronousFileChannel;
+    private Map<String, List<String>> worlds;
 
     private Integer[] taskIds;
 
@@ -32,7 +34,7 @@ public class ScoreboardManager {
     }
 
     //Fixing symbol-find
-    public ConcurrentMap<UUID, SternalBoard> getBoards(){
+    public ConcurrentMap<UUID, SternalBoard> getBoards() {
         return this.boards;
     }
 
@@ -44,7 +46,7 @@ public class ScoreboardManager {
             core.getConfig().set("settings.scoreboard.update", 20);
         }
 
-        if (!core.isAnimationEnabled()){
+        if (!core.isAnimationEnabled()) {
             taskIds[0] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
                 AsynchronousFileChannel file = (java.nio.channels.AsynchronousFileChannel) AsynchronousFileChannel;
                 for (SternalBoard board : this.boards.values()) {
@@ -78,14 +80,14 @@ public class ScoreboardManager {
         }
     }
 
-    public void reload(){
-        for (Integer taskId : taskIds){
-            if (taskId != null){
+    public void reload() {
+        for (Integer taskId : taskIds) {
+            if (taskId != null) {
                 Bukkit.getServer().getScheduler().cancelTask(taskId);
             }
         }
 
-        if (core.isAnimationEnabled() && taskIds[0] != null){
+        if (core.isAnimationEnabled() && taskIds[0] != null) {
             for (SternalBoard board : this.boards.values()) {
                 board.updateLines("");
             }
@@ -98,7 +100,7 @@ public class ScoreboardManager {
         SternalBoard oldBoard = getBoards().remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
-        }else{
+        } else {
             setScoreboard(player);
         }
 
@@ -111,3 +113,4 @@ public class ScoreboardManager {
         board.updateLines(lines);
     }
 }
+

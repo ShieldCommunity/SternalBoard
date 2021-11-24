@@ -13,6 +13,7 @@ import net.md_5.bungee.api.ChatColor;
 
 public class PlaceholderUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
+    //Renember that only works with Legacy (U can use birdflop web to test it)
 
     public static String sanitizeString(Player player, String text) {
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {

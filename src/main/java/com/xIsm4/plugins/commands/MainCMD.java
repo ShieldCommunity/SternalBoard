@@ -1,8 +1,6 @@
-
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
@@ -23,7 +21,7 @@ public class MainCMD implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            core.getLogger().warning("U are not a player!");
+            core.getLogger().warning("[X]U can't use commands trougth console!");
             return false;
         }
         Player player = (Player) sender;
@@ -51,7 +49,6 @@ public class MainCMD implements CommandExecutor {
                 player.sendMessage(PlaceholderUtils.colorize("&cU don't have permissions to use this command"));
                 return true;
             }
-
             core.reloadConfig();
                 core.setAnimateScoreboard(core.getConfig().getBoolean("settings.animated"));
                 core.getScoreboardManager().reload();
@@ -73,7 +70,7 @@ public class MainCMD implements CommandExecutor {
             return true;
 
         } else {
-            player.sendMessage(PlaceholderUtils.colorize("&cThe command doesn't exist!"));
+            player.sendMessage(PlaceholderUtils.colorize("&cThe command provided it's wrong!"));
         }
         return true;
     }
