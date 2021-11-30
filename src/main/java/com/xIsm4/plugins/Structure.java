@@ -18,12 +18,19 @@ public class Structure extends SetupManager {
 
     @Override
     public void onEnable() {
+        //Set instance
+        instance = this;
+
+        //Load config
+        loadConfig();
+
+        //Load scoreboardManager (and Animated if applicable)
+        loadScoreboardMgr(this);
+
+        //Load listeners and commands
         getServer().getPluginManager().registerEvents(new AddBoardsListener(this), this);
         getServer().getPluginManager().registerEvents(new RemoveBoardsListener(this), this);
         commandHandler(this);
-        loadScoreboardMgr(this);
-        loadConfig();
-        instance = this;
     }
 
     @Override

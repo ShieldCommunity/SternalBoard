@@ -26,7 +26,6 @@ import java.util.Objects;
 
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
-import java.lang.reflect.Method;
 
 /*
  * This file is part of SternalBoard, licensed under the MIT License.
@@ -106,6 +105,7 @@ public class SternalBoard {
                 VERSION_TYPE = VersionType.V1_7;
             }
 
+            //switched cause github forced
             String gameProtocolPackage = "network.protocol.game";
             Class<?> craftPlayerClass = NMSFlections.obcClass("entity.CraftPlayer");
             Class<?> craftChatMessageClass = NMSFlections.obcClass("util.CraftChatMessage");
@@ -121,10 +121,6 @@ public class SternalBoard {
             Field playerConnectionField = Arrays.stream(entityPlayerClass.getFields())
                     .filter(field -> field.getType().isAssignableFrom(playerConnectionClass))
                     .findFirst().orElseThrow(NoSuchFieldException::new);
-            Class<?>[] sendPacketParameters = new Class[]{packetClass};
-            Method sendPacketMethod = Arrays.stream(playerConnectionClass.getMethods())
-                    .filter(method -> Arrays.equals(method.getParameterTypes(), sendPacketParameters))
-                    .findFirst().orElseThrow(NoSuchMethodException::new);
 
             MESSAGE_FROM_STRING = lookup.unreflect(craftChatMessageClass.getMethod("fromString", String.class));
             CHAT_COMPONENT_CLASS = NMSFlections.nmsClass("network.chat", "IChatBaseComponent");
@@ -133,7 +129,7 @@ public class SternalBoard {
             RESET_FORMATTING = NMSFlections.enumValueOf(CHAT_FORMAT_ENUM, "RESET", 21);
             PLAYER_GET_HANDLE = lookup.findVirtual(craftPlayerClass, "getHandle", MethodType.methodType(entityPlayerClass));
             PLAYER_CONNECTION = lookup.unreflectGetter(playerConnectionField);
-            SEND_PACKET = lookup.unreflect(sendPacketMethod);
+            SEND_PACKET = lookup.findVirtual(playerConnectionClass, "sendPacket", MethodType.methodType(void.class, packetClass));
             PACKET_SB_OBJ = NMSFlections.findPacketConstructor(packetSbObjClass, lookup);
             PACKET_SB_DISPLAY_OBJ = NMSFlections.findPacketConstructor(packetSbDisplayObjClass, lookup);
             PACKET_SB_SCORE = NMSFlections.findPacketConstructor(packetSbScoreClass, lookup);
