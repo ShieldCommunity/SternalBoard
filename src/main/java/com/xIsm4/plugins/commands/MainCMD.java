@@ -2,7 +2,6 @@
 package com.xIsm4.plugins.commands;
 
 import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
 
@@ -52,7 +51,8 @@ public class MainCMD implements CommandExecutor {
                 return true;
             }
 
-            core.reloadConfig();
+                core.reloadConfig();
+
                 core.setAnimateScoreboard(core.getConfig().getBoolean("settings.animated"));
                 core.getScoreboardManager().reload();
             if (core.isAnimationEnabled()){

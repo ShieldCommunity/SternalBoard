@@ -1,9 +1,7 @@
 name: SternalBoard
 main: com.xIsm4.plugins.Structure
-version: 1.5
+version: 1.7-3
 api-version: "1.13"
-authors: [xIsm4]
-website: https://github.com/xIsm4
 softdepend: [PlaceholderAPI]
 
 commands:

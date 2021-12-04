@@ -106,7 +106,6 @@ public class SternalBoard {
                 VERSION_TYPE = VersionType.V1_7;
             }
 
-            //switched cause github forced
             String gameProtocolPackage = "network.protocol.game";
             Class<?> craftPlayerClass = NMSFlections.obcClass("entity.CraftPlayer");
             Class<?> craftChatMessageClass = NMSFlections.obcClass("util.CraftChatMessage");
@@ -122,9 +121,8 @@ public class SternalBoard {
             Field playerConnectionField = Arrays.stream(entityPlayerClass.getFields())
                     .filter(field -> field.getType().isAssignableFrom(playerConnectionClass))
                     .findFirst().orElseThrow(NoSuchFieldException::new);
-            Class<?>[] sendPacketParameters = new Class[]{packetClass};
             Method sendPacketMethod = Arrays.stream(playerConnectionClass.getMethods())
-                    .filter(method -> Arrays.equals(method.getParameterTypes(), sendPacketParameters))
+                    .filter(m -> m.getParameterCount() == 1 && m.getParameterTypes()[0] == packetClass)
                     .findFirst().orElseThrow(NoSuchMethodException::new);
 
             MESSAGE_FROM_STRING = lookup.unreflect(craftChatMessageClass.getMethod("fromString", String.class));

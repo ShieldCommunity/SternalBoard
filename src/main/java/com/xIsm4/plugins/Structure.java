@@ -6,9 +6,7 @@ import com.xIsm4.plugins.managers.ScoreboardManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import lombok.Getter;
 
-@Getter
 public class Structure extends SetupManager {
     private static Structure instance;
 
