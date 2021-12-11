@@ -1,6 +1,5 @@
 package com.xIsm4.plugins.managers;
 
-import java.nio.channels.AsynchronousFileChannel;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +17,7 @@ import org.bukkit.entity.Player;
 public class ScoreboardManager {
 
     private final Structure core;
-    private ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
-    private Object AsynchronousFileChannel;
+    private final ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
     private Integer[] taskIds;
 
     public ScoreboardManager(Structure core) {

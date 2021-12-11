@@ -2,6 +2,8 @@ package com.xIsm4.plugins;
 
 import com.google.common.base.Charsets;
 import com.xIsm4.plugins.commands.MainCMD;
+import com.xIsm4.plugins.listeners.AddBoardsListener;
+import com.xIsm4.plugins.listeners.RemoveBoardsListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
 import com.xIsm4.plugins.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -58,6 +60,11 @@ public class SetupManager extends JavaPlugin {
     //Load commands
     public void commandHandler(Structure plugin) {
         this.getCommand("sternalboard").setExecutor(new MainCMD(plugin));
+    }
+
+    public void eventHandler(Structure event){
+        getServer().getPluginManager().registerEvents(new AddBoardsListener(event), this);
+        getServer().getPluginManager().registerEvents(new RemoveBoardsListener(event), this);
     }
 
     public void setAnimateScoreboard(boolean animateScoreboard){

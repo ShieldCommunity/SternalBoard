@@ -327,15 +327,7 @@ public class SternalBoard {
         Objects.requireNonNull(lines, "lines");
         checkLineNumber(lines.size(), false, true);
 
-        if (!VersionType.V1_13.isHigherOrEqual()) {
-            int lineCount = 0;
-            for (String s : lines) {
-                if (s != null && s.length() > 30) {
-                    s = s.substring(0, 30); //throw new IllegalArgumentException("Line " + lineCount + " is longer than 30 chars"); Removed
-                }
-                lineCount++;
-            }
-        }
+        VersionType.V1_13.isHigherOrEqual();
 
         List<String> oldLines = new ArrayList<>(this.lines);
         this.lines.clear();
