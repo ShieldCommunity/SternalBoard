@@ -80,7 +80,6 @@ public class ScoreboardManager {
                 board.updateLines("");
             }
         }
-
         init();
     }
 
@@ -91,7 +90,6 @@ public class ScoreboardManager {
         }else{
             setScoreboard(player);
         }
-
     }
 
     private void updateBoard(SternalBoard board) {

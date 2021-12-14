@@ -14,12 +14,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class SetupManager extends JavaPlugin {
-    ScoreboardManager scoreboardManager;
-    AnimationManager animationManager;
-    YamlConfiguration animConfig;
-    boolean animateScoreboard;
 
-    //Load config.yml
+    public ScoreboardManager scoreboardManager;
+    public AnimationManager animationManager;
+    public YamlConfiguration animConfig;
+    public boolean animateScoreboard;
+
+    /**
+     * Load the scoreboard config, and then saves it.
+     * After this, all uses of @load
+     *
+     * @throws IllegalStateException if already was enabled (Api)
+     */
+
     public void loadConfig(){
         saveDefaultConfig();
         this.saveConfig();
@@ -27,7 +34,13 @@ public class SetupManager extends JavaPlugin {
         loadAnimConfig();
     }
 
-    //Load animated-board.yml
+    /**
+     * Load animated scoreboard config
+     * After this, all uses of @exception
+     *
+     * @throws IllegalAccessError if already it's replaced.
+     */
+
     public void loadAnimConfig(){
         File animFile = new File(this.getDataFolder(), "animated-board.yml");
 
@@ -47,7 +60,13 @@ public class SetupManager extends JavaPlugin {
         }
     }
 
-    //Load AnimatedScoreboard
+    /**
+     * Load SternalBoard manager - And calls animation manager.
+     * After this, all uses of @load
+     *
+     * @return Null, if the scoreboard manager is not accessible.
+     */
+
     public void loadScoreboardMgr(Structure plugin){
         if (animateScoreboard){
             setAnimationManager(new AnimationManager());
@@ -57,7 +76,6 @@ public class SetupManager extends JavaPlugin {
         scoreboardManager.init();
     }
 
-    //Load commands
     public void commandHandler(Structure plugin) {
         this.getCommand("sternalboard").setExecutor(new MainCMD(plugin));
     }

@@ -1,6 +1,7 @@
 package com.xIsm4.plugins.api.scoreboard;
 
 import org.bukkit.Bukkit;
+
 import java.util.function.Predicate;
 
 import java.lang.invoke.MethodHandle;
@@ -54,10 +55,6 @@ public final class NMSFlections {
 
     public static Class<?> obcClass(String className) throws ClassNotFoundException {
         return Class.forName(obcClassName(className));
-    }
-
-    public static Optional<Class<?>> obcOptionalClass(String className) {
-        return optionalClass(obcClassName(className));
     }
 
     public static Optional<Class<?>> optionalClass(String className) {
