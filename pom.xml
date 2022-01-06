@@ -84,7 +84,7 @@
             <!-- PlaceHolderApi -->
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
-            <version>2.11.0</version>
+            <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
