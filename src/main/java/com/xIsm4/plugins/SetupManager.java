@@ -19,6 +19,7 @@ public class SetupManager extends JavaPlugin {
     public AnimationManager animationManager;
     public YamlConfiguration animConfig;
     public boolean animateScoreboard;
+    public boolean viaHook;
 
     /**
      * Load the scoreboard config, and then saves it.
@@ -31,6 +32,7 @@ public class SetupManager extends JavaPlugin {
         saveDefaultConfig();
         this.saveConfig();
         setAnimateScoreboard(getConfig().getBoolean("settings.animated"));
+        setViaHook(getConfig().getBoolean("settings.hook"));
         loadAnimConfig();
     }
 
@@ -87,6 +89,10 @@ public class SetupManager extends JavaPlugin {
 
     public void setAnimateScoreboard(boolean animateScoreboard){
         this.animateScoreboard = animateScoreboard;
+    }
+    public void setViaHook(boolean viaHook){
+        this.viaHook = viaHook;
+
     }
 
     public void setAnimationManager(AnimationManager animationManager){

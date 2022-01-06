@@ -1,5 +1,8 @@
 package com.xIsm4.plugins.api.scoreboard;
 
+import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+import com.xIsm4.plugins.Structure;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -424,13 +427,20 @@ public class SternalBoard {
 
     /**
      * Return if the player has a prefix/suffix characters limit.
-     * By default, it returns true only in 1.12 or lower.
+     * By default, it returns true only in 1.12 or lower, if the check its enabled will hook into ViaVersion.
+     * But the limit will be 16 chars in all versions.
      * This method can be overridden to fix compatibility with some versions support plugin.
+     *
      *
      * @return max length
      */
+
     protected boolean hasLinesMaxLength() {
-        return !VersionType.V1_13.isHigherOrEqual();
+        if(Structure.getInstance().isViaHookEnabled()){
+            return Via.getAPI().getPlayerVersion(getPlayer()) < ProtocolVersion.v1_13.getVersion();
+        } else{
+            return !VersionType.V1_13.isHigherOrEqual();
+        }
     }
 
     private void checkLineNumber(int line, boolean checkInRange, boolean checkMax) {

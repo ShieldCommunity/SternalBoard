@@ -1,6 +1,6 @@
 settings:
-  #When true, use animated-board.yml
   animated: false
+  hook: true
   scoreboard:
     update: 20
     title: '&b&lSternal&f&lBoard'

@@ -57,7 +57,7 @@ public class MainCMD implements CommandExecutor {
                 }else {
                     core.loadAnimConfig();
                     core.setAnimationManager(new AnimationManager());
-                }     
+                }
             }else {
                 if (core.getAnimationManager() != null){
                     core.getAnimationManager().reload();

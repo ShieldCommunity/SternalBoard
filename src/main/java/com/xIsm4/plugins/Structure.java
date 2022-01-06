@@ -40,6 +40,9 @@ public class Structure extends SetupManager {
     public boolean isAnimationEnabled(){
         return this.animateScoreboard;
     }
+    public boolean isViaHookEnabled(){
+        return this.viaHook;
+    }
 
     public YamlConfiguration getAnimConfig(){
         return this.animConfig;
