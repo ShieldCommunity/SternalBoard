@@ -1,6 +1,6 @@
 settings:
   animated: false
-  hook: true
+  hook: false
   scoreboard:
     update: 20
     title: '&b&lSternal&f&lBoard'
