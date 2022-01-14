@@ -15,7 +15,6 @@ public class Structure extends SetupManager {
     @Override
     public void onEnable() {
         instance = this;
-
         commandHandler(this);
         loadConfig();
         loadScoreboardMgr(this);

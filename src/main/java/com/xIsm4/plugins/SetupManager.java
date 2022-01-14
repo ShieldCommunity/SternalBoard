@@ -1,7 +1,7 @@
 package com.xIsm4.plugins;
 
 import com.google.common.base.Charsets;
-import com.xIsm4.plugins.commands.MainCMD;
+import com.xIsm4.plugins.commands.SternalCMD;
 import com.xIsm4.plugins.listeners.AddBoardsListener;
 import com.xIsm4.plugins.listeners.RemoveBoardsListener;
 import com.xIsm4.plugins.managers.ScoreboardManager;
@@ -79,7 +79,7 @@ public class SetupManager extends JavaPlugin {
     }
 
     public void commandHandler(Structure plugin) {
-        this.getCommand("sternalboard").setExecutor(new MainCMD(plugin));
+        this.getCommand("sternalboard").setExecutor(new SternalCMD(plugin));
     }
 
     public void eventHandler(Structure event){
@@ -90,6 +90,7 @@ public class SetupManager extends JavaPlugin {
     public void setAnimateScoreboard(boolean animateScoreboard){
         this.animateScoreboard = animateScoreboard;
     }
+
     public void setViaHook(boolean viaHook){
         this.viaHook = viaHook;
 

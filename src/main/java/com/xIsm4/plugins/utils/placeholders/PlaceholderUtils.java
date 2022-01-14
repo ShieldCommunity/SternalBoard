@@ -35,7 +35,6 @@ public class PlaceholderUtils {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    //Parse PlaceholderAPI variables
     public static String parsePAPI(Player player, String text){
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return PlaceholderAPI.setPlaceholders(player, text);

@@ -11,12 +11,12 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Logger;
 
-public class MainCMD implements CommandExecutor {
+public class SternalCMD implements CommandExecutor {
 
     private final Structure core;
     private final Logger log = Structure.getInstance().getLogger();
 
-    public MainCMD(Structure plugin) {
+    public SternalCMD(Structure plugin) {
         this.core = plugin;
     }
 
@@ -48,18 +48,20 @@ public class MainCMD implements CommandExecutor {
             }
                 core.reloadConfig();
                 core.setAnimateScoreboard(core.getConfig().getBoolean("settings.animated"));
+                core.setViaHook(core.getConfig().getBoolean("settings.hook"));
                 core.getScoreboardManager().reload();
 
-            if (core.isAnimationEnabled()){
-                if (core.getAnimationManager() != null){
+            if (core.isAnimationEnabled()) {
+                if (core.getAnimationManager() != null) {
                     core.loadAnimConfig();
                     core.getAnimationManager().reload();
-                }else {
+                } else {
                     core.loadAnimConfig();
                     core.setAnimationManager(new AnimationManager());
                 }
+
             }else {
-                if (core.getAnimationManager() != null){
+                if (core.getAnimationManager() != null) {
                     core.getAnimationManager().reload();
                 }
             }

@@ -14,7 +14,7 @@
 
     <groupId>io.github.xIsm4</groupId>
     <artifactId>SternalBoard</artifactId>
-    <version>1.8v</version>
+    <version>1.9v</version>
 
     <developers>
         <developer>
@@ -61,10 +61,6 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        <repository>
-            <id>viaversion-repo</id>
-            <url>https://repo.viaversion.com</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -72,12 +68,6 @@
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.18-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.viaversion</groupId>
-            <artifactId>viaversion-api</artifactId>
-            <version>LATEST</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -1,7 +1,5 @@
 package com.xIsm4.plugins.api.scoreboard;
 
-import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.xIsm4.plugins.Structure;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -437,7 +435,7 @@ public class SternalBoard {
 
     protected boolean hasLinesMaxLength() {
         if(Structure.getInstance().isViaHookEnabled()){
-            return Via.getAPI().getPlayerVersion(getPlayer()) < ProtocolVersion.v1_13.getVersion();
+            return true;
         } else{
             return !VersionType.V1_13.isHigherOrEqual();
         }
