@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 public class SternalCMD implements CommandExecutor {
 
+    private static final Logger LOGGER = Structure.getInstance().getLogger();
     private final Structure core;
-    private final Logger log = Structure.getInstance().getLogger();
 
     public SternalCMD(Structure plugin) {
         this.core = plugin;
@@ -22,14 +22,13 @@ public class SternalCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
-
         if (!(sender instanceof Player)) {
-            log.warning("Only players can execute commands!");
+            LOGGER.warning("Only players can execute commands!");
             return false;
         }
 
         Player player = (Player) sender;
-        if (!(args.length > 0)) {
+        if (args.length <= 0) {
             player.sendMessage("&eUse sternalboard help &fto see more info about the plugin");
             return true;
         }
@@ -43,7 +42,7 @@ public class SternalCMD implements CommandExecutor {
 
         } else if (args[0].equalsIgnoreCase("reload")) {
             if (!(player.hasPermission("sternalboard.reload"))) {
-                log.info("&cU don't have permissions to use this command");
+                LOGGER.info("&cU don't have permissions to use this command");
                 return true;
             }
                 core.reloadConfig();
