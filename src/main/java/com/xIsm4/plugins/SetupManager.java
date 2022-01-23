@@ -1,6 +1,8 @@
 package com.xIsm4.plugins;
 
 import com.google.common.base.Charsets;
+import com.xIsm4.plugins.commands.PaperTabCompleter;
+import com.xIsm4.plugins.commands.SpigotTabCompleter;
 import com.xIsm4.plugins.commands.SternalCMD;
 import com.xIsm4.plugins.listeners.AddBoardsListener;
 import com.xIsm4.plugins.listeners.RemoveBoardsListener;
@@ -80,6 +82,12 @@ public class SetupManager extends JavaPlugin {
 
     public void commandHandler(Structure plugin) {
         this.getCommand("sternalboard").setExecutor(new SternalCMD(plugin));
+        try{
+            Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
+            getServer().getPluginManager().registerEvents(new PaperTabCompleter(), this);
+        } catch(ClassNotFoundException e){
+            this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
+        }
     }
 
     public void eventHandler(Structure event){
