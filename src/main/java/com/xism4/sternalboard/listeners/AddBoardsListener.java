@@ -1,6 +1,6 @@
-package com.xIsm4.plugins.listeners;
+package com.xism4.sternalboard.listeners;
 
-import com.xIsm4.plugins.Structure;
+import com.xism4.sternalboard.Structure;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 

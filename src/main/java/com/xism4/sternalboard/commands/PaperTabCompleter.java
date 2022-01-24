@@ -1,4 +1,4 @@
-package com.xIsm4.plugins.commands;
+package com.xism4.sternalboard.commands;
 
 import java.util.ArrayList;
 import java.util.List;

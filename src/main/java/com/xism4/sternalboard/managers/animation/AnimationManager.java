@@ -1,14 +1,13 @@
-package com.xIsm4.plugins.managers.animation;
+package com.xism4.sternalboard.managers.animation;
 
 import com.google.common.collect.Lists;
 
-import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
-import com.xIsm4.plugins.managers.ScoreboardManager;
-import com.xIsm4.plugins.managers.animation.tasks.LineUpdateTask;
-import com.xIsm4.plugins.managers.animation.tasks.TitleUpdateTask;
-import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.api.scoreboard.SternalBoard;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
+import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
+import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

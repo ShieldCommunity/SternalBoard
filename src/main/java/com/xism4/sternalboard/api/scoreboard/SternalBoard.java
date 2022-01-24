@@ -1,6 +1,6 @@
-package com.xIsm4.plugins.api.scoreboard;
+package com.xism4.sternalboard.api.scoreboard;
 
-import com.xIsm4.plugins.Structure;
+import com.xism4.sternalboard.Structure;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

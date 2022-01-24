@@ -1,11 +1,10 @@
-package com.xIsm4.plugins.managers.animation.tasks;
+package com.xism4.sternalboard.managers.animation.tasks;
 
-import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
-import com.xIsm4.plugins.managers.ScoreboardManager;
-import com.xIsm4.plugins.managers.animation.AnimationManager;
-import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.api.scoreboard.SternalBoard;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
+import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -13,11 +12,6 @@ import java.util.List;
 public class TitleUpdateTask extends BukkitRunnable {
     private final String[] lines;
     int index;
-
-    public TitleUpdateTask(String[] lines){
-        this.lines = lines;
-        this.index = 0;
-    }
 
     public TitleUpdateTask(List<String> lines){
         this.lines = lines.toArray(new String[0]);

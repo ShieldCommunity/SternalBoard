@@ -1,10 +1,9 @@
-package com.xIsm4.plugins.utils.placeholders;
+package com.xism4.sternalboard.utils.placeholders;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.xIsm4.plugins.Structure;
-
+import com.xism4.sternalboard.Structure;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

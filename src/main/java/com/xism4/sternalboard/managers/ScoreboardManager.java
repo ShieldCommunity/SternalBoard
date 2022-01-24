@@ -1,4 +1,4 @@
-package com.xIsm4.plugins.managers;
+package com.xism4.sternalboard.managers;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,10 +6,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.api.scoreboard.SternalBoard;
-import com.xIsm4.plugins.utils.placeholders.PlaceholderUtils;
-
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.api.scoreboard.SternalBoard;
+import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

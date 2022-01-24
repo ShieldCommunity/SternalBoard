@@ -1,13 +1,13 @@
-package com.xIsm4.plugins;
+package com.xism4.sternalboard;
 
 import com.google.common.base.Charsets;
-import com.xIsm4.plugins.commands.PaperTabCompleter;
-import com.xIsm4.plugins.commands.SpigotTabCompleter;
-import com.xIsm4.plugins.commands.SternalCMD;
-import com.xIsm4.plugins.listeners.AddBoardsListener;
-import com.xIsm4.plugins.listeners.RemoveBoardsListener;
-import com.xIsm4.plugins.managers.ScoreboardManager;
-import com.xIsm4.plugins.managers.animation.AnimationManager;
+import com.xism4.sternalboard.commands.PaperTabCompleter;
+import com.xism4.sternalboard.commands.SpigotTabCompleter;
+import com.xism4.sternalboard.commands.SternalCMD;
+import com.xism4.sternalboard.listeners.AddBoardsListener;
+import com.xism4.sternalboard.listeners.RemoveBoardsListener;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 

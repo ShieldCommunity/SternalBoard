@@ -1,8 +1,7 @@
-package com.xIsm4.plugins.commands;
+package com.xism4.sternalboard.commands;
 
-import com.xIsm4.plugins.Structure;
-import com.xIsm4.plugins.managers.animation.AnimationManager;
-
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,13 +1,12 @@
-package com.xIsm4.plugins;
+package com.xism4.sternalboard;
 
-import com.xIsm4.plugins.managers.ScoreboardManager;
-import com.xIsm4.plugins.managers.animation.AnimationManager;
-
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Structure extends SetupManager {
-    private static Structure instance;
 
+    private static Structure instance;
     public static Structure getInstance() {
         return instance;
     }
@@ -39,6 +38,7 @@ public class Structure extends SetupManager {
     public boolean isAnimationEnabled(){
         return this.animateScoreboard;
     }
+
     public boolean isViaHookEnabled(){
         return this.viaHook;
     }

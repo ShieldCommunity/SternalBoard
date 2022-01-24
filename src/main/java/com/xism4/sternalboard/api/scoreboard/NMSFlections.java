@@ -1,4 +1,4 @@
-package com.xIsm4.plugins.api.scoreboard;
+package com.xism4.sternalboard.api.scoreboard;
 
 import org.bukkit.Bukkit;
 
