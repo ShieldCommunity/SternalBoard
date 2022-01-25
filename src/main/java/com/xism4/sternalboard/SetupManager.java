@@ -1,6 +1,7 @@
 package com.xism4.sternalboard;
 
 import com.google.common.base.Charsets;
+import com.xism4.sternalboard.commands.OldPaperTabCompleter;
 import com.xism4.sternalboard.commands.PaperTabCompleter;
 import com.xism4.sternalboard.commands.SpigotTabCompleter;
 import com.xism4.sternalboard.commands.SternalCMD;
@@ -82,11 +83,19 @@ public class SetupManager extends JavaPlugin {
 
     public void commandHandler(Structure plugin) {
         this.getCommand("sternalboard").setExecutor(new SternalCMD(plugin));
+    }
+
+    public void loadTabCompletions(){
         try{
             Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
+            Class.forName("net.kyori.adventure.text.Component");
             getServer().getPluginManager().registerEvents(new PaperTabCompleter(), this);
         } catch(ClassNotFoundException e){
-            this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
+            if(e.getMessage().contains("Component")){
+                getServer().getPluginManager().registerEvents(new OldPaperTabCompleter(), this);
+            } else {
+                this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
+            }
         }
     }
 
