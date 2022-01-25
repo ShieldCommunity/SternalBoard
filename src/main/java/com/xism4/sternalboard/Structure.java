@@ -15,6 +15,7 @@ public class Structure extends SetupManager {
     public void onEnable() {
         instance = this;
         commandHandler(this);
+        loadTabCompletions();
         loadConfig();
         loadScoreboardMgr(this);
         eventHandler(this);
