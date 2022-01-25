@@ -1,5 +1,5 @@
 name: SternalBoard
-main: com.xIsm4.plugins.Structure
+main: com.xism4.sternalboard.Structure
 version: 1.8v
 api-version: "1.13"
 softdepend: [PlaceholderAPI, ViaVersion]
