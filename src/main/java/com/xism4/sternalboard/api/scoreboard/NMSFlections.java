@@ -2,24 +2,19 @@ package com.xism4.sternalboard.api.scoreboard;
 
 import org.bukkit.Bukkit;
 
-import java.util.function.Predicate;
-
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public final class NMSFlections {
 
-    private static final String NM_PACKAGE = "net.minecraft";
     public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
-    public static final String NMS_PACKAGE = NM_PACKAGE + ".server";
-
     public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(OBC_PACKAGE.length() + 1);
-
+    private static final String NM_PACKAGE = "net.minecraft";
+    public static final String NMS_PACKAGE = NM_PACKAGE + ".server";
     private static final MethodType VOID_METHOD_TYPE = MethodType.methodType(void.class);
     private static final boolean NMS_REPACKAGED = optionalClass(NM_PACKAGE + ".network.protocol.Packet").isPresent();
 

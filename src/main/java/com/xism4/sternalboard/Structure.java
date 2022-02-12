@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class Structure extends SetupManager {
 
     private static Structure instance;
+
     public static Structure getInstance() {
         return instance;
     }
@@ -36,15 +37,15 @@ public class Structure extends SetupManager {
         return this.animationManager;
     }
 
-    public boolean isAnimationEnabled(){
+    public boolean isAnimationEnabled() {
         return this.animateScoreboard;
     }
 
-    public boolean isViaHookEnabled(){
+    public boolean isViaHookEnabled() {
         return this.viaHook;
     }
 
-    public YamlConfiguration getAnimConfig(){
+    public YamlConfiguration getAnimConfig() {
         return this.animConfig;
     }
 }

@@ -13,7 +13,7 @@ public class TitleUpdateTask extends BukkitRunnable {
     private final String[] lines;
     int index;
 
-    public TitleUpdateTask(List<String> lines){
+    public TitleUpdateTask(List<String> lines) {
         this.lines = lines.toArray(new String[0]);
         this.index = 0;
     }
@@ -24,17 +24,17 @@ public class TitleUpdateTask extends BukkitRunnable {
         animationManager.setTitle(lines[index]);
         index++;
 
-        if (index == lines.length){
+        if (index == lines.length) {
             index = 0;
         }
 
         updateLine(animationManager);
     }
 
-    public void updateLine(AnimationManager animationManager){
+    public void updateLine(AnimationManager animationManager) {
         ScoreboardManager scoreboardManager = Structure.getInstance().getScoreboardManager();
 
-        for (SternalBoard sb : scoreboardManager.getBoards().values()){
+        for (SternalBoard sb : scoreboardManager.getBoards().values()) {
             String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getTitle());
             sb.updateTitle(line);
         }

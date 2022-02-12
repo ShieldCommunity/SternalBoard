@@ -14,7 +14,7 @@ public class LineUpdateTask extends BukkitRunnable {
     int lineNumber;
     int index;
 
-    public LineUpdateTask(List<String> lines, int lineNumber){
+    public LineUpdateTask(List<String> lines, int lineNumber) {
         this.lines = lines.toArray(new String[0]);
         this.lineNumber = lineNumber;
         this.index = 0;
@@ -26,17 +26,17 @@ public class LineUpdateTask extends BukkitRunnable {
         animationManager.setLine(lineNumber, lines[index]);
         index++;
 
-        if (index == lines.length){
+        if (index == lines.length) {
             index = 0;
         }
 
         updateLine(animationManager);
     }
 
-    public void updateLine(AnimationManager animationManager){
+    public void updateLine(AnimationManager animationManager) {
         ScoreboardManager scoreboardManager = Structure.getInstance().getScoreboardManager();
 
-        for (SternalBoard sb : scoreboardManager.getBoards().values()){
+        for (SternalBoard sb : scoreboardManager.getBoards().values()) {
             String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getLine(lineNumber));
             sb.updateLine(lineNumber, line);
         }

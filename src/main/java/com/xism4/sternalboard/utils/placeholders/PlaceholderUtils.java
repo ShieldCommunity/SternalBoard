@@ -1,14 +1,13 @@
 package com.xism4.sternalboard.utils.placeholders;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import com.xism4.sternalboard.Structure;
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PlaceholderUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
@@ -34,7 +33,7 @@ public class PlaceholderUtils {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
-    public static String parsePAPI(Player player, String text){
+    public static String parsePAPI(Player player, String text) {
         if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return PlaceholderAPI.setPlaceholders(player, text);
         }

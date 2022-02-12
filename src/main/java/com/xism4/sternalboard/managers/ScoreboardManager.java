@@ -1,16 +1,15 @@
 package com.xism4.sternalboard.managers;
 
-import java.util.List;
-import java.util.UUID;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.api.scoreboard.SternalBoard;
 import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 
 public class ScoreboardManager {
@@ -23,7 +22,7 @@ public class ScoreboardManager {
         this.core = core;
     }
 
-    public ConcurrentMap<UUID, SternalBoard> getBoards(){
+    public ConcurrentMap<UUID, SternalBoard> getBoards() {
         return this.boards;
     }
 
@@ -34,7 +33,7 @@ public class ScoreboardManager {
             core.getConfig().set("settings.scoreboard.update", 20);
         }
 
-        if (!core.isAnimationEnabled()){
+        if (!core.isAnimationEnabled()) {
             taskIds[0] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
                 for (SternalBoard board : this.boards.values()) {
                     updateBoard(board);
@@ -67,14 +66,14 @@ public class ScoreboardManager {
         }
     }
 
-    public void reload(){
-        for (Integer taskId : taskIds){
-            if (taskId != null){
+    public void reload() {
+        for (Integer taskId : taskIds) {
+            if (taskId != null) {
                 Bukkit.getServer().getScheduler().cancelTask(taskId);
             }
         }
 
-        if (core.isAnimationEnabled() && taskIds[0] != null){
+        if (core.isAnimationEnabled() && taskIds[0] != null) {
             for (SternalBoard board : this.boards.values()) {
                 board.updateLines("");
             }
@@ -86,7 +85,7 @@ public class ScoreboardManager {
         SternalBoard oldBoard = getBoards().remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
-        }else{
+        } else {
             setScoreboard(player);
         }
     }

@@ -33,7 +33,7 @@ public class SternalCMD implements CommandExecutor {
             return true;
         }
 
-        switch(args[0].toLowerCase(Locale.ROOT)){
+        switch (args[0].toLowerCase(Locale.ROOT)) {
             case "toggle":
                 if (!player.hasPermission("sternalboard.toggle")) {
                     player.sendMessage("U don't have permissions to use this command");
@@ -60,7 +60,7 @@ public class SternalCMD implements CommandExecutor {
                         core.setAnimationManager(new AnimationManager());
                     }
 
-                }else {
+                } else {
                     if (core.getAnimationManager() != null) {
                         core.getAnimationManager().reload();
                     }

@@ -31,7 +31,7 @@ public class SetupManager extends JavaPlugin {
      * @throws IllegalStateException if already was enabled (Api)
      */
 
-    public void loadConfig(){
+    public void loadConfig() {
         saveDefaultConfig();
         this.saveConfig();
         setAnimateScoreboard(getConfig().getBoolean("settings.animated"));
@@ -46,14 +46,14 @@ public class SetupManager extends JavaPlugin {
      * @throws IllegalAccessError if already it's replaced.
      */
 
-    public void loadAnimConfig(){
+    public void loadAnimConfig() {
         File animFile = new File(this.getDataFolder(), "animated-board.yml");
 
-        if (!animFile.exists()){
+        if (!animFile.exists()) {
             saveResource("animated-board.yml", false);
         }
 
-        if (animateScoreboard){
+        if (animateScoreboard) {
             YamlConfiguration animConfig = YamlConfiguration.loadConfiguration(animFile);
             InputStream defConfigStream = this.getResource("animated-board.yml");
 
@@ -72,8 +72,8 @@ public class SetupManager extends JavaPlugin {
      * @return Null, if the scoreboard manager is not accessible.
      */
 
-    public void loadScoreboardMgr(Structure plugin){
-        if (animateScoreboard){
+    public void loadScoreboardMgr(Structure plugin) {
+        if (animateScoreboard) {
             setAnimationManager(new AnimationManager());
         }
 
@@ -85,13 +85,13 @@ public class SetupManager extends JavaPlugin {
         this.getCommand("sternalboard").setExecutor(new SternalCMD(plugin));
     }
 
-    public void loadTabCompletions(){
-        try{
+    public void loadTabCompletions() {
+        try {
             Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
             Class.forName("net.kyori.adventure.text.Component");
             getServer().getPluginManager().registerEvents(new PaperTabCompleter(), this);
-        } catch(ClassNotFoundException e){
-            if(e.getMessage().contains("Component")){
+        } catch (ClassNotFoundException e) {
+            if (e.getMessage().contains("Component")) {
                 getServer().getPluginManager().registerEvents(new OldPaperTabCompleter(), this);
             } else {
                 this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
@@ -99,21 +99,21 @@ public class SetupManager extends JavaPlugin {
         }
     }
 
-    public void eventHandler(Structure event){
+    public void eventHandler(Structure event) {
         getServer().getPluginManager().registerEvents(new AddBoardsListener(event), this);
         getServer().getPluginManager().registerEvents(new RemoveBoardsListener(event), this);
     }
 
-    public void setAnimateScoreboard(boolean animateScoreboard){
+    public void setAnimateScoreboard(boolean animateScoreboard) {
         this.animateScoreboard = animateScoreboard;
     }
 
-    public void setViaHook(boolean viaHook){
+    public void setViaHook(boolean viaHook) {
         this.viaHook = viaHook;
 
     }
 
-    public void setAnimationManager(AnimationManager animationManager){
+    public void setAnimationManager(AnimationManager animationManager) {
         this.animationManager = animationManager;
     }
 }

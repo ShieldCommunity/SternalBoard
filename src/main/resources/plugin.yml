@@ -3,10 +3,10 @@ main: com.xism4.sternalboard.Structure
 author: xIsm4
 version: 1.8v
 api-version: "1.13"
-softdepend: [PlaceholderAPI]
+softdepend: [ PlaceholderAPI ]
 
 commands:
-    sternalboard:
-      description: Main command for sternalboard plugin.
-      aliases: [sternalboard, sb]
+  sternalboard:
+    description: Main command for sternalboard plugin.
+    aliases: [ sternalboard, sb ]
 
