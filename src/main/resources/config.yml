@@ -1,0 +1,57 @@
+settings:
+  animated: false
+  hook: false
+  mode: DEFAULT
+  scoreboard-normal-update: 20
+  scoreboard-world-update: 20
+  scoreboard:
+    title: '&b&lSternal&f&lBoard'
+    lines:
+      - '&8&m+-------------------+'
+      - ''
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
+scoreboard-world:
+  '0':
+    world: "world"
+    title: '&b&lSternal&f&lBoard &d&lWORLD'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lWORLD'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
+  '1':
+    world: "example_world"
+    title: '&b&lSternal&f&lBoard &d&lEXAMPLE WORLD'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lEXAMPLE WORLD'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
