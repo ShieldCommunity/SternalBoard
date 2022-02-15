@@ -54,23 +54,26 @@ public class ScoreboardManager {
 
             if (updateTime > 0) {
                 taskIds[1] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-
-                    for (SternalBoard board : this.boards.values()) {
-                        if (core.getConfig().getString("settings.mode").equalsIgnoreCase("WORLD")) {
-                            if (core.getConfig().contains("scoreboard-world")) {
-                                for (String key : core.getConfig().getConfigurationSection("scoreboard-world").getKeys(false)) {
-                                    String nameWorld = core.getConfig().getString("scoreboard-world." + key + ".world");
-                                    if (nameWorld != null || !nameWorld.isEmpty()) {
-                                        if (board.getPlayer().getWorld().getName().equals(nameWorld)) {
-                                            board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("scoreboard-world." + key + ".title")));
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title")));
-                        }
+                    if (!core.getConfig().getString("settings.mode").equalsIgnoreCase("WORLD")) {
+                        board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title")));
+                        return;
                     }
+                    
+                    if (!core.getConfig().contains("scoreboard-world")) {
+                       board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title")));
+                       return;
+                    }
+                    
+                    for (SternalBoard board : this.boards.values()) {
+                       for (String key : core.getConfig().getConfigurationSection("scoreboard-world").getKeys(false)) {
+                           String nameWorld = core.getConfig().getString("scoreboard-world."+key+".world");
+                           if (nameWorld != null || !nameWorld.isEmpty()) {
+                               if (!board.getPlayer().getWorld().getName().equals(nameWorld))continue;
+                
+                               board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("scoreboard-world."+key+".title")));
+                           }
+                        }
+                     }
                 }, 0, updateTime)).getTaskId();
             }
         }
