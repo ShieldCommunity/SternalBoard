@@ -12,8 +12,9 @@ import java.util.List;
 public class SpigotTabCompleter implements TabCompleter {
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd,
-                                                @NotNull String label, @NotNull String[] args) {
+    public @Nullable
+    List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd,
+                               @NotNull String label, @NotNull String[] args) {
         final List<String> completions = new ArrayList<>();
         if (args.length > 1) return completions;
         if (sender.hasPermission("sternalboard.reload")) {

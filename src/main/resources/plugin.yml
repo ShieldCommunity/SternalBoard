@@ -1,6 +1,6 @@
 name: SternalBoard
 main: com.xism4.sternalboard.Structure
-authors: [xIsm4,bixgamer707]
+authors: [ xIsm4,bixgamer707 ]
 version: 1.9v
 api-version: "1.13"
 softdepend: [ PlaceholderAPI ]

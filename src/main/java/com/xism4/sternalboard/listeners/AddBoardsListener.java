@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class AddBoardsListener implements Listener {
     private final Structure core;
+
     public AddBoardsListener(Structure core) {
         this.core = core;
     }

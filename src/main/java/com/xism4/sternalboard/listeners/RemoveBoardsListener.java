@@ -7,6 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class RemoveBoardsListener implements Listener {
     private final Structure core;
+
     public RemoveBoardsListener(Structure core) {
         this.core = core;
     }
