@@ -23,12 +23,9 @@ public class SternalCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            LOGGER.warning("Only players can execute commands!");
-            return false;
-        }
 
         Player player = (Player) sender;
+        
         if (args.length <= 0) {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eUse sternalboard help &fto see more info about the plugin"));
             return true;
