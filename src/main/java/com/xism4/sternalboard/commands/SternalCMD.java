@@ -30,21 +30,21 @@ public class SternalCMD implements CommandExecutor {
 
         Player player = (Player) sender;
         if (args.length <= 0) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "§eUse sternalboard help §fto see more info about the plugin"));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eUse sternalboard help &fto see more info about the plugin"));
             return true;
         }
 
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "toggle":
                 if (!player.hasPermission("sternalboard.toggle")) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "U don't have permissions to use this command"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou cant use this command"));
                     return false;
                 }
                 core.getScoreboardManager().toggle(player);
                 break;
             case "reload":
                 if (!(player.hasPermission("sternalboard.reload"))) {
-                    LOGGER.info("§cU don't have permissions to use this command");
+                    LOGGER.info("ccYou cant use this command");
                     return true;
                 }
 
