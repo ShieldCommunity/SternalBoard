@@ -24,7 +24,7 @@ public class Structure extends SetupManager {
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling SternalBoard 1.9v");
+        getLogger().info("Disabling SternalBoard 2.2v");
         instance = null;
         scoreboardManager = null;
     }
