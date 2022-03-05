@@ -68,8 +68,12 @@ public class ScoreboardManager {
                        for (String key : core.getConfig().getConfigurationSection("scoreboard-world").getKeys(false)) {
                            String nameWorld = core.getConfig().getString("scoreboard-world."+key+".world");
                            if (nameWorld != null || !nameWorld.isEmpty()) {
-                               if (!board.getPlayer().getWorld().getName().equals(nameWorld))continue;
-                
+                               if (board.getPlayer().getWorld().getName().equals(nameWorld)){
+                                    board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("scoreboard-world."+key+".title")));
+                               }else{
+                                   board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("settings.scoreboard.title")));
+                               }    
+                           }else{
                                board.updateTitle(PlaceholderUtils.sanitizeString(board.getPlayer(), core.getConfig().getString("scoreboard-world."+key+".title")));
                            }
                         }
@@ -90,9 +94,12 @@ public class ScoreboardManager {
                         if (nameWorld != null || !nameWorld.isEmpty()) {
                             if (player.getWorld().getName().equals(nameWorld)) {
                                 board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("scoreboard-world." + key + ".title")));
+                            }else{
+                                board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
                             }
+                        }else{
+                            board.updateTitle(PlaceholderUtils.sanitizeString(player, core.getConfig().getString("settings.scoreboard.title")));
                         }
-
                     }
                 }
             } else {
@@ -151,7 +158,7 @@ public class ScoreboardManager {
         }
 
         if (lines.isEmpty() || lines == null) {
-            lines.add("No detect lines, notify staff!");
+            lines = core.getConfig().getStringList("settings.scoreboard.lines");
         }
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
         board.updateLines(lines);
