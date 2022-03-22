@@ -153,7 +153,7 @@ public class ScoreboardManager {
             lines = core.getConfig().getStringList("settings.scoreboard.lines");
         }
 
-        if (lines.isEmpty() || lines == null) {
+        if (lines.isEmpty()) {
             lines = core.getConfig().getStringList("settings.scoreboard.lines");
         }
         lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
