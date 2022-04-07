@@ -1,8 +1,7 @@
 package com.xism4.sternalboard.managers.animation.tasks;
 
 import com.xism4.sternalboard.Structure;
-import com.xism4.sternalboard.api.scoreboard.SternalBoard;
-import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.SternalBoard;import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -2,7 +2,7 @@ package com.xism4.sternalboard.managers.animation;
 
 import com.google.common.collect.Lists;
 import com.xism4.sternalboard.Structure;
-import com.xism4.sternalboard.api.scoreboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;

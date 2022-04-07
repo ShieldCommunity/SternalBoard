@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.api.scoreboard;
+package com.xism4.sternalboard;
 
 import org.bukkit.Bukkit;
 
@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public final class NMSFlections {
+public final class SternalReflection {
 
     public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
     public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(OBC_PACKAGE.length() + 1);
@@ -20,7 +20,7 @@ public final class NMSFlections {
 
     private static volatile Object theUnsafe;
 
-    private NMSFlections() {
+    private SternalReflection() {
         throw new UnsupportedOperationException();
     }
 
@@ -94,7 +94,7 @@ public final class NMSFlections {
         }
 
         if (theUnsafe == null) {
-            synchronized (NMSFlections.class) {
+            synchronized (SternalReflection.class) {
                 if (theUnsafe == null) {
                     Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
                     Field theUnsafeField = unsafeClass.getDeclaredField("theUnsafe");
