@@ -1,6 +1,5 @@
 settings:
   animated: false
-  hook: false
   mode: DEFAULT
   scoreboard-normal-update: 20
   scoreboard-world-update: 20
