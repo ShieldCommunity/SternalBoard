@@ -12,3 +12,15 @@ dependencies {
     compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
 }
+
+tasks {
+    shadowJar {
+        archiveBaseName.set("SternalBoard")
+        destinationDirectory.set(file("$rootDir/bin/"))
+        minimize()
+    }
+
+    clean {
+        delete("${rootDir}/bin/")
+    }
+}
