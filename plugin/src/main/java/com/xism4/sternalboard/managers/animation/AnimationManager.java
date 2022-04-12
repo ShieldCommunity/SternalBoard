@@ -6,7 +6,7 @@ import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
-import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
+import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

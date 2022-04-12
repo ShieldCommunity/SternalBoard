@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.utils.placeholders;
+package com.xism4.sternalboard.utils;
 
 import com.xism4.sternalboard.Structure;
 import me.clip.placeholderapi.PlaceholderAPI;

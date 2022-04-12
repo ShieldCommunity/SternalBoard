@@ -2,7 +2,7 @@ package com.xism4.sternalboard.commands;
 
 import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
+import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

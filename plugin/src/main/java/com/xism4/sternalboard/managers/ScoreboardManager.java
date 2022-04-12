@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.SternalBoard;
-import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
+import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
