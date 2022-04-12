@@ -86,9 +86,15 @@ public class ScoreboardManager {
     public void setScoreboard(Player player) {
         SternalBoard board = new SternalBoard(player);
         FileConfiguration config = core.getConfig();
+        getBoards().put(player.getUniqueId(), board);
 
         if (core.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0) {
             return;
+        }
+
+        if (config.getString("settings.mode") == null) {
+            config.set("settings.mode", "DEFAULT");
+            core.saveConfig();
         }
 
         if (!config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
@@ -108,7 +114,6 @@ public class ScoreboardManager {
         board.updateTitle(PlaceholderUtils.sanitizeString(
                 player, config.getString("scoreboard-world." + player.getWorld().getName() + ".title")
         ));
-        getBoards().put(player.getUniqueId(), board);
     }
 
     public void removeScoreboard(Player player) {
