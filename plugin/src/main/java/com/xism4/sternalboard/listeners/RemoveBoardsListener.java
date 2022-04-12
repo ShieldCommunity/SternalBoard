@@ -1,6 +1,6 @@
-package com.xism4.software.listeners;
+package com.xism4.sternalboard.listeners;
 
-import com.xism4.software.Structure;
+import com.xism4.sternalboard.Structure;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;

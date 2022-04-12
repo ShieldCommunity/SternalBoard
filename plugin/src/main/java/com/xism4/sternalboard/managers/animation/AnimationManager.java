@@ -1,12 +1,12 @@
-package com.xism4.software.managers.animation;
+package com.xism4.sternalboard.managers.animation;
 
 import com.google.common.collect.Lists;
-import com.xism4.software.Structure;
-import com.xism4.software.SternalBoard;
-import com.xism4.software.managers.ScoreboardManager;
-import com.xism4.software.managers.animation.tasks.LineUpdateTask;
-import com.xism4.software.managers.animation.tasks.TitleUpdateTask;
-import com.xism4.software.utils.placeholders.PlaceholderUtils;
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
+import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
+import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

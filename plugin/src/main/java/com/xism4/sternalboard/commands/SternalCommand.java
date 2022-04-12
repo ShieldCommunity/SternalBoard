@@ -1,8 +1,8 @@
-package com.xism4.software.commands;
+package com.xism4.sternalboard.commands;
 
-import com.xism4.software.Structure;
-import com.xism4.software.managers.animation.AnimationManager;
-import org.bukkit.ChatColor;
+import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
+import com.xism4.sternalboard.utils.placeholders.PlaceholderUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,34 +11,37 @@ import org.bukkit.entity.Player;
 import java.util.Locale;
 import java.util.logging.Logger;
 
-public class SternalCMD implements CommandExecutor {
+public class SternalCommand implements CommandExecutor {
 
     private final Logger LOGGER;
     private final Structure core;
 
-    public SternalCMD(Structure plugin) {
+    public SternalCommand(Structure plugin) {
         this.core = plugin;
         this.LOGGER = core.getLogger();
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args) {
-
         Player player = (Player) sender;
         
         if (args.length <= 0) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&eUse sternalboard help &fto see more info about the plugin"));
+            player.sendMessage(
+                    PlaceholderUtils.colorize("&eUse sternalboard help &fto see more info about the plugin")
+            );
             return true;
         }
 
         switch (args[0].toLowerCase(Locale.ROOT)) {
             case "toggle":
                 if (!player.hasPermission("sternalboard.toggle")) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cYou cant use this command"));
-                    return false;
+                    player.sendMessage(
+                            PlaceholderUtils.colorize("&cYou cant use this command")
+                    );
+                    return true;
                 }
                 core.getScoreboardManager().toggle(player);
-                break;
+                return true;
             case "reload":
                 if (!(player.hasPermission("sternalboard.reload"))) {
                     LOGGER.info("§cYou cant use this command");
@@ -55,18 +58,16 @@ public class SternalCMD implements CommandExecutor {
                     } else {
                         core.setAnimationManager(new AnimationManager());
                     }
-
                 } else {
                     if (core.getAnimationManager() != null) {
                         core.getAnimationManager().reload();
                     }
                 }
-
                 player.sendMessage("§aThe plugin has been reloaded successfully");
-                break;
+                return true;
             default:
                 player.sendMessage("§cCommand not recognised!");
+                return true;
         }
-        return true;
     }
 }

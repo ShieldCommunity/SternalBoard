@@ -1,4 +1,4 @@
-package com.xism4.software.tabcomplete;
+package com.xism4.sternalboard.tabcomplete;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion;

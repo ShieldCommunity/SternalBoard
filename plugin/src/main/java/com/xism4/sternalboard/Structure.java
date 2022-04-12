@@ -1,7 +1,7 @@
-package com.xism4.software;
+package com.xism4.sternalboard;
 
-import com.xism4.software.managers.ScoreboardManager;
-import com.xism4.software.managers.animation.AnimationManager;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Structure extends SetupManager {

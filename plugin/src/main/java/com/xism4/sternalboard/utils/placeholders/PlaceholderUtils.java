@@ -1,6 +1,6 @@
-package com.xism4.software.utils.placeholders;
+package com.xism4.sternalboard.utils.placeholders;
 
-import com.xism4.software.Structure;
+import com.xism4.sternalboard.Structure;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

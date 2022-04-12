@@ -1,14 +1,14 @@
-package com.xism4.software;
+package com.xism4.sternalboard;
 
 import com.google.common.base.Charsets;
-import com.xism4.software.commands.SternalCMD;
-import com.xism4.software.listeners.AddBoardsListener;
-import com.xism4.software.listeners.RemoveBoardsListener;
-import com.xism4.software.managers.ScoreboardManager;
-import com.xism4.software.managers.animation.AnimationManager;
-import com.xism4.software.tabcomplete.OldPaperTabCompleter;
-import com.xism4.software.tabcomplete.PaperTabCompleter;
-import com.xism4.software.tabcomplete.SpigotTabCompleter;
+import com.xism4.sternalboard.commands.SternalCommand;
+import com.xism4.sternalboard.listeners.AddBoardsListener;
+import com.xism4.sternalboard.listeners.RemoveBoardsListener;
+import com.xism4.sternalboard.managers.ScoreboardManager;
+import com.xism4.sternalboard.managers.animation.AnimationManager;
+import com.xism4.sternalboard.tabcomplete.OldPaperTabCompleter;
+import com.xism4.sternalboard.tabcomplete.PaperTabCompleter;
+import com.xism4.sternalboard.tabcomplete.SpigotTabCompleter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -80,7 +80,7 @@ public class SetupManager extends JavaPlugin {
     }
 
     public void commandHandler(Structure plugin) {
-        this.getCommand("sternalboard").setExecutor(new SternalCMD(plugin));
+        this.getCommand("sternalboard").setExecutor(new SternalCommand(plugin));
     }
 
     public void loadTabCompletions() {
