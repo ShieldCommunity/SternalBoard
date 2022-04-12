@@ -20,8 +20,7 @@ settings:
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
 scoreboard-world:
-  '0':
-    world: "world"
+  'world':
     title: '&b&lSternal&f&lBoard &d&lWORLD'
     lines:
       - '&8&m+-------------------+'
@@ -37,8 +36,7 @@ scoreboard-world:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
-  '1':
-    world: "example_world"
+  'example_world':
     title: '&b&lSternal&f&lBoard &d&lEXAMPLE WORLD'
     lines:
       - '&8&m+-------------------+'
