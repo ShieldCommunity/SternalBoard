@@ -32,20 +32,16 @@ public class ScoreboardManager {
     public void init() {
         taskIds = new Integer[2];
         FileConfiguration config = core.getConfig();
-
-
+        String mode = config.getString("settings.mode", "default").toLowerCase();
+        String path = "settings.scoreboard-" + mode + "-update";
         int updateTime;
-        if (config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
-            if (config.getInt("settings.scoreboard-world-update") <= 0) {
-                config.set("settings.scoreboard-world-update", 20);
-            }
-            updateTime = config.getInt("settings.scoreboard-world-update");
-        } else {
-            if (config.getInt("settings.scoreboard-normal-update") <= 0) {
-                config.set("settings.scoreboard-normal-update", 20);
-            }
-            updateTime = config.getInt("settings.scoreboard-normal-update");
+
+        if (config.getInt(boardPath) <= 0) {
+            config.set(boardPath, 20);
+            config.save();
         }
+
+        updateTime = config.getInt(boardPath);
 
         if (core.isAnimationEnabled()) {
             return;
