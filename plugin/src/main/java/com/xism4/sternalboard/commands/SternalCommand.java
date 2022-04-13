@@ -44,7 +44,7 @@ public class SternalCommand implements CommandExecutor {
                 return true;
             case "reload":
                 if (!(player.hasPermission("sternalboard.reload"))) {
-                    LOGGER.info("§cYou cant use this command");
+                    player.sendMessage(PlaceholderUtils.colorize("&cYou cant use this command"));
                     return true;
                 }
 
@@ -63,10 +63,10 @@ public class SternalCommand implements CommandExecutor {
                         core.getAnimationManager().reload();
                     }
                 }
-                player.sendMessage("§aThe plugin has been reloaded successfully");
+                player.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded successfully"));
                 return true;
             default:
-                player.sendMessage("§cCommand not recognised!");
+                player.sendMessage(PlaceholderUtils.colorize("&cCommand not recognised!"));
                 return true;
         }
     }
