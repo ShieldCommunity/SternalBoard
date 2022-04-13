@@ -32,13 +32,14 @@ public class ScoreboardManager {
     public void init() {
         taskIds = new Integer[2];
         FileConfiguration config = core.getConfig();
-        String mode = config.getString("settings.mode", "default").toLowerCase();
-        String path = "settings.scoreboard-" + mode + "-update";
+        String mode = config.getString("settings.mode", "normal").toLowerCase();
+        mode = mode.equals("normal") || mode.equals("world") ? mode : "normal";
+        String boardPath = "settings.scoreboard-" + mode + "-update";
         int updateTime;
 
         if (config.getInt(boardPath) <= 0) {
             config.set(boardPath, 20);
-            config.save();
+            core.saveConfig();
         }
 
         updateTime = config.getInt(boardPath);
