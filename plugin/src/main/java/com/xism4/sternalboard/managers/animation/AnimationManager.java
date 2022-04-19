@@ -35,7 +35,7 @@ public class AnimationManager {
             List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
             int updateRate = config.getInt("scoreboard-animated.title.update-rate");
 
-            titleLines.replaceAll(line -> PlaceholderUtils.colorize(line));
+            titleLines.replaceAll(PlaceholderUtils::colorize);
             this.title = titleLines.get(0);
 
             TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
@@ -50,7 +50,7 @@ public class AnimationManager {
                 updateRate = configSection.getInt(key + ".update-rate");
                 int lineNumber = Integer.parseInt(key);
 
-                list.replaceAll(line -> PlaceholderUtils.colorize(line));
+                list.replaceAll(PlaceholderUtils::colorize);
 
                 linesList.add(list.get(0));
 
