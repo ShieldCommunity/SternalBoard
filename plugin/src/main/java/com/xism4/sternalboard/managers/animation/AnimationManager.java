@@ -31,7 +31,6 @@ public class AnimationManager {
             FileConfiguration config = core.getAnimConfig();
             this.taskIds = new ArrayList<>();
 
-            //Initializing Title line update
             List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
             int updateRate = config.getInt("scoreboard-animated.title.update-rate");
 

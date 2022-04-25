@@ -9,16 +9,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 
 public class SternalCommand implements CommandExecutor {
 
-    private final Logger LOGGER;
     private final Structure core;
 
     public SternalCommand(Structure plugin) {
         this.core = plugin;
-        this.LOGGER = core.getLogger();
     }
 
     @Override
