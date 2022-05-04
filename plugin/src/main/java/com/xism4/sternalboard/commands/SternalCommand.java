@@ -25,7 +25,7 @@ public class SternalCommand implements CommandExecutor {
         if (!(sender instanceof Player)) {
             if (args.length <= 0) {
                 sender.sendMessage(
-                        PlaceholderUtils.colorize("&eUse sternalboard help &fto see more info about the plugin")
+                        PlaceholderUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin")
                 );
                 return true;
             }
