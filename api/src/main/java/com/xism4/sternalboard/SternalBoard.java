@@ -76,6 +76,7 @@ public class SternalBoard {
     private static final Object ENUM_SB_HEALTH_DISPLAY_INTEGER;
     private static final Object ENUM_SB_ACTION_CHANGE;
     private static final Object ENUM_SB_ACTION_REMOVE;
+    private static final SternalReflection.PacketConstructor PACKET_SB_TABLIST;
 
     static {
         try {
@@ -123,6 +124,7 @@ public class SternalBoard {
             PACKET_SB_SCORE = SternalReflection.findPacketConstructor(packetSbScoreClass, lookup);
             PACKET_SB_TEAM = SternalReflection.findPacketConstructor(packetSbTeamClass, lookup);
             PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : SternalReflection.findPacketConstructor(sbTeamClass, lookup);
+            PACKET_SB_TABLIST = SternalReflection.findPacketConstructor(SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardDisplay"), lookup);
 
             for (Class<?> clazz : Arrays.asList(packetSbObjClass, packetSbDisplayObjClass, packetSbScoreClass, packetSbTeamClass, sbTeamClass)) {
                 if (clazz == null) {
@@ -491,6 +493,10 @@ public class SternalBoard {
         }
 
         sendPacket(packet);
+    }
+    
+    private void sendTablistPacket(int score, ScoreboardAction action) throws Throwable {
+        Object packet = PACKET_SB_TABLIST.invoke();
     }
 
     private void sendTeamPacket(int score, TeamMode mode) throws Throwable {
