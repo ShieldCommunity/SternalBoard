@@ -30,7 +30,11 @@ public class SternalCommand implements CommandExecutor {
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("reload")) {
+            if (args[0].equalsIgnoreCase("help")) {
+                helpCommand(sender);
+                return true;
+            }
+            else if (args[0].equalsIgnoreCase("reload")) {
                 core.reloadConfig();
                 core.setAnimateScoreboard(config.getBoolean("settings.animated"));
                 core.getScoreboardManager().reload();
@@ -49,6 +53,11 @@ public class SternalCommand implements CommandExecutor {
                 sender.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded successfully"));
                 return true;
             }
+            else if (args[0].equalsIgnoreCase("toggle")) {
+                sender.sendMessage(
+                        PlaceholderUtils.colorize("&cYou cant use this command")
+                );
+            }
 
             sender.sendMessage(PlaceholderUtils.colorize("&cCommand not recognised!"));
             return true;
@@ -64,6 +73,9 @@ public class SternalCommand implements CommandExecutor {
         }
 
         switch (args[0].toLowerCase()) {
+            case "help":
+                helpCommand(sender);
+                return true;
             case "toggle":
                 if (!player.hasPermission("sternalboard.toggle")) {
                     player.sendMessage(
@@ -99,6 +111,25 @@ public class SternalCommand implements CommandExecutor {
             default:
                 player.sendMessage(PlaceholderUtils.colorize("&cCommand not recognised!"));
                 return true;
+        }
+    }
+
+    private void helpCommand(CommandSender sender){
+        sender.sendMessage(
+                PlaceholderUtils.colorize("&eSternalBoard &fcommands")
+        );
+        sender.sendMessage(
+                PlaceholderUtils.colorize("- &e/sb help&f: Shows all the commands available for you")
+        );
+        if (sender.hasPermission("sternalboard.toggle")) {
+            sender.sendMessage(
+                    PlaceholderUtils.colorize("- &e/sb toggle&f: Toggles the scoreboard on or off")
+            );
+        }
+        if (sender.hasPermission("sternalboard.reload")){
+            sender.sendMessage(
+                    PlaceholderUtils.colorize("- &e/sb reload&f: Reloads the config")
+            );
         }
     }
 }
