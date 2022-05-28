@@ -47,7 +47,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @version 1.5
  */
 
-public class SternalBoard {
+public class SternalBoardHandler {
 
     private static final Map<Class<?>, Field[]> PACKETS = new HashMap<>(8);
     private static final String[] COLOR_CODES = Arrays.stream(ChatColor.values())
@@ -171,7 +171,7 @@ public class SternalBoard {
      *
      * @param player the owner of the scoreboard
      */
-    public SternalBoard(Player player) {
+    public SternalBoardHandler(Player player) {
         this.player = Objects.requireNonNull(player, "player");
         this.id = "sb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
 

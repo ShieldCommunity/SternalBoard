@@ -1,6 +1,6 @@
 package com.xism4.sternalboard.commands;
 
-import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.command.Command;
@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 
 public class SternalCommand implements CommandExecutor {
 
-    private final Structure core;
+    private final SternalBoard core;
     private final FileConfiguration config;
 
-    public SternalCommand(Structure plugin) {
+    public SternalCommand(SternalBoard plugin) {
         this.core = plugin;
         this.config = plugin.getConfig();
     }

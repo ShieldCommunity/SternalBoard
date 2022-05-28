@@ -1,14 +1,14 @@
 package com.xism4.sternalboard.listeners;
 
-import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.SternalBoard;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class AddBoardsListener implements Listener {
-    private final Structure core;
+    private final SternalBoard core;
 
-    public AddBoardsListener(Structure core) {
+    public AddBoardsListener(SternalBoard core) {
         this.core = core;
     }
 

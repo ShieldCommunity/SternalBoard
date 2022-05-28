@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class SetupManager extends JavaPlugin {
+public class SternalBoardManager extends JavaPlugin {
 
     public ScoreboardManager scoreboardManager;
     public AnimationManager animationManager;
@@ -70,7 +70,7 @@ public class SetupManager extends JavaPlugin {
      * @return Null, if the scoreboard manager is not accessible.
      */
 
-    public void loadScoreboardMgr(Structure plugin) {
+    public void loadScoreboardMgr(SternalBoard plugin) {
         if (animateScoreboard) {
             setAnimationManager(new AnimationManager());
         }
@@ -79,7 +79,7 @@ public class SetupManager extends JavaPlugin {
         scoreboardManager.init();
     }
 
-    public void commandHandler(Structure plugin) {
+    public void commandHandler(SternalBoard plugin) {
         this.getCommand("sternalboard").setExecutor(new SternalCommand(plugin));
     }
 
@@ -97,7 +97,7 @@ public class SetupManager extends JavaPlugin {
         }
     }
 
-    public void eventHandler(Structure event) {
+    public void eventHandler(SternalBoard event) {
         getServer().getPluginManager().registerEvents(new AddBoardsListener(event), this);
         getServer().getPluginManager().registerEvents(new RemoveBoardsListener(event), this);
     }

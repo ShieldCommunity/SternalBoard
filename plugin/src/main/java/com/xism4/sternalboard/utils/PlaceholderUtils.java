@@ -1,6 +1,6 @@
 package com.xism4.sternalboard.utils;
 
-import com.xism4.sternalboard.Structure;
+import com.xism4.sternalboard.SternalBoard;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -13,7 +13,7 @@ public class PlaceholderUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
 
     public static String sanitizeString(Player player, String text) {
-        if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return colorize(PlaceholderAPI.setPlaceholders(player, text));
 
         } else {
@@ -34,7 +34,7 @@ public class PlaceholderUtils {
     }
 
     public static String parsePAPI(Player player, String text) {
-        if (Structure.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             return PlaceholderAPI.setPlaceholders(player, text);
         }
         return (colorize(text));

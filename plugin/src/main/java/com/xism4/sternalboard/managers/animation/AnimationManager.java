@@ -1,8 +1,8 @@
 package com.xism4.sternalboard.managers.animation;
 
 import com.google.common.collect.Lists;
-import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimationManager {
-    private final Structure core = Structure.getInstance();
+    private final SternalBoard core = SternalBoard.getInstance();
     private String title;
     private String[] lines;
     private List<Integer> taskIds;
@@ -56,7 +56,7 @@ public class AnimationManager {
     }
 
     public void reload() {
-        Structure core = Structure.getInstance();
+        SternalBoard core = SternalBoard.getInstance();
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         FileConfiguration config = core.getAnimConfig();
 
@@ -96,7 +96,7 @@ public class AnimationManager {
             for (int i = 1; i <= linesToDelete; i++) {
                 int lineToDelete = lines.length - i;
 
-                for (SternalBoard sb : scoreboardManager.getBoards().values()) {
+                for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
                     sb.removeLine(lineToDelete);
                 }
             }

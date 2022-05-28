@@ -2,13 +2,14 @@ package com.xism4.sternalboard;
 
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class Structure extends SetupManager {
+public class SternalBoard extends SternalBoardManager {
 
-    private static Structure instance;
+    private static SternalBoard instance;
 
-    public static Structure getInstance() {
+    public static SternalBoard getInstance() {
         return instance;
     }
 
@@ -24,7 +25,7 @@ public class Structure extends SetupManager {
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling SternalBoard");
+        getLogger().info("Disabling SternalBoard "+Bukkit.getVersion());
         instance = null;
         scoreboardManager = null;
     }

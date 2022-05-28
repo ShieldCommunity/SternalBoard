@@ -7,8 +7,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -17,15 +17,15 @@ import org.bukkit.entity.Player;
 
 public class ScoreboardManager {
 
-    private final Structure core;
-    private final ConcurrentMap<UUID, SternalBoard> boards = new ConcurrentHashMap<>();
+    private final SternalBoard core;
+    private final ConcurrentMap<UUID, SternalBoardHandler> boards = new ConcurrentHashMap<>();
     private Integer[] taskIds;
 
-    public ScoreboardManager(Structure core) {
+    public ScoreboardManager(SternalBoard core) {
         this.core = core;
     }
 
-    public ConcurrentMap<UUID, SternalBoard> getBoards() {
+    public ConcurrentMap<UUID, SternalBoardHandler> getBoards() {
         return this.boards;
     }
 
@@ -49,13 +49,13 @@ public class ScoreboardManager {
         }
 
         taskIds[0] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            for (SternalBoard board : this.boards.values()) {
+            for (SternalBoardHandler board : this.boards.values()) {
                 updateBoard(board);
             }
         }, 0, updateTime)).getTaskId();
 
         taskIds[1] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            for (SternalBoard board : this.boards.values()) {
+            for (SternalBoardHandler board : this.boards.values()) {
                 if (!config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
                     board.updateTitle(PlaceholderUtils.sanitizeString(
                             board.getPlayer(), config.getString("settings.scoreboard.title")
@@ -79,7 +79,7 @@ public class ScoreboardManager {
     }
 
     public void setScoreboard(Player player) {
-        SternalBoard board = new SternalBoard(player);
+        SternalBoardHandler board = new SternalBoardHandler(player);
         FileConfiguration config = core.getConfig();
         getBoards().put(player.getUniqueId(), board);
 
@@ -112,7 +112,7 @@ public class ScoreboardManager {
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoard board = getBoards().remove(player.getUniqueId());
+        SternalBoardHandler board = getBoards().remove(player.getUniqueId());
         if (board != null) {
             board.delete();
         }
@@ -126,7 +126,7 @@ public class ScoreboardManager {
         }
 
         if (core.isAnimationEnabled() && taskIds[0] != null) {
-            for (SternalBoard board : this.boards.values()) {
+            for (SternalBoardHandler board : this.boards.values()) {
                 board.updateLines("");
             }
         }
@@ -134,7 +134,7 @@ public class ScoreboardManager {
     }
 
     public void toggle(Player player) {
-        SternalBoard oldBoard = getBoards().remove(player.getUniqueId());
+        SternalBoardHandler oldBoard = getBoards().remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
         } else {
@@ -142,7 +142,7 @@ public class ScoreboardManager {
         }
     }
 
-    private void updateBoard(SternalBoard board) {
+    private void updateBoard(SternalBoardHandler board) {
         List<String> lines = new ArrayList<>();
         if (!core.getConfig().getString("settings.mode").equalsIgnoreCase("WORLD")) {
             lines = core.getConfig().getStringList("settings.scoreboard.lines");

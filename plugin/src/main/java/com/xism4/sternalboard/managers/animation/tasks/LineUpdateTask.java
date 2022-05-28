@@ -1,7 +1,7 @@
 package com.xism4.sternalboard.managers.animation.tasks;
 
-import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.PlaceholderUtils;
@@ -17,8 +17,8 @@ public class LineUpdateTask extends BukkitRunnable {
     int index;
 
     public LineUpdateTask(List<String> lines, int lineNumber) {
-        this.animationManager = Structure.getInstance().getAnimationManager();
-        this.scoreboardManager = Structure.getInstance().getScoreboardManager();
+        this.animationManager = SternalBoard.getInstance().getAnimationManager();
+        this.scoreboardManager = SternalBoard.getInstance().getScoreboardManager();
         this.lines = lines.toArray(new String[0]);
         this.lineNumber = lineNumber;
         this.index = 0;
@@ -33,7 +33,7 @@ public class LineUpdateTask extends BukkitRunnable {
             index = 0;
         }
 
-        for (SternalBoard sb : scoreboardManager.getBoards().values()) {
+        for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
             String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getLine(lineNumber));
             sb.updateLine(lineNumber, line);
         }

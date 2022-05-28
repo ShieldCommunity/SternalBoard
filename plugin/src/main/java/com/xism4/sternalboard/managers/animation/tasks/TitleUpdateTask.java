@@ -1,7 +1,7 @@
 package com.xism4.sternalboard.managers.animation.tasks;
 
-import com.xism4.sternalboard.Structure;
 import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.PlaceholderUtils;
@@ -11,8 +11,8 @@ import java.util.List;
 
 public class TitleUpdateTask extends BukkitRunnable {
     private final String[] lines;
-    private final AnimationManager animationManager = Structure.getInstance().getAnimationManager();
-    private final ScoreboardManager scoreboardManager = Structure.getInstance().getScoreboardManager();
+    private final AnimationManager animationManager = SternalBoard.getInstance().getAnimationManager();
+    private final ScoreboardManager scoreboardManager = SternalBoard.getInstance().getScoreboardManager();
     int index;
 
     public TitleUpdateTask(List<String> lines) {
@@ -29,7 +29,7 @@ public class TitleUpdateTask extends BukkitRunnable {
             index = 0;
         }
 
-        for (SternalBoard sb : scoreboardManager.getBoards().values()) {
+        for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
             String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getTitle());
             sb.updateTitle(line);
         }
