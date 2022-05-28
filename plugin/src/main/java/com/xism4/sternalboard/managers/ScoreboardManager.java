@@ -111,6 +111,11 @@ public class ScoreboardManager {
         ));
     }
 
+    public void setPlayerList(Player player) {
+        FileConfiguration config = core.getConfig();
+        player.setPlayerListName(PlaceholderUtils.sanitizeString(player, config.getString("settings.playerlist-title")));
+    }
+
     public void removeScoreboard(Player player) {
         SternalBoardHandler board = getBoards().remove(player.getUniqueId());
         if (board != null) {
@@ -124,7 +129,7 @@ public class ScoreboardManager {
                 Bukkit.getServer().getScheduler().cancelTask(taskId);
             }
         }
-
+        
         if (core.isAnimationEnabled() && taskIds[0] != null) {
             for (SternalBoardHandler board : this.boards.values()) {
                 board.updateLines("");

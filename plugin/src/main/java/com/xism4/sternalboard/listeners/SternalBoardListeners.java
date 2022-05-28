@@ -17,6 +17,7 @@ public class SternalBoardListeners implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         core.getScoreboardManager().setScoreboard(e.getPlayer());
+        core.getScoreboardManager().setPlayerList(e.getPlayer());
     }
 
     @EventHandler
