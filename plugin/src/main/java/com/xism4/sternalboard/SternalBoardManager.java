@@ -2,8 +2,7 @@ package com.xism4.sternalboard;
 
 import com.google.common.base.Charsets;
 import com.xism4.sternalboard.commands.SternalCommand;
-import com.xism4.sternalboard.listeners.AddBoardsListener;
-import com.xism4.sternalboard.listeners.RemoveBoardsListener;
+import com.xism4.sternalboard.listeners.SternalBoardListeners;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.tabcomplete.OldPaperTabCompleter;
@@ -98,8 +97,7 @@ public class SternalBoardManager extends JavaPlugin {
     }
 
     public void eventHandler(SternalBoard event) {
-        getServer().getPluginManager().registerEvents(new AddBoardsListener(event), this);
-        getServer().getPluginManager().registerEvents(new RemoveBoardsListener(event), this);
+        getServer().getPluginManager().registerEvents(new SternalBoardListeners(event), this);
     }
 
     public void setAnimateScoreboard(boolean animateScoreboard) {
