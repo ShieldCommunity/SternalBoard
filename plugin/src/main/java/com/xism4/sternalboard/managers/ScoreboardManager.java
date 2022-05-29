@@ -1,18 +1,17 @@
 package com.xism4.sternalboard.managers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-
 import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 
 public class ScoreboardManager {
@@ -111,11 +110,6 @@ public class ScoreboardManager {
         ));
     }
 
-    public void setPlayerList(Player player) {
-        FileConfiguration config = core.getConfig();
-        player.setPlayerListName(PlaceholderUtils.sanitizeString(player, config.getString("settings.playerlist-title")));
-    }
-
     public void removeScoreboard(Player player) {
         SternalBoardHandler board = getBoards().remove(player.getUniqueId());
         if (board != null) {
@@ -129,7 +123,7 @@ public class ScoreboardManager {
                 Bukkit.getServer().getScheduler().cancelTask(taskId);
             }
         }
-        
+
         if (core.isAnimationEnabled() && taskIds[0] != null) {
             for (SternalBoardHandler board : this.boards.values()) {
                 board.updateLines("");

@@ -1,7 +1,6 @@
 settings:
   animated: false
   mode: NORMAL
-  playerlist-title: '&eHello &a%player_name% '
   scoreboard-normal-update: 20
   scoreboard-world-update: 20
   scoreboard:
