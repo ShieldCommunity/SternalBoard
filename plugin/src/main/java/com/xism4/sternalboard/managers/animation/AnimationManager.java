@@ -66,7 +66,7 @@ public class AnimationManager {
 
         this.taskIds = new ArrayList<>();
 
-        if (core.isAnimationEnabled()) {
+        if (!core.isAnimationEnabled()) {
             return;
         }
 
