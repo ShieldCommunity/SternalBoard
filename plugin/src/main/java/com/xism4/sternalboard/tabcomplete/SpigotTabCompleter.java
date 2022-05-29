@@ -15,8 +15,8 @@ public class SpigotTabCompleter implements TabCompleter {
     public @Nullable
     List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd,
                                @NotNull String label, @NotNull String[] args) {
-        final List<String> completions = new ArrayList<>();
-        if (args.length > 1) return completions;
+        if (args.length > 1) return null;
+        final List<String> completions = new ArrayList<>(2);
         if (sender.hasPermission("sternalboard.reload")) {
             completions.add("reload");
         }
