@@ -11,11 +11,12 @@ import java.util.List;
 
 public class TitleUpdateTask extends BukkitRunnable {
     private final String[] lines;
-    private final AnimationManager animationManager = SternalBoard.getInstance().getAnimationManager();
+    private final AnimationManager animationManager;
     private final ScoreboardManager scoreboardManager = SternalBoard.getInstance().getScoreboardManager();
     int index;
 
-    public TitleUpdateTask(List<String> lines) {
+    public TitleUpdateTask(AnimationManager animationManager, List<String> lines) {
+        this.animationManager = animationManager;
         this.lines = lines.toArray(new String[0]);
         this.index = 0;
     }
