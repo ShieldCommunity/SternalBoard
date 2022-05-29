@@ -30,8 +30,9 @@ public class SternalBoardManager extends JavaPlugin {
      */
 
     public void loadConfig() {
+        getConfig().options().copyDefaults();
         saveDefaultConfig();
-        this.saveConfig();
+        //this.saveConfig();
         setAnimateScoreboard(getConfig().getBoolean("settings.animated"));
         loadAnimConfig();
     }
@@ -57,7 +58,6 @@ public class SternalBoardManager extends JavaPlugin {
             if (defConfigStream != null) {
                 animConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
-
             this.animConfig = animConfig;
         }
     }
