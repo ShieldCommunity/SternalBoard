@@ -39,7 +39,7 @@ public class AnimationManager {
         titleLines.replaceAll(PlaceholderUtils::colorize);
         this.title = titleLines.get(0);
 
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
+        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
                 core,
                 config.getInt("scoreboard-animated.title.update-rate"),
@@ -66,7 +66,7 @@ public class AnimationManager {
 
         this.taskIds = new ArrayList<>();
 
-        if (core.isAnimationEnabled()) {
+        if (!core.isAnimationEnabled()) {
             return;
         }
 
@@ -76,7 +76,7 @@ public class AnimationManager {
 
         this.title = titleLines.get(0);
 
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(titleLines);
+        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
                 core,
                 config.getInt("scoreboard-animated.title.update-rate"),
@@ -116,7 +116,7 @@ public class AnimationManager {
 
             linesList.add(list.get(0));
 
-            LineUpdateTask lineUpdateTask = new LineUpdateTask(list, lineNumber);
+            LineUpdateTask lineUpdateTask = new LineUpdateTask(this, list, lineNumber);
             lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
             taskIds.add(lineUpdateTask.getTaskId());
         }

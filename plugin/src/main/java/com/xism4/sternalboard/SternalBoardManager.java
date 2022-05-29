@@ -70,11 +70,12 @@ public class SternalBoardManager extends JavaPlugin {
      */
 
     public void loadScoreboardMgr(SternalBoard plugin) {
+        scoreboardManager = new ScoreboardManager(plugin);
+
         if (animateScoreboard) {
             setAnimationManager(new AnimationManager());
         }
 
-        scoreboardManager = new ScoreboardManager(plugin);
         scoreboardManager.init();
     }
 

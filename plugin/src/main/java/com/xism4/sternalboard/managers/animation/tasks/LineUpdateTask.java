@@ -16,8 +16,8 @@ public class LineUpdateTask extends BukkitRunnable {
     int lineNumber;
     int index;
 
-    public LineUpdateTask(List<String> lines, int lineNumber) {
-        this.animationManager = SternalBoard.getInstance().getAnimationManager();
+    public LineUpdateTask(AnimationManager animationManager, List<String> lines, int lineNumber) {
+        this.animationManager = animationManager;
         this.scoreboardManager = SternalBoard.getInstance().getScoreboardManager();
         this.lines = lines.toArray(new String[0]);
         this.lineNumber = lineNumber;
