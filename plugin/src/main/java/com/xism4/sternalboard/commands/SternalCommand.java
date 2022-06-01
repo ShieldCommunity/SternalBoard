@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class SternalCommand implements CommandExecutor {
 
     private final SternalBoard core;
-    private final FileConfiguration config;
+    private FileConfiguration config;
 
     public SternalCommand(SternalBoard plugin) {
         this.core = plugin;
@@ -79,6 +79,7 @@ public class SternalCommand implements CommandExecutor {
     private void reloadSubcommand(CommandSender sender) {
         if (sender.hasPermission("sternalboard.reload")){
             core.reloadConfig();
+            this.config = core.getConfig();
             core.setAnimateScoreboard(config.getBoolean("settings.animated"));
             core.getScoreboardManager().reload();
             if (core.isAnimationEnabled()) {
