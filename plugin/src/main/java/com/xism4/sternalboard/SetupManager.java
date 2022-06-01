@@ -15,6 +15,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class SetupManager extends JavaPlugin {
 
@@ -31,6 +32,7 @@ public class SetupManager extends JavaPlugin {
      */
 
     public void loadConfig() {
+        getConfig().options().copyDefaults();
         saveDefaultConfig();
         this.saveConfig();
         setAnimateScoreboard(getConfig().getBoolean("settings.animated"));
@@ -80,7 +82,7 @@ public class SetupManager extends JavaPlugin {
     }
 
     public void commandHandler(Structure plugin) {
-        this.getCommand("sternalboard").setExecutor(new SternalCommand(plugin));
+        Objects.requireNonNull(this.getCommand("sternalboard")).setExecutor(new SternalCommand(plugin));
     }
 
     public void loadTabCompletions() {
@@ -92,7 +94,7 @@ public class SetupManager extends JavaPlugin {
             if (e.getMessage().contains("Component")) {
                 getServer().getPluginManager().registerEvents(new OldPaperTabCompleter(), this);
             } else {
-                this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
+                Objects.requireNonNull(this.getCommand("sternalboard")).setTabCompleter(new SpigotTabCompleter());
             }
         }
     }

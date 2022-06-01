@@ -13,7 +13,7 @@ public class AddBoardsListener implements Listener {
     }
 
     @EventHandler
-    private void onJoin(PlayerJoinEvent e) {
-        core.getScoreboardManager().setScoreboard(e.getPlayer());
+    private void onJoin(PlayerJoinEvent event) {
+        core.getScoreboardManager().setScoreboard(event.getPlayer());
     }
 }
