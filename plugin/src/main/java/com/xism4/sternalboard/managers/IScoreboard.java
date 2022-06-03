@@ -11,5 +11,9 @@ public interface IScoreboard {
     void reloadScoreboard();
     void updateScoreboard(SternalBoard board);
     void toggleScoreboard(Player player);
+    void setTabList(Player player);
+    void removeTabList(Player player);
+    void updateTabList(SternalBoard board); //We set it with the same, because the api will be built-in
+    void toggleTabList(Player player);
 
 }
