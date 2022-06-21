@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaperTabCompleter implements Listener {
+public final class PaperTabCompleter implements Listener {
     private final Completion reloadcompletion;
     private final Completion togglecompletion;
 
@@ -22,12 +22,14 @@ public class PaperTabCompleter implements Listener {
 
     @EventHandler
     public void onTabComplete(AsyncTabCompleteEvent event) {
-        String buffer = event.getBuffer();
-        String input = buffer.charAt(0) == '/' ? buffer.substring(1) : buffer;
-        String[] tokens = input.split(" ");
+        final String buffer = event.getBuffer();
+        final String input = buffer.charAt(0) == '/' ? buffer.substring(1) : buffer;
+        final String[] tokens = input.split(" ");
 
-        if (tokens.length <= 1 && (tokens[0].equalsIgnoreCase("sternalboard") || tokens[0].equalsIgnoreCase("sb"))) {
-            final List<Completion> completions = new ArrayList<>();
+        if(tokens.length == 0) return;
+
+        if (tokens.length == 1 && ("sternalboard".equalsIgnoreCase(tokens[0]) || "sb".equalsIgnoreCase(tokens[0]))) {
+            final List<Completion> completions = new ArrayList<>(2);
             if (event.getSender().hasPermission("sternalboard.reload")) {
                 completions.add(reloadcompletion);
             }
