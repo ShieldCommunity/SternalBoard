@@ -2,7 +2,10 @@ package com.xism4.sternalboard.commands.completer;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent.Completion;
+
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -15,9 +18,9 @@ public final class PaperTabCompleter implements Listener {
 
     public PaperTabCompleter() {
         reloadcompletion = Completion.completion(
-                "reload", Component.text("Reload the plugin"));
+                "reload", Component.text("Reload the plugin", NamedTextColor.GREEN));
         togglecompletion = Completion.completion(
-                "toggle", Component.text("Toggle your actual scoreboard"));
+                "toggle", Component.text("Toggle your actual scoreboard", NamedTextColor.GREEN));
     }
 
     @EventHandler
