@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.tabcomplete;
+package com.xism4.sternalboard.commands.completer;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

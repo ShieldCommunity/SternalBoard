@@ -5,9 +5,9 @@ import com.xism4.sternalboard.commands.SternalCommand;
 import com.xism4.sternalboard.listeners.SternalBoardListeners;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.tabcomplete.OldPaperTabCompleter;
-import com.xism4.sternalboard.tabcomplete.PaperTabCompleter;
-import com.xism4.sternalboard.tabcomplete.SpigotTabCompleter;
+import com.xism4.sternalboard.commands.completer.OldPaperTabCompleter;
+import com.xism4.sternalboard.commands.completer.PaperTabCompleter;
+import com.xism4.sternalboard.commands.completer.SpigotTabCompleter;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
