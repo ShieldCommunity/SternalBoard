@@ -86,14 +86,23 @@ public class SternalBoardManager extends JavaPlugin {
     public void loadTabCompletions() {
         try {
             Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
-            Class.forName("net.kyori.adventure.text.Component");
-            getServer().getPluginManager().registerEvents(new PaperTabCompleter(), this);
+            getServer().getPluginManager().registerEvents(
+                hasAdventure()
+                    ? new PaperTabCompleter()
+                    : new OldPaperTabCompleter(),
+                this);
         } catch (ClassNotFoundException e) {
-            if (e.getMessage().contains("Component")) {
-                getServer().getPluginManager().registerEvents(new OldPaperTabCompleter(), this);
-            } else {
-                this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
-            }
+            this.getCommand("sternalboard").setTabCompleter(new SpigotTabCompleter());
+        }
+    }
+
+    public boolean hasAdventure() {
+        try {
+            Class<?> clazz = Class.forName("net.kyori.adventure.text.Component");
+            clazz.getMethod("text", String.class);
+            return true;  
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
+            return false;
         }
     }
 
