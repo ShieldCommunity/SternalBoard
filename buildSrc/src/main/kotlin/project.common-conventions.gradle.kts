@@ -7,6 +7,7 @@ plugins {
 repositories {
     mavenLocal()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.nickuc.com/maven-releases/")
     mavenCentral()
 }
 

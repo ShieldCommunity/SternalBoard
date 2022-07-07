@@ -3,6 +3,7 @@ package com.xism4.sternalboard;
 import com.google.common.base.Charsets;
 import com.xism4.sternalboard.commands.SternalCommand;
 import com.xism4.sternalboard.listeners.SternalBoardListeners;
+import com.xism4.sternalboard.listeners.nLoginHook;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.commands.completer.OldPaperTabCompleter;
@@ -59,6 +60,23 @@ public class SternalBoardManager extends JavaPlugin {
                 animConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defConfigStream, Charsets.UTF_8)));
             }
             this.animConfig = animConfig;
+        }
+    }
+
+    /**
+     * Tries to hook into nLogin auth system for scoreboard
+     * @throws ClassNotFoundException if class is not recognised
+     */
+
+    public void nLoginHook() {
+        if (getServer().getPluginManager().getPlugin("nLogin") != null) {
+            try {
+                Class.forName("com.nickuc.login.api.nLoginAPIHolder");
+                getServer().getPluginManager().registerEvents(new nLoginHook(), this);
+            } catch (ClassNotFoundException e) {
+                getLogger().severe("You are using the old version of nLogin.");
+                getLogger().severe("Please upgrade to version 10.");
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package com.xism4.sternalboard;
 
+import com.xism4.sternalboard.listeners.nLoginHook;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public class SternalBoard extends SternalBoardManager {
         loadConfig();
         loadScoreboardMgr(this);
         eventHandler(this);
+        nLoginHook();
     }
 
     @Override
