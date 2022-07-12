@@ -36,4 +36,21 @@ scoreboard-world:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
+scoreboard-permission:
+  'sternalboard.board.default':
+    title: '&b&lSternal&f&lBoard &d&lDEFAULT &8(&9PERMS&8)'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lDEFAULT'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
 

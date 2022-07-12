@@ -6,12 +6,11 @@ import com.xism4.sternalboard.utils.PlaceholderUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ScoreboardManager {
@@ -32,7 +31,7 @@ public class ScoreboardManager {
         taskIds = new Integer[2];
         FileConfiguration config = core.getConfig();
         String mode = config.getString("settings.mode", "normal").toLowerCase();
-        mode = mode.equals("normal") || mode.equals("world") ? mode : "normal";
+        mode = mode.equals("normal") || mode.equals("world") || mode.equals("permission") ? mode : "normal";
         String boardPath = "settings.scoreboard-" + mode + "-update";
         int updateTime;
 
@@ -55,23 +54,41 @@ public class ScoreboardManager {
 
         taskIds[1] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
             for (SternalBoardHandler board : this.boards.values()) {
-                if (!config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
+                if(config.getString("settings.mode").equalsIgnoreCase("WORLD")){
+                    if (!config.contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
+                        board.updateTitle(PlaceholderUtils.sanitizeString(
+                                board.getPlayer(), config.getString("settings.scoreboard.title")
+                        ));
+                        continue;
+                    }
+                    board.updateTitle(PlaceholderUtils.sanitizeString(
+                            board.getPlayer(), config.getString("scoreboard-world." + board.getPlayer().getWorld().getName()) + ".title"
+
+                    ));
+                    continue;
+                }
+                if(config.getString("settings.mode").equalsIgnoreCase("PERMISSION")){
+                    if(!config.contains("scoreboard-permission"))continue;
+
+                    for(String permissions : config.getConfigurationSection("scoreboard-permission").getKeys(false)){
+                        if(permissions.isEmpty())continue;
+                        if(!board.getPlayer().hasPermission(permissions))continue;
+
+                        board.updateTitle(PlaceholderUtils.sanitizeString(
+                                board.getPlayer(),
+                                config.getString("scoreboard-permission." + permissions + ".title")
+                        ));
+                    }
+                    continue;
+                }
+                if(config.getString("settings.mode").equalsIgnoreCase("NORMAL")){
                     board.updateTitle(PlaceholderUtils.sanitizeString(
                             board.getPlayer(), config.getString("settings.scoreboard.title")
                     ));
-                    return;
+                    continue;
                 }
-
-                if (!config.contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
-                    board.updateTitle(PlaceholderUtils.sanitizeString(
-                            board.getPlayer(), config.getString("settings.scoreboard.title")
-                    ));
-                    return;
-                }
-
                 board.updateTitle(PlaceholderUtils.sanitizeString(
-                        board.getPlayer(),
-                        config.getString("scoreboard-world." + board.getPlayer().getWorld().getName() + ".title")
+                        board.getPlayer(), config.getString("settings.scoreboard.title")
                 ));
             }
         }, 0, updateTime)).getTaskId();
@@ -81,32 +98,46 @@ public class ScoreboardManager {
         SternalBoardHandler board = new SternalBoardHandler(player);
         FileConfiguration config = core.getConfig();
         getBoards().put(player.getUniqueId(), board);
-
         if (core.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0) {
             return;
         }
 
         if (config.getString("settings.mode") == null) {
-            config.set("settings.mode", "DEFAULT");
+            config.set("settings.mode", "NORMAL");
             core.saveConfig();
         }
 
-        if (!config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
+        if(config.getString("settings.mode").equalsIgnoreCase("WORLD")){
+            if (!config.contains("scoreboard-world." + player.getWorld().getName())) {
+                board.updateTitle(PlaceholderUtils.sanitizeString(
+                        player, config.getString("settings.scoreboard.title")
+                ));
+                return;
+            }
             board.updateTitle(PlaceholderUtils.sanitizeString(
-                    player, config.getString("settings.scoreboard.title")
+                    player, config.getString("scoreboard-world." + player.getWorld().getName()) + ".title"
+
             ));
             return;
         }
 
-        if (!config.contains("scoreboard-world." + player.getWorld().getName())) {
-            board.updateTitle(PlaceholderUtils.sanitizeString(
-                    player, config.getString("settings.scoreboard.title")
-            ));
+        if(config.getString("settings.mode").equalsIgnoreCase("PERMISSION")){
+            if(!config.contains("scoreboard-permission"))return;
+
+            for(String permissions : config.getConfigurationSection("scoreboard-permission").getKeys(false)){
+                if(permissions.isEmpty())continue;
+                if(!board.getPlayer().hasPermission(permissions))continue;
+
+                board.updateTitle(PlaceholderUtils.sanitizeString(
+                        board.getPlayer(),
+                        config.getString("scoreboard-permission." + permissions + ".title")
+                ));
+                break;
+            }
             return;
         }
-
         board.updateTitle(PlaceholderUtils.sanitizeString(
-                player, config.getString("scoreboard-world." + player.getWorld().getName() + ".title")
+                board.getPlayer(), config.getString("settings.scoreboard.title")
         ));
     }
 
@@ -142,24 +173,30 @@ public class ScoreboardManager {
     }
 
     private void updateBoard(SternalBoardHandler board) {
-        List<String> lines = new ArrayList<>();
-        if (!core.getConfig().getString("settings.mode").equalsIgnoreCase("WORLD")) {
-            lines = core.getConfig().getStringList("settings.scoreboard.lines");
-            lines.replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
-            board.updateLines(lines);
-            return;
+        AtomicReference<List<String>> lines = new AtomicReference<>();
+        if (core.getConfig().getString("settings.mode").equalsIgnoreCase("WORLD")) {
+            if (core.getConfig().contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
+                lines.set(core.getConfig().getStringList(
+                        "scoreboard-world." + board.getPlayer().getWorld().getName() + ".lines"
+                ));
+            }
+        }
+        if(core.getConfig().getString("settings.mode").equalsIgnoreCase("PERMISSION")){
+            board.getPlayer().getEffectivePermissions().forEach(perm -> {
+                if(core.getConfig().contains("scoreboard-permission."+perm)){
+                    lines.set(core.getConfig().getStringList(
+                            "scoreboard-permission." + perm + ".lines"
+                    ));
+                }
+            });
+
         }
 
-        if (core.getConfig().contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
-            lines = core.getConfig().getStringList(
-                    "scoreboard-world." + board.getPlayer().getWorld().getName() + ".lines"
-            );
+        if (lines.get().isEmpty()) {
+            lines.set(core.getConfig().getStringList("settings.scoreboard.lines"));
         }
 
-        if (lines.isEmpty()) {
-            lines = core.getConfig().getStringList("settings.scoreboard.lines");
-        }
-        lines.replaceAll(line -> PlaceholderUtils.sanitizeString(board.getPlayer(), line));
-        board.updateLines(lines);
+        lines.get().replaceAll(s -> PlaceholderUtils.sanitizeString(board.getPlayer(), s));
+        board.updateLines(lines.get());
     }
 }
