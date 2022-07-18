@@ -11,5 +11,5 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 * [MC-Market page](https://www.mc-market.org/resources/20395/)
 
 ## Maintainers
-* [ShieldCommunity](https://github.com/ShieldCommunity) > I handled this plugin a lot of time, but now our community helps tho!
+* [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers mostly are community owners.
 
