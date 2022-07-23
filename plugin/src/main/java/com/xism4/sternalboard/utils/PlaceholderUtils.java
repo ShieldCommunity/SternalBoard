@@ -13,10 +13,12 @@ public class PlaceholderUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
 
     public static String sanitizeString(Player player, String text) {
-        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            return colorize(PlaceholderAPI.setPlaceholders(player, text));
-
-        } else {
+        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin(
+                "PlaceholderAPI") != null) {
+            return colorize(PlaceholderAPI.setPlaceholders(player, text)
+            );
+        }
+        else {
             return colorize(text);
         }
     }
@@ -30,13 +32,17 @@ public class PlaceholderUtils {
                 match = HEX_PATTERN.matcher(text);
             }
         }
-        return ChatColor.translateAlternateColorCodes('&', text);
+        return ChatColor.translateAlternateColorCodes(
+                '&', text
+        );
     }
 
     public static String parsePAPI(Player player, String text) {
-        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin(
+                "PlaceholderAPI") != null) {
             return PlaceholderAPI.setPlaceholders(player, text);
         }
-        return (colorize(text));
+        return (colorize(text)
+        );
     }
 }

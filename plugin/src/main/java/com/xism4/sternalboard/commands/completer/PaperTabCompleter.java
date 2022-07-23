@@ -33,11 +33,15 @@ public final class PaperTabCompleter implements Listener {
 
         if (tokens.length == 1 && ("sternalboard".equalsIgnoreCase(tokens[0]) || "sb".equalsIgnoreCase(tokens[0]))) {
             final List<Completion> completions = new ArrayList<>(2);
-            if (event.getSender().hasPermission("sternalboard.reload")) {
-                completions.add(reloadcompletion);
+            if (event.getSender().hasPermission(
+                    "sternalboard.reload")) {
+                completions.add(
+                        reloadcompletion);
             }
-            if (event.getSender().hasPermission("sternalboard.toggle")) {
-                completions.add(togglecompletion);
+            if (event.getSender().hasPermission(
+                    "sternalboard.toggle")) {
+                completions.add(
+                        togglecompletion);
             }
             event.completions(completions);
         }

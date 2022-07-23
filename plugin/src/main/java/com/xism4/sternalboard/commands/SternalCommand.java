@@ -52,16 +52,19 @@ public class SternalCommand implements CommandExecutor {
                 PlaceholderUtils.colorize("&eSternalBoard &fcommands")
         );
         sender.sendMessage(
-                PlaceholderUtils.colorize("- &e/sb help&f: Shows all the commands available for you")
+                PlaceholderUtils.colorize(
+                        "- &e/sb help&f: Shows all the commands available for you")
         );
         if (sender.hasPermission("sternalboard.toggle") && sender instanceof Player) {
             sender.sendMessage(
-                    PlaceholderUtils.colorize("- &e/sb toggle&f: Toggles the scoreboard on or off")
+                    PlaceholderUtils.colorize(
+                            "- &e/sb toggle&f: Toggles the scoreboard on or off")
             );
         }
         if (sender.hasPermission("sternalboard.reload")){
             sender.sendMessage(
-                    PlaceholderUtils.colorize("- &e/sb reload&f: Reloads the config")
+                    PlaceholderUtils.colorize(
+                            "- &e/sb reload&f: Reloads the config")
             );
         }
     }
@@ -94,7 +97,9 @@ public class SternalCommand implements CommandExecutor {
                     core.getAnimationManager().reload();
                 }
             }
-            sender.sendMessage(PlaceholderUtils.colorize("&aThe plugin has been reloaded successfully"));
+            sender.sendMessage(PlaceholderUtils.colorize(
+                    "&aThe plugin has been reloaded successfully")
+            );
             return;
         }
         noPermission(sender);

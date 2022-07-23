@@ -31,7 +31,9 @@ public class TitleUpdateTask extends BukkitRunnable {
         }
 
         for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
-            String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getTitle());
+            String line = PlaceholderUtils.parsePAPI(sb.getPlayer(),
+                    animationManager.getTitle()
+            );
             sb.updateTitle(line);
         }
     }

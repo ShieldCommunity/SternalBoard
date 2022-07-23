@@ -1,9 +1,7 @@
 package com.xism4.sternalboard;
 
-import com.xism4.sternalboard.listeners.nLoginHook;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class SternalBoard extends SternalBoardManager {
@@ -22,12 +20,13 @@ public class SternalBoard extends SternalBoardManager {
         loadConfig();
         loadScoreboardMgr(this);
         eventHandler(this);
-        nLoginHook();
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("Disabling SternalBoard "+Bukkit.getVersion());
+        getLogger().info(
+                "Disabling SternalBoard "
+        );
         instance = null;
         scoreboardManager = null;
     }

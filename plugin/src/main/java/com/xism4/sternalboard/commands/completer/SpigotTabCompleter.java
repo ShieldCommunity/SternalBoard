@@ -17,11 +17,16 @@ public class SpigotTabCompleter implements TabCompleter {
                                @NotNull String label, @NotNull String[] args) {
         if (args.length > 1) return null;
         final List<String> completions = new ArrayList<>(2);
-        if (sender.hasPermission("sternalboard.reload")) {
-            completions.add("reload");
+        if (sender.hasPermission(
+                "sternalboard.reload")) {
+            completions.add(
+                    "reload"
+            );
         }
-        if (sender.hasPermission("sternalboard.toggle")) {
-            completions.add("toggle");
+        if (sender.hasPermission(
+                "sternalboard.toggle")) {
+            completions.add("toggle"
+            );
         }
         return completions;
     }

@@ -34,7 +34,9 @@ public class LineUpdateTask extends BukkitRunnable {
         }
 
         for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
-            String line = PlaceholderUtils.parsePAPI(sb.getPlayer(), animationManager.getLine(lineNumber));
+            String line = PlaceholderUtils.parsePAPI(sb.getPlayer(),
+                    animationManager.getLine(lineNumber)
+            );
             sb.updateLine(lineNumber, line);
         }
     }

@@ -42,13 +42,18 @@ public class AnimationManager {
         TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
                 core,
-                config.getInt("scoreboard-animated.title.update-rate"),
-                config.getInt("scoreboard-animated.title.update-rate")
+                config.getInt(
+                        "scoreboard-animated.title.update-rate"),
+                config.getInt(
+                        "scoreboard-animated.title.update-rate")
         );
-        taskIds.add(titleUpdateTask.getTaskId());
+        taskIds.add(titleUpdateTask.getTaskId()
+        );
 
         List<String> linesList = Lists.newArrayList();
-        ConfigurationSection configSection = config.getConfigurationSection("scoreboard-animated.score-lines");
+        ConfigurationSection configSection = config.getConfigurationSection(
+                "scoreboard-animated.score-lines"
+        );
 
         updateLines(configSection, linesList);
 
@@ -70,7 +75,9 @@ public class AnimationManager {
             return;
         }
 
-        List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
+        List<String> titleLines = config.getStringList(
+                "scoreboard-animated.title.lines"
+        );
 
         titleLines.replaceAll(PlaceholderUtils::colorize);
 
@@ -79,13 +86,18 @@ public class AnimationManager {
         TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
                 core,
-                config.getInt("scoreboard-animated.title.update-rate"),
-                config.getInt("scoreboard-animated.title.update-rate")
+                config.getInt(
+                        "scoreboard-animated.title.update-rate"),
+                config.getInt(
+                        "scoreboard-animated.title.update-rate")
         );
-        taskIds.add(titleUpdateTask.getTaskId());
+        taskIds.add(titleUpdateTask.getTaskId()
+        );
 
         List<String> linesList = Lists.newArrayList();
-        ConfigurationSection configSection = config.getConfigurationSection("scoreboard-animated.score-lines");
+        ConfigurationSection configSection = config.getConfigurationSection(
+                "scoreboard-animated.score-lines"
+        );
 
         int newLinesLength = configSection.getKeys(false).size();
 
@@ -116,9 +128,12 @@ public class AnimationManager {
 
             linesList.add(list.get(0));
 
-            LineUpdateTask lineUpdateTask = new LineUpdateTask(this, list, lineNumber);
+            LineUpdateTask lineUpdateTask = new LineUpdateTask(
+                    this, list, lineNumber
+            );
             lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
-            taskIds.add(lineUpdateTask.getTaskId());
+            taskIds.add(lineUpdateTask.getTaskId()
+            );
         }
     }
 

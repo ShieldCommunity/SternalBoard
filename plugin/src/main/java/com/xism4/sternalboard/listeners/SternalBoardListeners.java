@@ -22,6 +22,7 @@ public class SternalBoardListeners implements Listener {
 
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
-        core.getScoreboardManager().removeScoreboard(e.getPlayer());
+        core.getScoreboardManager().removeScoreboard(e.getPlayer()
+        );
     }
 }

@@ -5,7 +5,6 @@ plugins {
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://repo.nickuc.com/repositories/nlogin-api")
 }
 
 dependencies {
