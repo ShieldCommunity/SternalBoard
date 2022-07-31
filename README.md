@@ -19,3 +19,5 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 * Gradient scoreboard support - 1.16 up
 * Multi-version scoreboard - Supports 1.7 to lastest
 * Mini-games support, such as "koths, skywars, bedwars"
+* Simple to use, for people who are relatively new to the industry
+* Ready to run on large servers, with no animation limits
