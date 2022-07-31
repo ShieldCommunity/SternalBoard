@@ -13,3 +13,9 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 ## Maintainers
 * [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers mostly are community owners.
 
+## Features
+* Animated scoreboard - With all tasks running asynchronous
+* Per world scoreboard - Optimal for multi-games
+* Gradient scoreboard support - 1.16 up
+* Multi-version scoreboard - Supports 1.7 to lastest
+* Mini-games support, such as "koths, skywars, bedwars"
