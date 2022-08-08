@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity  :2.0.1'
+    implementation 'com.github:shieldcommunity:2.0.2'
 }
 
 shadowJar {
@@ -66,7 +66,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.0.1")
+    implementation("com.github:shieldcommunity:2.0.2")
 }
 
 shadowJar {
@@ -86,7 +86,7 @@ Either you can use our method of #setBoard, or manually.
 public class ExampleBoard {
 
     public void setYourScoreboard(Player player){
-        SternalBoard board = new SternalBoard(player);
+        SternalBoardHandler board = new SternalBoardHandler(player);
 
         board.updateTitle(ChatColor.GREEN+
                 "Hypixel.net" //You can make it configurable trough strings tho
