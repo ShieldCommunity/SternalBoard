@@ -37,7 +37,7 @@ Before nothing, remember that you need jitpack for it.
 ```
 
 ## Gradle
-```ktl
+```gradle
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
@@ -51,7 +51,26 @@ dependencies {
 }
 
 shadowJar {
-    relocate 'com.shieldcommunity.sternalboard', 'you.yourpackage.yes'
+    relocate 'com.shieldcommunity.sternalboard', 'you.yourpackage.like'
+}
+```
+
+## Gradle DSL
+```kts
+plugins {
+    id("com.github.johnrengelman.shadow") version("7.1.2")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("com.github:shieldcommunity:2.0.1")
+}
+
+shadowJar {
+    relocate("com.shieldcommunity.sternalboard", "you.yourpackage.like")
 }
 ```
 
