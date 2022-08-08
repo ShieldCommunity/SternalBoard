@@ -55,5 +55,29 @@ shadowJar {
 }
 ```
 
-##Manually
+## Manually
 If you just don't want to use a dependency-manager, you can copy our api classes to your proyect.
+
+## How to hook into it
+With sternalboard is really easy to set your first scoreboard!
+
+Either you can use our method of #setBoard, or manually.
+
+```java
+public class ExampleBoard {
+
+    public void setYourScoreboard(Player player){
+        SternalBoard board = new SternalBoard(player);
+
+        board.updateTitle(ChatColor.GREEN+
+                "Hypixel.net" //You can make it configurable trough strings tho
+        );
+
+        board.updateLines("Hello", //You can do lines as your version allows!
+                "Bye",
+                "Hello again :)"
+        );
+    }
+}
+
+```
