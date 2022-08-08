@@ -22,11 +22,11 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 * Simple to use, for people who are relatively new to the industry
 * Ready to run on large servers, with no animation limits
 
-##How to integrate
+## How to integrate
 If you want to integrate SternalBoard to your proyect, you can use Maven and Gradle:
 Before nothing, remember that you need jitpack for it.
 
-##Maven
+## Maven
 ```xml
         <dependency>
             <groupId>com.github.ShieldCommunity</groupId>
@@ -36,7 +36,7 @@ Before nothing, remember that you need jitpack for it.
         </dependency>
 ```
 
-##Gradle
+## Gradle
 ```ktl
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.1.2'
