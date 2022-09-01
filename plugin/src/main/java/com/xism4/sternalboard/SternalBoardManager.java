@@ -115,7 +115,7 @@ public class SternalBoardManager extends JavaPlugin {
         try {
             Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
             getServer().getPluginManager().registerEvents(
-                hasAdventure()
+                componentCompletions()
                     ? new PaperTabCompleter()
                     : new OldPaperTabCompleter(),
                 this);
@@ -126,15 +126,15 @@ public class SternalBoardManager extends JavaPlugin {
         }
     }
 
-    public boolean hasAdventure() {
+    public boolean componentCompletions() {
         try {
             Class<?> clazz = Class.forName(
-                    "net.kyori.adventure.text.Component"
+                "com.destroystokyo.paper.event.server.AsyncTabCompleteEvent$Completion"
             );
-            clazz.getMethod("text", String.class);
-            return true;  
+            Class<?> examinable = Class.forName("net.kyori.examination.Examinable");
+            return clazz.isAssignableFrom(examinable);  
         }
-        catch (ClassNotFoundException | NoSuchMethodException e) {
+        catch (ClassNotFoundException e) {
             return false;
         }
     }
