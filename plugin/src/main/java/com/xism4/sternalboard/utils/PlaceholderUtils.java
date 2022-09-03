@@ -10,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PlaceholderUtils {
+    static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
+
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
 
     public static String sanitizeString(Player player, String text) {
@@ -17,24 +19,41 @@ public class PlaceholderUtils {
                 "PlaceholderAPI") != null) {
             return colorize(PlaceholderAPI.setPlaceholders(player, text)
             );
-        }
-        else {
+        } else {
             return colorize(text);
         }
     }
 
     public static String colorize(String text) {
-        if (Bukkit.getVersion().contains("1.16")) {
-            Matcher match = HEX_PATTERN.matcher(text);
-            while (match.find()) {
-                String color = text.substring(match.start(), match.end());
-                text = text.replace(color, ChatColor.of(color) + "");
-                match = HEX_PATTERN.matcher(text);
+        int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]);
+        if (version < 16) {
+            return ChatColor.translateAlternateColorCodes('&', text);
+        }
+
+        String[] texts = text.split(String.format(WITH_DELIMITER, "&"));
+
+        StringBuilder finalText = new StringBuilder();
+
+        for (int i = 0; i < texts.length; i++) {
+            if (texts[i].equalsIgnoreCase("&")) {
+                i++;
+                if (texts[i].charAt(0) == '#') {
+                    finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7));
+                } else {
+                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]));
+                }
+            } else {
+                Matcher match = HEX_PATTERN.matcher(text);
+                while (match.find()) {
+                    String color = texts[i].substring(match.start(), match.end());
+                    texts[i] = texts[i].replace(color, ChatColor.of(color) + "");
+                    match = HEX_PATTERN.matcher(text);
+                }
+                finalText.append(texts[i]);
             }
         }
-        return ChatColor.translateAlternateColorCodes(
-                '&', text
-        );
+
+        return finalText.toString();
     }
 
     public static String parsePAPI(Player player, String text) {
