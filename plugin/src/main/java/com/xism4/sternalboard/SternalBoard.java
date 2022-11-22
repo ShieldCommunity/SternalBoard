@@ -2,11 +2,13 @@ package com.xism4.sternalboard;
 
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
+import com.xism4.sternalboard.utils.Metrics;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class SternalBoard extends SternalBoardManager {
 
     private static SternalBoard instance;
+    private int sternalID = 13409;
 
     public static SternalBoard getInstance() {
         return instance;
@@ -16,6 +18,7 @@ public class SternalBoard extends SternalBoardManager {
     public void onEnable() {
         instance = this;
         commandHandler(this);
+        new Metrics(this, sternalID);
         loadTabCompletions();
         loadConfig();
         loadScoreboardMgr(this);

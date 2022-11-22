@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /*
  * This file is part of SternalBoard, licensed under the MIT License.
  *
- * Copyright (c) 2019-2021 Ismael Martinez
+ * Copyright (c) 2019-2022 Ismael Hanbel
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * The plugin can be found on <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
  *
  * @author xIsm4
- * @version 1.5
+ * @version 2.0.3
  */
 
 public class SternalBoardHandler {
