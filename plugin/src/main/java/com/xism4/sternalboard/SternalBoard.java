@@ -9,7 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class SternalBoard extends SternalBoardManager {
 
     private static SternalBoard instance;
-    private int sternalID = 13409;
+    private final int sternalID = 13409;
 
     public static SternalBoard getInstance() {
         return instance;
@@ -19,9 +19,7 @@ public class SternalBoard extends SternalBoardManager {
     public void onEnable() {
         instance = this;
         commandHandler(this);
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
-            new Metrics(this, sternalID);
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, sternalID));
         loadTabCompletions();
         loadConfig();
         loadScoreboardMgr(this);

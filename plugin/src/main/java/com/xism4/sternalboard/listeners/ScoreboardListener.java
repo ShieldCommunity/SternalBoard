@@ -6,11 +6,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-public class SternalBoardListeners implements Listener {
+public class ScoreboardListener implements Listener {
 
     private final SternalBoard core;
 
-    public SternalBoardListeners(SternalBoard core) {
+    public ScoreboardListener(SternalBoard core) {
         this.core = core;
     }
 
