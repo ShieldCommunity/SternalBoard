@@ -1,7 +1,7 @@
 name: SternalBoard
 main: com.xism4.sternalboard.SternalBoard
 authors: [ xIsm4 ]
-version: 2.0.3
+version: 2.0.4
 api-version: "1.13"
 softdepend: [ PlaceholderAPI ]
 
