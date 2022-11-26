@@ -63,7 +63,7 @@ public class PlaceholderUtils {
             finalText.append(text);
         }
 
-        return finalText.toString();
+        return ChatColor.translateAlternateColorCodes('&', finalText.toString());
     }
 
     public static String parsePAPI(Player player, String text) {
