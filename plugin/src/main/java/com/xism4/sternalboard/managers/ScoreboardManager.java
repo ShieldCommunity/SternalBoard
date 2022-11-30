@@ -1,14 +1,14 @@
 package com.xism4.sternalboard.managers;
 
+import com.xism4.sternalboard.Scoreboards;
 import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardHandler;
-import com.xism4.sternalboard.utils.PlaceholderUtils;
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +19,7 @@ public class ScoreboardManager {
 
     private final SternalBoard core;
     private final ConcurrentMap<UUID, SternalBoardHandler> boards = new ConcurrentHashMap<>();
-    private Integer[] taskIds;
+    private Integer updateTask;
 
     public ScoreboardManager(SternalBoard core) {
         this.core = core;
@@ -30,7 +30,6 @@ public class ScoreboardManager {
     }
 
     public void init() {
-        taskIds = new Integer[2];
         FileConfiguration config = core.getConfig();
         String mode = config.getString("settings.mode", "normal").toLowerCase();
         mode = mode.equals("normal") || mode.equals("world") ? mode : "normal";
@@ -48,91 +47,73 @@ public class ScoreboardManager {
             return;
         }
 
-        taskIds[0] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            for (SternalBoardHandler board : this.boards.values()) {
-                updateBoard(board);
-            }
-        }, 0, updateTime)).getTaskId();
+        updateTask = core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
 
-        taskIds[1] = (core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
+            ConfigurationSection defaultSection = core.getConfig().getConfigurationSection("settings.scoreboard");
+
             for (SternalBoardHandler board : this.boards.values()) {
                 if (!Objects.requireNonNull(config.getString("settings.mode")).equalsIgnoreCase("WORLD")) {
-                    board.updateTitle(PlaceholderUtils.sanitizeString(
-                            board.getPlayer(), config.getString(
-                                    "settings.scoreboard.title")
-                    ));
+
+                    Scoreboards.updateFromSection(board, defaultSection);
                     return;
                 }
 
-                if (!config.contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
-                    board.updateTitle(PlaceholderUtils.sanitizeString(
-                            board.getPlayer(), config.getString(
-                                    "settings.scoreboard.title")
-                    ));
+                String worldName = board.getPlayer().getWorld().getName();
+                ConfigurationSection worldSection = core.getConfig().getConfigurationSection("scoreboard-world." + worldName);
+
+                if (worldSection == null) {
+                    Scoreboards.updateFromSection(board, defaultSection);
                     return;
                 }
 
-                board.updateTitle(PlaceholderUtils.sanitizeString(
-                        board.getPlayer(),
-                        config.getString(
-                                "scoreboard-world." + board.getPlayer().getWorld().getName() + ".title")
-                ));
+                Scoreboards.updateFromSection(board, worldSection);
             }
-        }, 0, updateTime)).getTaskId();
+        }, 0, updateTime).getTaskId();
     }
 
     public void setScoreboard(Player player) {
         SternalBoardHandler board = new SternalBoardHandler(player);
         FileConfiguration config = core.getConfig();
-        getBoards().put(player.getUniqueId(), board);
+        boards.put(player.getUniqueId(), board);
 
-        if (core.isAnimationEnabled() && config.getInt(
-                "settings.scoreboard.update") != 0) {
-            return;
-        }
+        if (core.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0) return;
 
-        if (config.getString("settings.mode") == null) {
-            config.set("settings.mode", "DEFAULT");
-            core.saveConfig();
-        }
+        String mode = config.getString("settings.mode", "DEFAULT").toLowerCase();
 
-        if (!config.getString("settings.mode").equalsIgnoreCase("WORLD")) {
-            board.updateTitle(PlaceholderUtils.sanitizeString(
-                    player, config.getString(
-                            "settings.scoreboard.title")
+        if (!mode.equalsIgnoreCase("WORLD")) {
+            board.updateTitle(
+                    TextUtils.processPlaceholders(player, config.getString("settings.scoreboard.title")
             ));
             return;
         }
 
         if (!config.contains("scoreboard-world." + player.getWorld().getName())) {
-            board.updateTitle(PlaceholderUtils.sanitizeString(
-                    player, config.getString(
-                            "settings.scoreboard.title")
+            board.updateTitle(
+                    TextUtils.processPlaceholders(player, config.getString("settings.scoreboard.title")
             ));
             return;
         }
 
-        board.updateTitle(PlaceholderUtils.sanitizeString(
-                player, config.getString(
-                        "scoreboard-world." + player.getWorld().getName() + ".title")
+        board.updateTitle(TextUtils.processPlaceholders(
+                player,
+                config.getString("scoreboard-world." + player.getWorld().getName() + ".title")
         ));
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoardHandler board = getBoards().remove(player.getUniqueId());
+        SternalBoardHandler board = boards.remove(player.getUniqueId());
         if (board != null) {
             board.delete();
         }
     }
 
     public void reload() {
-        for (Integer taskId : taskIds) {
-            if (taskId != null) {
-                Bukkit.getServer().getScheduler().cancelTask(taskId);
-            }
+        if (updateTask != null) {
+            Bukkit.getServer().getScheduler().cancelTask(updateTask);
         }
 
-        if (core.isAnimationEnabled() && taskIds[0] != null) {
+        // TODO: 30/11/2022 view this condition, is it necessary?
+        if (core.isAnimationEnabled() && updateTask != null) {
             for (SternalBoardHandler board : this.boards.values()) {
                 board.updateLines("");
             }
@@ -141,38 +122,11 @@ public class ScoreboardManager {
     }
 
     public void toggle(Player player) {
-        SternalBoardHandler oldBoard = getBoards().remove(player.getUniqueId());
+        SternalBoardHandler oldBoard = boards.remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
         } else {
             setScoreboard(player);
         }
-    }
-
-    private void updateBoard(SternalBoardHandler board) {
-        List<String> lines = new ArrayList<>();
-        if (!Objects.requireNonNull(core.getConfig().getString(
-                "settings.mode")).equalsIgnoreCase("WORLD")) {
-            lines = core.getConfig().getStringList("settings.scoreboard.lines");
-            lines.replaceAll(s -> PlaceholderUtils.sanitizeString(
-                    board.getPlayer(), s)
-            );
-            board.updateLines(lines);
-            return;
-        }
-
-        if (core.getConfig().contains("scoreboard-world." + board.getPlayer().getWorld().getName())) {
-            lines = core.getConfig().getStringList(
-                    "scoreboard-world." + board.getPlayer().getWorld().getName() + ".lines"
-            );
-        }
-
-        if (lines.isEmpty()) {
-            lines = core.getConfig().getStringList(
-                    "settings.scoreboard.lines"
-            );
-        }
-        lines.replaceAll(line -> PlaceholderUtils.sanitizeString(board.getPlayer(), line));
-        board.updateLines(lines);
     }
 }
