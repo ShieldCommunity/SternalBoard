@@ -9,23 +9,15 @@ import org.bukkit.entity.Player;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PlaceholderUtils {
-    static final int version = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]);
-    static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
+public class TextUtils {
+    private static final int version = Integer.parseInt(
+            Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]
+    );
 
+    private static final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
 
-    public static String sanitizeString(Player player, String text) {
-        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin(
-                "PlaceholderAPI") != null) {
-            return colorize(PlaceholderAPI.setPlaceholders(player, text)
-            );
-        } else {
-            return colorize(text);
-        }
-    }
-
-    public static String colorize(String text) {
+    public static String parseToLegacyColors(String text) {
         if (version < 16) {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
@@ -66,12 +58,10 @@ public class PlaceholderUtils {
         return ChatColor.translateAlternateColorCodes('&', finalText.toString());
     }
 
-    public static String parsePAPI(Player player, String text) {
-        if (SternalBoard.getInstance().getServer().getPluginManager().getPlugin(
-                "PlaceholderAPI") != null) {
-            return PlaceholderAPI.setPlaceholders(player, text);
+    public static String processPlaceholders(Player player, String text) {
+        if (SternalBoard.getInstance().placeholderCheck()) {
+            return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
         }
-        return (colorize(text)
-        );
+        return parseToLegacyColors(text);
     }
 }

@@ -2,7 +2,7 @@ package com.xism4.sternalboard.commands;
 
 import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.PlaceholderUtils;
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class SternalCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command commands, String label, String[] args){
         if (args.length == 0) {
             sender.sendMessage(
-                    PlaceholderUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin")
+                    TextUtils.parseToLegacyColors("&eUse /sternalboard help &fto see more info about the plugin")
             );
             return true;
         }
@@ -40,7 +40,7 @@ public class SternalCommand implements CommandExecutor {
                     return true;
                 default:
                     sender.sendMessage(
-                            PlaceholderUtils.colorize("&cCommand not recognized!")
+                            TextUtils.parseToLegacyColors("&cCommand not recognized!")
                     );
                     return true;
             }
@@ -49,21 +49,21 @@ public class SternalCommand implements CommandExecutor {
 
     private void helpSubcommand(CommandSender sender){
         sender.sendMessage(
-                PlaceholderUtils.colorize("&eSternalBoard &fcommands")
+                TextUtils.parseToLegacyColors("&eSternalBoard &fcommands")
         );
         sender.sendMessage(
-                PlaceholderUtils.colorize(
+                TextUtils.parseToLegacyColors(
                         "- &e/sb help&f: Shows all the commands available for you")
         );
         if (sender.hasPermission("sternalboard.toggle") && sender instanceof Player) {
             sender.sendMessage(
-                    PlaceholderUtils.colorize(
+                    TextUtils.parseToLegacyColors(
                             "- &e/sb toggle&f: Toggles the scoreboard on or off")
             );
         }
         if (sender.hasPermission("sternalboard.reload")){
             sender.sendMessage(
-                    PlaceholderUtils.colorize(
+                    TextUtils.parseToLegacyColors(
                             "- &e/sb reload&f: Reloads the config")
             );
         }
@@ -97,7 +97,7 @@ public class SternalCommand implements CommandExecutor {
                     core.getAnimationManager().reload();
                 }
             }
-            sender.sendMessage(PlaceholderUtils.colorize(
+            sender.sendMessage(TextUtils.parseToLegacyColors(
                     "&aThe plugin has been reloaded successfully")
             );
             return;
@@ -107,7 +107,7 @@ public class SternalCommand implements CommandExecutor {
 
     private void noPermission(CommandSender sender){
         sender.sendMessage(
-                PlaceholderUtils.colorize("&cYou cant use this command")
+                TextUtils.parseToLegacyColors("&cYou cant use this command")
         );
     }
 }

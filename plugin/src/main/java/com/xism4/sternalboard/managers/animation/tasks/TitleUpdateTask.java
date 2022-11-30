@@ -4,7 +4,7 @@ import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.PlaceholderUtils;
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -31,9 +31,7 @@ public class TitleUpdateTask extends BukkitRunnable {
         }
 
         for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
-            String line = PlaceholderUtils.parsePAPI(sb.getPlayer(),
-                    animationManager.getTitle()
-            );
+            String line = TextUtils.processPlaceholders(sb.getPlayer(), animationManager.getTitle());
             sb.updateTitle(line);
         }
     }

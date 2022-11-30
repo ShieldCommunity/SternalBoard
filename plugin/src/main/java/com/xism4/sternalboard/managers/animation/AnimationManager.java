@@ -6,7 +6,7 @@ import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
-import com.xism4.sternalboard.utils.PlaceholderUtils;
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,7 +36,7 @@ public class AnimationManager {
         this.taskIds = new ArrayList<>();
 
         List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
-        titleLines.replaceAll(PlaceholderUtils::colorize);
+        titleLines.replaceAll(TextUtils::parseToLegacyColors);
         this.title = titleLines.get(0);
 
         TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
@@ -75,11 +75,9 @@ public class AnimationManager {
             return;
         }
 
-        List<String> titleLines = config.getStringList(
-                "scoreboard-animated.title.lines"
-        );
+        List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
 
-        titleLines.replaceAll(PlaceholderUtils::colorize);
+        titleLines.replaceAll(TextUtils::parseToLegacyColors);
 
         this.title = titleLines.get(0);
 
@@ -124,7 +122,7 @@ public class AnimationManager {
             int updateRate = configSection.getInt(key + ".update-rate");
             int lineNumber = Integer.parseInt(key);
 
-            list.replaceAll(PlaceholderUtils::colorize);
+            list.replaceAll(TextUtils::parseToLegacyColors);
 
             linesList.add(list.get(0));
 
