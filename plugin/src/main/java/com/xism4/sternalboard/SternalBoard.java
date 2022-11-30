@@ -35,6 +35,10 @@ public class SternalBoard extends SternalBoardManager {
         scoreboardManager = null;
     }
 
+    public boolean placeholderCheck() {
+        return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+    }
+
     public ScoreboardManager getScoreboardManager() {
         return this.scoreboardManager;
     }
