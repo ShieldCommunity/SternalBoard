@@ -28,9 +28,7 @@ public class SternalBoard extends SternalBoardManager {
 
     @Override
     public void onDisable() {
-        getLogger().info(
-                "Disabling SternalBoard "
-        );
+        getLogger().info("Disabling SternalBoard ");
         instance = null;
         scoreboardManager = null;
     }
