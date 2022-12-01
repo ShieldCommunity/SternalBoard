@@ -1,5 +1,6 @@
 package com.xism4.sternalboard;
 
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
@@ -22,7 +23,9 @@ public class Scoreboards {
             lines = handler.getLines();
         }
 
-        handler.updateTitle(title);
+        lines.replaceAll(line -> TextUtils.processPlaceholders(handler.getPlayer(), line));
+
+        handler.updateTitle(TextUtils.processPlaceholders(handler.getPlayer(), title));
         handler.updateLines(lines);
     }
 
