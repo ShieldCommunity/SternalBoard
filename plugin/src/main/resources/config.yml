@@ -1,8 +1,7 @@
 settings:
   animated: false
   mode: NORMAL
-  scoreboard-normal-update: 20
-  scoreboard-world-update: 20
+  scoreboard-interval-update: 20
   scoreboard:
     title: '&b&lSternal&f&lBoard'
     lines:
@@ -36,4 +35,76 @@ scoreboard-world:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
+scoreboard-permission:
+  'admin':
+    node: 'sternalboard.admin'
+    title: '&b&lSternal&f&lBoard &d&lADMIN'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lADMIN'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
+  'mod':
+    node: 'sternalboard.mod'
+    title: '&b&lSternal&f&lBoard &d&lMOD'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lMOD'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
+  'dev':
+    node: 'sternalboard.dev'
+    title: '&b&lSternal&f&lBoard &d&lDEV'
+    lines:
+      - '&8&m+-------------------+'
+      - '      &6&lDEV'
+      - '&a&l▼ &bData:'
+      - '&f● &7Nick: &b%player_name%'
+      - '&f● &7Rank: &b%vault_rank%'
+      - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+      - ''
+      - '&a&l▼ &bExample:'
+      - '&f● &7Lobby: &b#1'
+      - '&f● &7Ping: &b%player_ping%'
+      - '&f● &7Players: &b%bungee_total%'
+      - ''
+      - '&f● &fIP: &bplay.yournetwork.com'
+  'owner':
+    node: 'sternalboard.owner'
+    title: '&b&lSternal&f&lBoard &d&lOWNER'
+    lines:
+        - '&8&m+-------------------+'
+        - '      &6&lOWNER'
+        - '&a&l▼ &bData:'
+        - '&f● &7Nick: &b%player_name%'
+        - '&f● &7Rank: &b%vault_rank%'
+        - '&f● &7Coins: &e%vault_eco_balance_formatted%'
+        - ''
+        - '&a&l▼ &bExample:'
+        - '&f● &7Lobby: &b#1'
+        - '&f● &7Ping: &b%player_ping%'
+        - '&f● &7Players: &b%bungee_total%'
+        - ''
+        - '&f● &fIP: &bplay.yournetwork.com'
+
+
+
 
