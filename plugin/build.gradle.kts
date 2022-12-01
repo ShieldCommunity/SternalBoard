@@ -5,6 +5,7 @@ plugins {
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    mavenCentral()
 }
 
 dependencies {
@@ -12,8 +13,9 @@ dependencies {
     compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
+    testRuntimeOnly(libs.spigot)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
 }
 
 tasks {
