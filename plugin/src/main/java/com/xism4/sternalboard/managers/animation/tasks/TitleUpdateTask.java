@@ -30,7 +30,7 @@ public class TitleUpdateTask extends BukkitRunnable {
             index = 0;
         }
 
-        for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
+        for (SternalBoardHandler sb : scoreboardManager.getBoardsHandler().values()) {
             String line = TextUtils.processPlaceholders(sb.getPlayer(), animationManager.getTitle());
             sb.updateTitle(line);
         }

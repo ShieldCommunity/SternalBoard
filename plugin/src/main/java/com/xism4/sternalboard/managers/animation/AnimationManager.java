@@ -106,7 +106,7 @@ public class AnimationManager {
             for (int i = 1; i <= linesToDelete; i++) {
                 int lineToDelete = lines.length - i;
 
-                for (SternalBoardHandler sb : scoreboardManager.getBoards().values()) {
+                for (SternalBoardHandler sb : scoreboardManager.getBoardsHandler().values()) {
                     sb.removeLine(lineToDelete);
                 }
             }
