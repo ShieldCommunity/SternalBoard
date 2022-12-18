@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/76608233/146663681-08cf1e75-e288-44f4-8c79-fdda3531980b.png)
 
-Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Packet based & supporting all versions.
+Lightweight & Async scoreboard based on FastBoard, implementing animations, packet based & supporting all versions.
 
 ## Official Downloads
 
@@ -11,7 +11,7 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 * [MC-Market page](https://www.mc-market.org/resources/20395/)
 
 ## Maintainers
-* [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers mostly are community owners.
+* [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers are mostly community owners.
 
 ## Features
 * Animated scoreboard - With all tasks running asynchronous
@@ -78,7 +78,7 @@ shadowJar {
 If you just don't want to use a dependency-manager, you can copy our api classes to your proyect.
 
 ## How to hook into it
-With sternalboard is really easy to set your first scoreboard!
+With SternalBoard, it's really easy to set your first scoreboard!
 
 Either you can use our method of #setBoard, or manually.
 
