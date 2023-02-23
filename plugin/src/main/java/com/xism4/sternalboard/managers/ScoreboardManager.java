@@ -15,11 +15,10 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-
 public class ScoreboardManager {
 
     private final SternalBoard core;
-    private final ConcurrentMap<UUID, SternalBoardHandler> boardsHandler = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<UUID, SternalBoardHandler> BOARDS_HANDLER = new ConcurrentHashMap<>();
     private Integer updateTask;
 
     public ScoreboardManager(SternalBoard core) {
@@ -27,7 +26,7 @@ public class ScoreboardManager {
     }
 
     public ConcurrentMap<UUID, SternalBoardHandler> getBoardsHandler() {
-        return this.boardsHandler;
+        return BOARDS_HANDLER;
     }
 
     public void init() {
@@ -50,7 +49,7 @@ public class ScoreboardManager {
 
         ConfigurationSection defaultSection = core.getConfig().getConfigurationSection("settings.scoreboard");
         updateTask = core.getServer().getScheduler().runTaskTimerAsynchronously(core, () -> {
-            for (SternalBoardHandler board : this.boardsHandler.values()) {
+            for (SternalBoardHandler board : BOARDS_HANDLER.values()) {
                 switch (scoreboardMode) {
                     case "WORLD":
                         processWorldScoreboard(board);
@@ -76,11 +75,11 @@ public class ScoreboardManager {
             return;
 
         Scoreboards.updateFromSection(handler, defaultSection);
-        boardsHandler.put(player.getUniqueId(), handler);
+        BOARDS_HANDLER.put(player.getUniqueId(), handler);
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoardHandler board = boardsHandler.remove(player.getUniqueId());
+        SternalBoardHandler board = BOARDS_HANDLER.remove(player.getUniqueId());
         if (board != null) {
             board.delete();
         }
@@ -93,7 +92,7 @@ public class ScoreboardManager {
 
         // TODO: 30/11/2022 view this condition, is it necessary?
         if (core.isAnimationEnabled() && updateTask != null) {
-            for (SternalBoardHandler board : this.boardsHandler.values()) {
+            for (SternalBoardHandler board : this.BOARDS_HANDLER.values()) {
                 board.updateLines("");
             }
         }
@@ -101,7 +100,7 @@ public class ScoreboardManager {
     }
 
     public void toggle(Player player) {
-        SternalBoardHandler oldBoard = boardsHandler.remove(player.getUniqueId());
+        SternalBoardHandler oldBoard = BOARDS_HANDLER.remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
         } else {
@@ -142,5 +141,16 @@ public class ScoreboardManager {
         }
 
         Scoreboards.updateFromSection(handler, permissionSection);
+    }
+
+    public static SternalBoardHandler fromUUID(String id) {
+        return BOARDS_HANDLER.get(UUID.fromString(id));
+    }
+
+    public static void updateHandler(SternalBoardHandler handler) {
+        if (handler == null) {
+            throw new NullPointerException("The handler of sternal boards is null");
+        }
+        BOARDS_HANDLER.put(handler.getPlayer().getUniqueId(), handler);
     }
 }
