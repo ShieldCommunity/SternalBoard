@@ -5,11 +5,20 @@ plugins {
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.unnamed.team/repository/unnamed-public/")
+    maven("https://repo.triumphteam.dev/snapshots/")
     mavenCentral()
 }
 
 dependencies {
-    api(project(":api"))
+    compileOnly(project(":api"))
+    arrayOf("v1_7_R3", "v1_8_R3", "v1_13_R1", "v1_17_R1", "v1_19_R3").forEach {
+        implementation(project(":adapt:$it"))
+    }
+
+    implementation(libs.inject)
+    implementation(libs.command)
+
     compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
 
@@ -23,6 +32,14 @@ tasks {
         archiveBaseName.set("SternalBoard")
         destinationDirectory.set(file("$rootDir/bin/"))
         minimize()
+
+        arrayOf(
+            "team.unnamed.inject",
+            "dev.triumphteam.cmd",
+            "javax.inject"
+        ).forEach {
+            relocate(it, "${rootProject.group}.sternalboard.libs.$it")
+        }
     }
 
     clean {

@@ -1,10 +1,7 @@
 package com.xism4.sternalboard.utils;
 
-import com.xism4.sternalboard.SternalBoard;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -58,10 +55,11 @@ public class TextUtils {
         return ChatColor.translateAlternateColorCodes('&', finalText.toString());
     }
 
-    public static String processPlaceholders(Player player, String text) {
-        if (SternalBoard.getInstance().placeholderCheck()) {
-            return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
-        }
-        return parseToLegacyColors(text);
-    }
+    // TODO: PlaceholderAPI implementation
+//    public static String processPlaceholders(Player player, String text) {
+//        if (SternalBoard.getInstance().placeholderCheck()) {
+//            return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
+//        }
+//        return parseToLegacyColors(text);
+//    }
 }

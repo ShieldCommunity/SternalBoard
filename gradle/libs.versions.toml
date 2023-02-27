@@ -1,12 +1,14 @@
 [versions]
-spigot = "1.16.5-R0.1-SNAPSHOT"
 
+spigot = "1.16.5-R0.1-SNAPSHOT"
 placeholder = "2.11.1"
 
 [libraries]
-spigot = { group = "com.destroystokyo.paper", name = "paper-api", version.ref = "spigot" }
 
+spigot = { group = "com.destroystokyo.paper", name = "paper-api", version.ref = "spigot" }
 placeholder = { group = "me.clip", name = "placeholderapi", version.ref = "placeholder" }
+inject = { group = "team.unnamed", name = "inject", version = "1.0.1" }
+command = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version = "2.0.0-SNAPSHOT" }
 
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version = "7.1.2"}
