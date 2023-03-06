@@ -14,6 +14,7 @@ Lightweight & Async scoreboard based on FastBoard, implementing animations, pack
 * [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers are mostly community owners.
 
 ## Features
+* Fully bedrock support - Other plugins have's strange view problems.
 * Animated scoreboard - With all tasks running asynchronous
 * Per world scoreboard - Optimal for multi-games
 * Gradient scoreboard support - 1.16 up
