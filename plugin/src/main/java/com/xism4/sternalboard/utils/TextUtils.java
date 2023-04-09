@@ -1,6 +1,6 @@
 package com.xism4.sternalboard.utils;
 
-import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardPlugin;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
@@ -58,8 +58,8 @@ public class TextUtils {
         return ChatColor.translateAlternateColorCodes('&', finalText.toString());
     }
 
-    public static String processPlaceholders(Player player, String text) {
-        if (SternalBoard.getInstance().placeholderCheck()) {
+    public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
+        if (plugin.placeholderCheck()) {
             return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
         }
         return parseToLegacyColors(text);

@@ -1,8 +1,8 @@
 package com.xism4.sternalboard.managers.animation;
 
 import com.google.common.collect.Lists;
-import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardHandler;
+import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
@@ -16,19 +16,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimationManager {
-    private final SternalBoard core = SternalBoard.getInstance();
+    private final SternalBoardPlugin plugin;
     private String title;
     private String[] lines;
     private List<Integer> taskIds;
 
-    public AnimationManager() {
+    public AnimationManager(SternalBoardPlugin plugin) {
+        this.plugin = plugin;
         load();
     }
 
     public void load() {
-        FileConfiguration config = core.getAnimConfig();
+        FileConfiguration config = plugin.getAnimConfig();
 
-        if (!core.isAnimationEnabled()) {
+        if (!plugin.isAnimationEnabled()) {
             this.lines = null;
             return;
         }
@@ -39,9 +40,9 @@ public class AnimationManager {
         titleLines.replaceAll(TextUtils::parseToLegacyColors);
         this.title = titleLines.get(0);
 
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
+        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
-                core,
+                plugin,
                 config.getInt(
                         "scoreboard-animated.title.update-rate"),
                 config.getInt(
@@ -61,9 +62,8 @@ public class AnimationManager {
     }
 
     public void reload() {
-        SternalBoard core = SternalBoard.getInstance();
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        FileConfiguration config = core.getAnimConfig();
+        FileConfiguration config = plugin.getAnimConfig();
 
         for (Integer taskId : taskIds) {
             scheduler.cancelTask(taskId);
@@ -71,7 +71,7 @@ public class AnimationManager {
 
         this.taskIds = new ArrayList<>();
 
-        if (!core.isAnimationEnabled()) {
+        if (!plugin.isAnimationEnabled()) {
             return;
         }
 
@@ -81,9 +81,9 @@ public class AnimationManager {
 
         this.title = titleLines.get(0);
 
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(this, titleLines);
+        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
         titleUpdateTask.runTaskTimerAsynchronously(
-                core,
+                plugin,
                 config.getInt(
                         "scoreboard-animated.title.update-rate"),
                 config.getInt(
@@ -100,7 +100,7 @@ public class AnimationManager {
         int newLinesLength = configSection.getKeys(false).size();
 
         if (newLinesLength < lines.length) {
-            ScoreboardManager scoreboardManager = core.getScoreboardManager();
+            ScoreboardManager scoreboardManager = plugin.getScoreboardManager();
             int linesToDelete = lines.length - newLinesLength;
 
             for (int i = 1; i <= linesToDelete; i++) {
@@ -127,9 +127,9 @@ public class AnimationManager {
             linesList.add(list.get(0));
 
             LineUpdateTask lineUpdateTask = new LineUpdateTask(
-                    this, list, lineNumber
+                    plugin, this, list, lineNumber
             );
-            lineUpdateTask.runTaskTimerAsynchronously(core, updateRate, updateRate);
+            lineUpdateTask.runTaskTimerAsynchronously(plugin, updateRate, updateRate);
             taskIds.add(lineUpdateTask.getTaskId()
             );
         }

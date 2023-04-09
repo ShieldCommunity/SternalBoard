@@ -1,6 +1,6 @@
 package com.xism4.sternalboard.listeners;
 
-import com.xism4.sternalboard.SternalBoard;
+import com.xism4.sternalboard.SternalBoardPlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -8,21 +8,21 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class ScoreboardListener implements Listener {
 
-    private final SternalBoard core;
+    private final SternalBoardPlugin plugin;
 
-    public ScoreboardListener(SternalBoard core) {
-        this.core = core;
+    public ScoreboardListener(SternalBoardPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        core.getScoreboardManager().setScoreboard(e.getPlayer());
+        plugin.getScoreboardManager().setScoreboard(e.getPlayer());
 
     }
 
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
-        core.getScoreboardManager().removeScoreboard(e.getPlayer()
+        plugin.getScoreboardManager().removeScoreboard(e.getPlayer()
         );
     }
 }

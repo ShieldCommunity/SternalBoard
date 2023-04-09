@@ -7,7 +7,9 @@ import java.util.List;
 
 public class Scoreboards {
 
-    public static void updateFromSection(SternalBoardHandler handler, ConfigurationSection section) {
+    public static void updateFromSection(
+            SternalBoardPlugin plugin, SternalBoardHandler handler, ConfigurationSection section
+    ) {
         if (section == null) {
             return;
         }
@@ -23,9 +25,9 @@ public class Scoreboards {
             lines = handler.getLines();
         }
 
-        lines.replaceAll(line -> TextUtils.processPlaceholders(handler.getPlayer(), line));
+        lines.replaceAll(line -> TextUtils.processPlaceholders(plugin, handler.getPlayer(), line));
 
-        handler.updateTitle(TextUtils.processPlaceholders(handler.getPlayer(), title));
+        handler.updateTitle(TextUtils.processPlaceholders(plugin, handler.getPlayer(), title));
         handler.updateLines(lines);
     }
 
