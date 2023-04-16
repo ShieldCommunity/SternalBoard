@@ -34,9 +34,9 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        loadScoreboardMgr();
         commandHandler();
         loadTabCompletions();
-        loadScoreboardMgr();
         eventHandler();
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));

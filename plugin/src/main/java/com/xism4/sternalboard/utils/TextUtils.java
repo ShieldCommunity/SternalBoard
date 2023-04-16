@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextUtils {
-    private static final int version = Integer.parseInt(
+    private static final int SERVER_VERSION = Integer.parseInt(
             Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]
     );
 
@@ -18,7 +18,7 @@ public class TextUtils {
     private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
 
     public static String parseToLegacyColors(String text) {
-        if (version < 16) {
+        if (SERVER_VERSION < 16) {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
 
@@ -39,17 +39,17 @@ public class TextUtils {
                 } else {
                     while (match.find()) {
                         String color = texts[i].substring(match.start(), match.end());
-                        texts[i] = texts[i].replace(color, ChatColor.of(color) + "");
+                        texts[i] = texts[i].replace(color, String.valueOf(ChatColor.of(color)));
                         match = HEX_PATTERN.matcher(text);
                     }
                     finalText.append(texts[i]);
                 }
             }
 
-        }else {
+        } else {
             while (match.find()) {
                 String color = text.substring(match.start(), match.end());
-                text = text.replace(color, ChatColor.of(color) + "");
+                text = text.replace(color, String.valueOf(ChatColor.of(color)));
                 match = HEX_PATTERN.matcher(text);
             }
             finalText.append(text);
@@ -62,6 +62,7 @@ public class TextUtils {
         if (plugin.placeholderCheck()) {
             return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
         }
+
         return parseToLegacyColors(text);
     }
 }
