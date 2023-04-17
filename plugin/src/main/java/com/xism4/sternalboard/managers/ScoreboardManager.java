@@ -18,11 +18,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScoreboardManager {
 
     private final SternalBoardPlugin plugin;
-    private final Map<UUID, SternalBoardHandler> boardHandlerMap = new ConcurrentHashMap<>();
+    private final Map<UUID, SternalBoardHandler> boardHandlerMap;
     private Integer updateTask;
 
     public ScoreboardManager(SternalBoardPlugin plugin) {
         this.plugin = plugin;
+        this.boardHandlerMap = new ConcurrentHashMap<>();
     }
 
     public Map<UUID, SternalBoardHandler> getBoardsHandler() {
@@ -51,20 +52,20 @@ public class ScoreboardManager {
             ConfigurationSection defaultSection = plugin.getConfig()
                     .getConfigurationSection("settings.scoreboard");
 
-            for (SternalBoardHandler board : boardHandlerMap.values()) {
+            boardHandlerMap.forEach((context, handler) -> {
                 switch (scoreboardMode) {
                     case "WORLD":
-                        processWorldScoreboard(board, defaultSection);
-                        return;
+                        processWorldScoreboard(handler, defaultSection);
+                        break;
                     case "PERMISSION":
-                        processPermissionScoreboard(board, defaultSection);
-                        return;
+                        processPermissionScoreboard(handler, defaultSection);
+                        break;
                     case "NORMAL":
                     default:
-                        Scoreboards.updateFromSection(plugin, board, defaultSection);
-                        return;
+                        Scoreboards.updateFromSection(plugin, handler, defaultSection);
+                        break;
                 }
-            }
+            });
         }, 0, updateTime).getTaskId();
     }
 
