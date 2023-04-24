@@ -1,26 +1,36 @@
 package com.xism4.sternalboard.api.scoreboard;
 
+import org.bukkit.entity.Player;
+
 import java.util.Collection;
+import java.util.List;
 
 public interface ScoreboardHandler {
 
-    boolean title(String title);
+    void title(String title);
 
-    boolean line(int line, String text);
+    String title();
+
+    void line(int line, String text);
+
+    void lines(String... lines);
+
+    default void lines(Collection<String> lines) {
+    }
+
+    String line(int line);
+
+    String[] lines();
+
+    List<String> linesList();
 
     boolean removeLine(int line);
 
-    boolean clear();
+    void clear();
 
-    default boolean stop() {
-        return clear();
-    }
+    void update(String title, String... lines);
 
-    boolean lines(String... lines);
+    void updatePacket(Player player, Object packet);
 
-    boolean update(String title, String... lines);
-
-    default boolean lines(Collection<String> lines) {
-        return lines(lines.toArray(new String[0]));
-    }
+    void sendPacket(Player player, Object packet);
 }

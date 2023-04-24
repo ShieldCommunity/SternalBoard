@@ -1,11 +1,19 @@
 plugins {
-    alias(libs.plugins.shadow)
+    id("io.papermc.paperweight.userdev") version ("1.5.4")
 }
 
 dependencies {
-    implementation(project(":api"))
+    paperweight.paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+}
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.0")
-    testRuntimeOnly(libs.spigot)
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.0")
+tasks {
+    assemble {
+        dependsOn(reobfJar)
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
+    }
 }

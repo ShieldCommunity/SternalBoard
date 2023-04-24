@@ -5,6 +5,10 @@ plugins {
 subprojects {
     apply(plugin = "project.common-conventions")
 
+    repositories {
+        maven("https://repo.codemc.org/repository/nms/")
+    }
+
     dependencies {
         implementation(project(":api"))
 
