@@ -11,10 +11,13 @@ Lightweight & Async scoreboard based on FastBoard, implementing animations, pack
 * [MC-Market page](https://www.mc-market.org/resources/20395/)
 
 ## Maintainers
-* [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers are mostly community owners.
+* [xism4](https://github.com/xism4) Main developer
+* [jonakls](https://github.com/jonakls) Retired developer
 
 ## Features
 * Fully bedrock support - Other plugins have's strange view problems
+* MiniMessage formatting support - Intutive colours like <red>hello<reset>
+* Automatic dependency download to avoid high weights - Also makes all Minecraft versions support
 * Not dependency based - Doesn't need other software to run properly
 * Packet-based - The plugin will not bug with plugins that use teams
 * Animated scoreboard - With all tasks running asynchronous
@@ -50,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity:2.0.2'
+    implementation 'com.github:shieldcommunity:2.2.2'
 }
 
 shadowJar {
@@ -69,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.0.2")
+    implementation("com.github:shieldcommunity:2.2.2")
 }
 
 shadowJar {
