@@ -29,7 +29,10 @@ public class SternalCommand implements CommandExecutor {
     ){
         if (args.length == 0) {
             sender.sendMessage(
-                    TextUtils.parseToLegacyColors("&eUse /sternalboard help &fto see more info about the plugin")
+                    TextUtils.colorize("&e&lSternal&f&lBoard &7- &7by &6xism4")
+            );
+            sender.sendMessage(
+                    TextUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin")
             );
             return true;
         }
@@ -46,7 +49,7 @@ public class SternalCommand implements CommandExecutor {
                     return true;
                 default:
                     sender.sendMessage(
-                            TextUtils.parseToLegacyColors("&cCommand not recognized!")
+                            TextUtils.colorize("&cCommand not recognized!")
                     );
                     return true;
             }
@@ -55,21 +58,21 @@ public class SternalCommand implements CommandExecutor {
 
     private void helpSubcommand(CommandSender sender){
         sender.sendMessage(
-                TextUtils.parseToLegacyColors("&eSternalBoard &fcommands")
+                TextUtils.colorize("&eSternalBoard &fcommands")
         );
         sender.sendMessage(
-                TextUtils.parseToLegacyColors(
+                TextUtils.colorize(
                         "- &e/sb help&f: Shows all the commands available for you")
         );
         if (sender.hasPermission("sternalboard.toggle") && sender instanceof Player) {
             sender.sendMessage(
-                    TextUtils.parseToLegacyColors(
+                    TextUtils.colorize(
                             "- &e/sb toggle&f: Toggles the scoreboard on or off")
             );
         }
         if (sender.hasPermission("sternalboard.reload")){
             sender.sendMessage(
-                    TextUtils.parseToLegacyColors(
+                    TextUtils.colorize(
                             "- &e/sb reload&f: Reloads the config")
             );
         }
@@ -103,7 +106,7 @@ public class SternalCommand implements CommandExecutor {
                     plugin.getAnimationManager().reload();
                 }
             }
-            sender.sendMessage(TextUtils.parseToLegacyColors(
+            sender.sendMessage(TextUtils.colorize(
                     "&aThe plugin has been reloaded successfully")
             );
             return;
@@ -113,7 +116,7 @@ public class SternalCommand implements CommandExecutor {
 
     private void noPermission(CommandSender sender){
         sender.sendMessage(
-                TextUtils.parseToLegacyColors("&cYou cant use this command")
+                TextUtils.colorize("&cYou cant use this command")
         );
     }
 }
