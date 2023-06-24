@@ -1,11 +1,10 @@
 name: SternalBoard
 main: com.xism4.sternalboard.SternalBoardPlugin
 authors: [ xIsm4, Jonakls ]
-version: 2.2.1
+version: 2.2.2
 api-version: "1.13"
 softdepend: [ PlaceholderAPI ]
 commands:
   sternalboard:
     description: Main command for sternalboard plugin.
     aliases: [ sb, scoreboard, sideboard ]
-
