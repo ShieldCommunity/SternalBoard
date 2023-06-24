@@ -5,6 +5,7 @@ plugins {
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     mavenCentral()
 }
 
@@ -20,6 +21,7 @@ dependencies {
 
 tasks {
     shadowJar {
+        relocate("net.kyori.adventure", "com.xism4.sternalboard")
         archiveBaseName.set("SternalBoard")
         destinationDirectory.set(file("$rootDir/bin/"))
         minimize()

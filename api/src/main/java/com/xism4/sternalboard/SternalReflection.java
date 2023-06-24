@@ -45,10 +45,12 @@ import java.util.function.Predicate;
 
 public final class SternalReflection {
 
-    public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
-    public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(OBC_PACKAGE.length() + 1);
     private static final String NM_PACKAGE = "net.minecraft";
+    public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
     public static final String NMS_PACKAGE = NM_PACKAGE + ".server";
+
+    public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(OBC_PACKAGE.length() + 1);
+
     private static final MethodType VOID_METHOD_TYPE = MethodType.methodType(void.class);
     private static final boolean NMS_REPACKAGED = optionalClass(NM_PACKAGE + ".network.protocol.Packet").isPresent();
 
@@ -84,6 +86,10 @@ public final class SternalReflection {
 
     public static Class<?> obcClass(String className) throws ClassNotFoundException {
         return Class.forName(obcClassName(className));
+    }
+
+    public static Optional<Class<?>> obcOptionalClass(String className) {
+        return optionalClass(obcClassName(className));
     }
 
     public static Optional<Class<?>> optionalClass(String className) {
@@ -143,7 +149,6 @@ public final class SternalReflection {
         return () -> allocateMethod.invoke(theUnsafe, packetClass);
     }
 
-    //Packets-
     @FunctionalInterface
     interface PacketConstructor {
         Object invoke() throws Throwable;

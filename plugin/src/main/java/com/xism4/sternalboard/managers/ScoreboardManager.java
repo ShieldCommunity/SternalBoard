@@ -1,6 +1,7 @@
 package com.xism4.sternalboard.managers;
 
 import com.xism4.sternalboard.Scoreboards;
+import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import org.bukkit.Bukkit;
@@ -18,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScoreboardManager {
 
     private final SternalBoardPlugin plugin;
-    private final Map<UUID, SternalBoardHandler> boardHandlerMap;
+    private final Map<UUID, SternalBoard> boardHandlerMap;
     private Integer updateTask;
 
     public ScoreboardManager(SternalBoardPlugin plugin) {
@@ -26,7 +27,7 @@ public class ScoreboardManager {
         this.boardHandlerMap = new ConcurrentHashMap<>();
     }
 
-    public Map<UUID, SternalBoardHandler> getBoardsHandler() {
+    public Map<UUID, SternalBoard> getBoardsHandler() {
         return boardHandlerMap;
     }
 
@@ -70,7 +71,7 @@ public class ScoreboardManager {
     }
 
     public void setScoreboard(Player player) {
-        SternalBoardHandler handler = new SternalBoardHandler(player);
+        SternalBoard handler = new SternalBoard(player);
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection defaultSection = config.getConfigurationSection("settings.scoreboard");
 
@@ -95,7 +96,7 @@ public class ScoreboardManager {
 
         // TODO: 30/11/2022 view this condition, is it necessary?
         if (plugin.isAnimationEnabled() && updateTask != null) {
-            for (SternalBoardHandler board : this.boardHandlerMap.values()) {
+            for (SternalBoard board : this.boardHandlerMap.values()) {
                 board.updateLines("");
             }
         }
@@ -103,7 +104,7 @@ public class ScoreboardManager {
     }
 
     public void toggle(Player player) {
-        SternalBoardHandler oldBoard = boardHandlerMap.remove(player.getUniqueId());
+        SternalBoard oldBoard = boardHandlerMap.remove(player.getUniqueId());
         if (oldBoard != null) {
             oldBoard.delete();
         } else {
@@ -112,7 +113,7 @@ public class ScoreboardManager {
     }
 
     // STATIC BOARD FEATURES
-    private void processWorldScoreboard(SternalBoardHandler handler, ConfigurationSection defaultSection) {
+    private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
         ConfigurationSection worldSection = plugin.getConfig()
                 .getConfigurationSection("scoreboard-world." + worldName);
@@ -125,7 +126,7 @@ public class ScoreboardManager {
         Scoreboards.updateFromSection(plugin, handler, worldSection);
     }
 
-    private void processPermissionScoreboard(SternalBoardHandler handler, ConfigurationSection defaultSection) {
+    private void processPermissionScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         FileConfiguration configuration = plugin.getConfig();
         Set<String> permissions = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("scoreboard-permission"))
                 .getKeys(true);

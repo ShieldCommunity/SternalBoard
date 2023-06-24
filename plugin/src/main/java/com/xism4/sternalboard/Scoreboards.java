@@ -8,7 +8,7 @@ import java.util.List;
 public class Scoreboards {
 
     public static void updateFromSection(
-            SternalBoardPlugin plugin, SternalBoardHandler handler, ConfigurationSection section
+            SternalBoardPlugin plugin, SternalBoard handler, ConfigurationSection section
     ) {
         if (section == null) {
             return;
