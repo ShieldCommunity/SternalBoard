@@ -37,7 +37,7 @@ public class AnimationManager {
         this.taskIds = new ArrayList<>();
 
         List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
-        titleLines.replaceAll(TextUtils::parseToLegacyColors);
+        titleLines.replaceAll(TextUtils::colorize);
         this.title = titleLines.get(0);
 
         TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
@@ -77,7 +77,7 @@ public class AnimationManager {
 
         List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
 
-        titleLines.replaceAll(TextUtils::parseToLegacyColors);
+        titleLines.replaceAll(TextUtils::colorize);
 
         this.title = titleLines.get(0);
 
@@ -122,7 +122,7 @@ public class AnimationManager {
             int updateRate = configSection.getInt(key + ".update-rate");
             int lineNumber = Integer.parseInt(key);
 
-            list.replaceAll(TextUtils::parseToLegacyColors);
+            list.replaceAll(TextUtils::colorize);
 
             linesList.add(list.get(0));
 

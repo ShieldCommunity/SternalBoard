@@ -2,7 +2,14 @@ package com.xism4.sternalboard.utils;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -10,59 +17,49 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TextUtils {
+
     private static final int SERVER_VERSION = Integer.parseInt(
             Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]
     );
 
-    private static final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
-    private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}}");
+    public static String colorize(String text) {
 
-    public static String parseToLegacyColors(String text) {
         if (SERVER_VERSION < 16) {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
 
-        String[] texts = text.split(String.format(WITH_DELIMITER, "&"));
+        if (
+                Bukkit.getVersion().contains("1.16") ||
+                        Bukkit.getVersion().contains("1.17") ||
+                        Bukkit.getVersion().contains("1.18") ||
+                        Bukkit.getVersion().contains("1.19") ||
+                        Bukkit.getVersion().contains("1.20")
+        ) {
+            MiniMessage mm = MiniMessage.miniMessage();
+            text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
 
-        StringBuilder finalText = new StringBuilder();
-        Matcher match = HEX_PATTERN.matcher(text);
 
-        if (text.contains("&#")) {
-            for (int i = 0; i < texts.length; i++) {
-                if (texts[i].equalsIgnoreCase("&")) {
-                    i++;
-                    if (texts[i].charAt(0) == '#') {
-                        finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7));
-                    } else {
-                        finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]));
-                    }
-                } else {
-                    while (match.find()) {
-                        String color = texts[i].substring(match.start(), match.end());
-                        texts[i] = texts[i].replace(color, String.valueOf(ChatColor.of(color)));
-                        match = HEX_PATTERN.matcher(text);
-                    }
-                    finalText.append(texts[i]);
-                }
-            }
-
-        } else {
-            while (match.find()) {
-                String color = text.substring(match.start(), match.end());
-                text = text.replace(color, String.valueOf(ChatColor.of(color)));
-                match = HEX_PATTERN.matcher(text);
-            }
-            finalText.append(text);
         }
-
-        return ChatColor.translateAlternateColorCodes('&', finalText.toString());
+        return ChatColor.translateAlternateColorCodes(
+                '&', text
+        );
     }
 
     public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
         if (plugin.placeholderCheck()) {
-            return parseToLegacyColors(PlaceholderAPI.setPlaceholders(player, text));
+            return colorize(PlaceholderAPI.setPlaceholders(player, text));
         }
 
-        return parseToLegacyColors(text);
+        return colorize(text);
+    }
+
+    @SuppressWarnings("unused")
+    public static Component toComponent(String text) {
+        text = text.replace("\n", "<br>")
+                .replace(LegacyComponentSerializer.SECTION_CHAR, LegacyComponentSerializer.AMPERSAND_CHAR);
+        Component initial = LegacyComponentSerializer.legacyAmpersand().deserialize(text);
+        String deserializedAsMini = MiniMessage.miniMessage().serialize(initial).replace("\\", "");
+
+        return MiniMessage.miniMessage().deserialize(deserializedAsMini);
     }
 }

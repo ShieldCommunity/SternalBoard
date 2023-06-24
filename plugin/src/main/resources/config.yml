@@ -10,7 +10,7 @@
 # MC-Market: https://www.mc-market.org/resources/20395/
 # GitHub: https://github.com/ShieldCommunity/SternalBoard
 #
-# If u have any problem, contact us in discord or report issue in GitHub section
+# If you have any problem, contact us in discord or report issue in GitHub section
 # Issues: https://github.com/ShieldCommunity/SternalBoard/issues
 
 settings:
@@ -23,7 +23,7 @@ settings:
   mode: NORMAL
   scoreboard-interval-update: 20
   scoreboard:
-    title: '&b&lSternal&f&lBoard'
+    title: '&b&lSternal&f&lBoard <red>:)'
     lines:
       - '&8&m+-------------------+'
       - ''
