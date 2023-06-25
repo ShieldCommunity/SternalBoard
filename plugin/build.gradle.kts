@@ -38,3 +38,9 @@ tasks {
         delete("${rootDir}/bin/")
     }
 }
+
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand("version" to (parent?.version ?: project.version))
+    }
+}
