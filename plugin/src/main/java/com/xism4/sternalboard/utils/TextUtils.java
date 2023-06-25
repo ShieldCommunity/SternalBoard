@@ -18,6 +18,9 @@ import java.util.regex.Pattern;
 
 public class TextUtils {
 
+    private static final String MINI_MESSAGE_HEX = "<color:{color}>";
+    private static final Pattern HEX_PATTERN = Pattern.compile("(#|&#)([A-Fa-f0-9]){6}");
+
     private static final int SERVER_VERSION = Integer.parseInt(
             Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]
     );
@@ -28,21 +31,29 @@ public class TextUtils {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
 
-        if (
-                Bukkit.getVersion().contains("1.16") ||
-                        Bukkit.getVersion().contains("1.17") ||
-                        Bukkit.getVersion().contains("1.18") ||
-                        Bukkit.getVersion().contains("1.19") ||
-                        Bukkit.getVersion().contains("1.20")
-        ) {
-            MiniMessage mm = MiniMessage.miniMessage();
-            text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
+        text = transformLegacyHex(text);
 
+        MiniMessage mm = MiniMessage.miniMessage();
+        text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
 
-        }
         return ChatColor.translateAlternateColorCodes(
                 '&', text
         );
+    }
+
+    public static String transformLegacyHex(String text) {
+        Matcher matcher = HEX_PATTERN.matcher(text);
+
+        while (matcher.find()) {
+            String hex = matcher.group()
+                    .replace("<", "")
+                    .replace(">", "")
+                    .replace("&", "");
+
+            text = text.replace(matcher.group(), MINI_MESSAGE_HEX.replace("{color}", hex));
+        }
+
+        return text;
     }
 
     public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
