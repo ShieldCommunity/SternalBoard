@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/76608233/146663681-08cf1e75-e288-44f4-8c79-fdda3531980b.png)
 
-Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Packet based & supporting all versions.
+Lightweight & Async scoreboard based on FastBoard, implementing animations, packet based & supporting all versions.
 
 ## Official Downloads
 
@@ -11,9 +11,15 @@ Ligthweigth & Async scoreboard based on FastBoard, implementing Animations. Pack
 * [MC-Market page](https://www.mc-market.org/resources/20395/)
 
 ## Maintainers
-* [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers mostly are community owners.
+* [xism4](https://github.com/xism4) Main developer
+* [jonakls](https://github.com/jonakls) Retired developer
 
 ## Features
+* Fully bedrock support - Other plugins have's strange view problems
+* MiniMessage formatting support - Intutive colours like <red>hello<reset>
+* Automatic dependency download to avoid high weights - Also makes all Minecraft versions support
+* Not dependency based - Doesn't need other software to run properly
+* Packet-based - The plugin will not bug with plugins that use teams
 * Animated scoreboard - With all tasks running asynchronous
 * Per world scoreboard - Optimal for multi-games
 * Gradient scoreboard support - 1.16 up
@@ -47,7 +53,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity:2.0.2'
+    implementation 'com.github:shieldcommunity:2.2.2'
 }
 
 shadowJar {
@@ -66,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.0.2")
+    implementation("com.github:shieldcommunity:2.2.2")
 }
 
 shadowJar {
@@ -78,7 +84,7 @@ shadowJar {
 If you just don't want to use a dependency-manager, you can copy our api classes to your proyect.
 
 ## How to hook into it
-With sternalboard is really easy to set your first scoreboard!
+With SternalBoard, it's really easy to set your first scoreboard!
 
 Either you can use our method of #setBoard, or manually.
 
@@ -100,3 +106,7 @@ public class ExampleBoard {
 }
 
 ```
+
+#Servers using modern SternalBoard
+
+<img src="https://bstats.org/signatures/bukkit/SternalBoard.svg" alt="ResourceHolders statics">
