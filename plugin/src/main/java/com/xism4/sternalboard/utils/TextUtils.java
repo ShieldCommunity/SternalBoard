@@ -32,6 +32,7 @@ public class TextUtils {
         }
 
         text = transformLegacyHex(text);
+        text = text.replaceAll("\u00a7", "&");
 
         MiniMessage mm = MiniMessage.miniMessage();
         text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
