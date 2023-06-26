@@ -88,18 +88,6 @@ public class SternalBoardPlugin extends JavaPlugin {
         return config.get();
     }
 
-    public void nLoginHook() {
-        if (getServer().getPluginManager().getPlugin("nLogin") != null) {
-            try {
-                Class.forName("com.nickuc.login.api.nLoginAPIHolder");
-                getServer().getPluginManager().registerEvents(null, this);
-            } catch (ClassNotFoundException e) {
-                getLogger().severe("You are using the old version of nLogin.");
-                getLogger().severe("Please upgrade to version 10.");
-            }
-        }
-    }
-
     public void loadScoreboardMgr() {
         scoreboardManager = new ScoreboardManager(this);
 
