@@ -2,7 +2,6 @@ package com.xism4.sternalboard.managers;
 
 import com.xism4.sternalboard.Scoreboards;
 import com.xism4.sternalboard.SternalBoard;
-import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,7 +9,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -81,7 +79,7 @@ public class ScoreboardManager {
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoardHandler<String> board = boardHandlerMap.remove(player.getUniqueId());
+        SternalBoard board = boardHandlerMap.remove(player.getUniqueId());
         if (board != null) {
             board.delete();
         }
@@ -111,7 +109,7 @@ public class ScoreboardManager {
     }
 
     // STATIC BOARD FEATURES
-    public void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
+    private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
         @NotNull List<String> worldBlacklist = plugin.getConfig().getStringList("scoreboard-world-blacklist");
 
