@@ -29,6 +29,7 @@ dependencies {
 tasks {
     shadowJar {
         relocate("net.byteflux.libby", "com.xism4.sternalboard.libs")
+        relocate("net.kyori", "com.xism4.sternalboard.libs.kyori")
         archiveBaseName.set("SternalBoard")
         destinationDirectory.set(file("$rootDir/bin/"))
         minimize()
