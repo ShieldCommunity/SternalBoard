@@ -116,7 +116,7 @@ public class SternalCommand implements CommandExecutor {
 
     private void noPermission(CommandSender sender){
         sender.sendMessage(
-                TextUtils.colorize("&cYou cant use this command")
+                TextUtils.colorize("&cYou don't have the permission to do that!")
         );
     }
 }
