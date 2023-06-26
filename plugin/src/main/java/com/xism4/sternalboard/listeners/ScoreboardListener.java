@@ -22,7 +22,7 @@ public class ScoreboardListener implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        worldCheck(e.getPlayer());
+        plugin.getScoreboardManager().checkWorldManager(e.getPlayer());
     }
 
 
@@ -31,31 +31,5 @@ public class ScoreboardListener implements Listener {
         plugin.getScoreboardManager().removeScoreboard(
                 e.getPlayer()
         );
-    }
-
-    @EventHandler
-    public void onWorldChange(PlayerChangedWorldEvent e) {
-        worldCheck(e.getPlayer());
-    }
-
-    private void worldCheck(Player player) {
-        ScoreboardManager manager = plugin.getScoreboardManager();
-
-        if (!plugin.getConfig().getBoolean("settings.world-blacklist.enabled")) {
-            if (manager.getBoardsHandler().containsKey(player.getUniqueId())) {
-                return;
-            }
-
-            manager.setScoreboard(player);
-        }
-
-        @NotNull List<String> worldBlacklist = plugin.getConfig().getStringList("settings.world-blacklist.worlds");
-
-        if (worldBlacklist.contains(player.getWorld().getName())) {
-            manager.removeScoreboard(player);
-            return;
-        }
-
-        manager.setScoreboard(player);
     }
 }
