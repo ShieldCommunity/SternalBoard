@@ -41,6 +41,7 @@ settings:
 
 #Option to disable some scoreboards from worlds
   world-blacklist:
+  enabled: true
     - "your-world"
     - "your-world2"
 

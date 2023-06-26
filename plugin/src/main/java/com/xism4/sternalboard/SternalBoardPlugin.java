@@ -56,6 +56,10 @@ public class SternalBoardPlugin extends JavaPlugin {
         return animateScoreboard;
     }
 
+    public boolean isWorldEnabled() {
+        return config.get().getBoolean("settings.scoreboard.world-blacklist.enabled");
+    }
+
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }

@@ -71,7 +71,7 @@ public class ScoreboardManager {
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection defaultSection = config.getConfigurationSection("settings.scoreboard");
 
-        if (plugin.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0)
+        if (plugin.isWorldEnabled() && plugin.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0)
             return;
 
         Scoreboards.updateFromSection(plugin, handler, defaultSection);
