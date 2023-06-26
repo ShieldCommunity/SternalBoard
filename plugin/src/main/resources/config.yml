@@ -23,7 +23,7 @@ settings:
   mode: NORMAL
   scoreboard-interval-update: 20
   scoreboard:
-    title: '&b&lSternal&f&lBoard <red>:)'
+    title: '&b&lSternal&f&lBoard'
     lines:
       - '&8&m+-------------------+'
       - ''
