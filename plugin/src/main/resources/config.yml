@@ -39,11 +39,12 @@ settings:
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
 
-#Option to disable some scoreboards from worlds
+  #Option to disable some scoreboards from worlds
   world-blacklist:
-  enabled: true
-    - "your-world"
-    - "your-world2"
+    enabled: true
+    worlds:
+      - "your-world"
+      - "your-world2"
 
 #
 # Scoreboard per world configuration
