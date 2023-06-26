@@ -7,6 +7,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.alessiodp.com/releases/")
+    maven("https://nexus.neetgames.com/repository/maven-releases/")
     mavenCentral()
 }
 
@@ -18,6 +19,7 @@ dependencies {
     compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-gson:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.14.0")
+    compileOnly("com.gmail.nossr50.mcMMO:mcMMO:2.1.218")
 
     implementation("net.byteflux:libby-bukkit:1.1.5")
 
