@@ -1,10 +1,13 @@
 package com.xism4.sternalboard.listeners;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+
+import java.util.List;
 
 public class ScoreboardListener implements Listener {
 
@@ -16,13 +19,16 @@ public class ScoreboardListener implements Listener {
 
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
-        plugin.getScoreboardManager().setScoreboard(e.getPlayer());
-
+        plugin.getScoreboardManager().setScoreboard(
+                e.getPlayer()
+        );
     }
+
 
     @EventHandler
     private void onQuit(PlayerQuitEvent e) {
-        plugin.getScoreboardManager().removeScoreboard(e.getPlayer()
+        plugin.getScoreboardManager().removeScoreboard(
+                e.getPlayer()
         );
     }
 }

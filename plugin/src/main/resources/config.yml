@@ -38,6 +38,12 @@ settings:
       - '&f● &7Players: &b%bungee_total%'
       - ''
       - '&f● &fIP: &bplay.yournetwork.com'
+
+#Option to disable some scoreboards from worlds
+  world-blacklist:
+    - "your-world"
+    - "your-world2"
+
 #
 # Scoreboard per world configuration
 #

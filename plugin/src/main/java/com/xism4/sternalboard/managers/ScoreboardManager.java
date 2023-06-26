@@ -8,12 +8,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.io.File;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreboardManager {
@@ -83,7 +81,7 @@ public class ScoreboardManager {
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoardHandler board = boardHandlerMap.remove(player.getUniqueId());
+        SternalBoardHandler<String> board = boardHandlerMap.remove(player.getUniqueId());
         if (board != null) {
             board.delete();
         }
@@ -113,13 +111,20 @@ public class ScoreboardManager {
     }
 
     // STATIC BOARD FEATURES
-    private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
+    public void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
+        @NotNull List<String> worldBlacklist = plugin.getConfig().getStringList("scoreboard-world-blacklist");
+
         ConfigurationSection worldSection = plugin.getConfig()
                 .getConfigurationSection("scoreboard-world." + worldName);
 
         if (worldSection == null) {
             Scoreboards.updateFromSection(plugin, handler, defaultSection);
+            return;
+        }
+
+        if(worldBlacklist.contains(worldName)) {
+            removeScoreboard(handler.getPlayer());
             return;
         }
 
