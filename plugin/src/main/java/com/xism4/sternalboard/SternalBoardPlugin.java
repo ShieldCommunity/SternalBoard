@@ -4,15 +4,12 @@ import com.xism4.sternalboard.commands.SternalCommand;
 import com.xism4.sternalboard.commands.completer.OldPaperTabCompleter;
 import com.xism4.sternalboard.commands.completer.PaperTabCompleter;
 import com.xism4.sternalboard.commands.completer.SpigotTabCompleter;
-import com.xism4.sternalboard.listeners.McMMOScoreboardListener;
 import com.xism4.sternalboard.listeners.ScoreboardListener;
 import com.xism4.sternalboard.listeners.WorldScoreboardListener;
 import com.xism4.sternalboard.managers.LibraryLoader;
-import com.xism4.sternalboard.managers.LibraryManager;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.Metrics;
-import net.byteflux.libby.BukkitLibraryManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -146,10 +143,6 @@ public class SternalBoardPlugin extends JavaPlugin {
         );
         getServer().getPluginManager().registerEvents(
                 new WorldScoreboardListener(this),
-                this
-        );
-        getServer().getPluginManager().registerEvents(
-                new McMMOScoreboardListener(this),
                 this
         );
     }
