@@ -111,18 +111,12 @@ public class ScoreboardManager {
     // STATIC BOARD FEATURES
     private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
-        @NotNull List<String> worldBlacklist = plugin.getConfig().getStringList("scoreboard-world-blacklist");
 
         ConfigurationSection worldSection = plugin.getConfig()
                 .getConfigurationSection("scoreboard-world." + worldName);
 
         if (worldSection == null) {
             Scoreboards.updateFromSection(plugin, handler, defaultSection);
-            return;
-        }
-
-        if(worldBlacklist.contains(worldName)) {
-            removeScoreboard(handler.getPlayer());
             return;
         }
 
