@@ -39,7 +39,7 @@ Before nothing, remember that you need jitpack for it (https://jitpack.io/#Shiel
         <dependency>
             <groupId>com.github.ShieldCommunity</groupId>
             <artifactId>SternalBoard</artifactId>
-            <version>2.0.1</version>
+            <version>2.2.2</version>
             <scope>compile</scope>
         </dependency>
 ```
