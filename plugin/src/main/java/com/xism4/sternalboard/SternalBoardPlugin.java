@@ -32,16 +32,18 @@ public class SternalBoardPlugin extends JavaPlugin {
     public void onLoad() {
         this.animConfig = new BukkitConfiguration(this, "animated-board");
         this.config = new BukkitConfiguration(this, "config");
+
+        setAnimateScoreboard(config.get().getBoolean("settings.animated"));
     }
 
     @Override
     public void onEnable() {
+        LibraryLoader.loadLibs(this);
+
         loadScoreboardMgr();
         commandHandler();
         loadTabCompletions();
         eventHandler();
-
-        LibraryLoader.loadLibs(this);
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
     }
