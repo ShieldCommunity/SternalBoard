@@ -66,14 +66,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 /**
- * Lightweight packet-based scoreboard API for Bukkit plugins.
+ * Lightweight packet-based FastBoard-API fork for Bukkit plugins.
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
- * The project is on <a href="https://github.com/MrMicky-FR/FastBoard">GitHub</a>.
- *
- * @author MrMicky
+ * @author ShieldCommunity
  * @version 2.0.0
  */
 public abstract class SternalBoardHandler<T> {
@@ -97,8 +96,11 @@ public abstract class SternalBoardHandler<T> {
     private static final SternalReflection.PacketConstructor PACKET_SB_TEAM;
     private static final SternalReflection.PacketConstructor PACKET_SB_SERIALIZABLE_TEAM;
     // Scoreboard enums
+
+    private static final Class<?> DISPLAY_SLOT_TYPE;
     private static final Class<?> ENUM_SB_HEALTH_DISPLAY;
     private static final Class<?> ENUM_SB_ACTION;
+    private static final Object SIDEBAR_DISPLAY_SLOT;
     private static final Object ENUM_SB_HEALTH_DISPLAY_INTEGER;
     private static final Object ENUM_SB_ACTION_CHANGE;
     private static final Object ENUM_SB_ACTION_REMOVE;
@@ -131,13 +133,19 @@ public abstract class SternalBoardHandler<T> {
             Field playerConnectionField = Arrays.stream(entityPlayerClass.getFields())
                     .filter(field -> field.getType().isAssignableFrom(playerConnectionClass))
                     .findFirst().orElseThrow(NoSuchFieldException::new);
-            Method sendPacketMethod = Arrays.stream(playerConnectionClass.getMethods())
+            Method sendPacketMethod = Stream.concat(
+                            Arrays.stream(playerConnectionClass.getSuperclass().getMethods()),
+                            Arrays.stream(playerConnectionClass.getMethods())
+                    )
                     .filter(m -> m.getParameterCount() == 1 && m.getParameterTypes()[0] == packetClass)
                     .findFirst().orElseThrow(NoSuchMethodException::new);
 
+            Optional<Class<?>> displaySlotEnum = SternalReflection.nmsOptionalClass("world.scores", "DisplaySlot");
             CHAT_COMPONENT_CLASS = SternalReflection.nmsClass("network.chat", "IChatBaseComponent");
             CHAT_FORMAT_ENUM = SternalReflection.nmsClass(null, "EnumChatFormat");
+            DISPLAY_SLOT_TYPE = displaySlotEnum.orElse(int.class);
             RESET_FORMATTING = SternalReflection.enumValueOf(CHAT_FORMAT_ENUM, "RESET", 21);
+            SIDEBAR_DISPLAY_SLOT = displaySlotEnum.isPresent() ? SternalReflection.enumValueOf(DISPLAY_SLOT_TYPE, "SIDEBAR", 1) : 1; //probably 2?
             PLAYER_GET_HANDLE = lookup.findVirtual(craftPlayerClass, "getHandle", MethodType.methodType(entityPlayerClass));
             PLAYER_CONNECTION = lookup.unreflectGetter(playerConnectionField);
             SEND_PACKET = lookup.unreflect(sendPacketMethod);
@@ -476,7 +484,7 @@ public abstract class SternalBoardHandler<T> {
     protected void sendDisplayObjectivePacket() throws Throwable {
         Object packet = PACKET_SB_DISPLAY_OBJ.invoke();
 
-        setField(packet, int.class, 1); // Position (1: sidebar)
+        setField(packet, DISPLAY_SLOT_TYPE, SIDEBAR_DISPLAY_SLOT); // Position
         setField(packet, String.class, this.id); // Score Name
 
         sendPacket(packet);

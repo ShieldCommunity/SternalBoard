@@ -34,13 +34,13 @@ import java.util.function.Predicate;
  */
 
 /**
- * Packet based scoreboard implementing Reflection & Animations.
+ * Lightweight packet-based scoreboard API for Bukkit plugins.
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
- * The plugin can be found on <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
+ * The project is on <a href="https://github.com/MrMicky-FR/FastBoard">GitHub</a>.
  *
- * @author xIsm4
- * @version 2.0.3
+ * @author MrMicky
+ * @version 2.0.0
  */
 
 public final class SternalReflection {
