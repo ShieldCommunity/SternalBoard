@@ -150,7 +150,7 @@ public class ScoreboardManager {
     /**
      * Verifies if the player is in a world that is blacklisted.
      */
-    public void checkWorldManager(Player player) {
+    public void setBoardAfterCheck(Player player) {
         ScoreboardManager manager = plugin.getScoreboardManager();
 
         if (!plugin.getConfig().getBoolean("settings.world-blacklist.enabled")) {
