@@ -432,6 +432,8 @@ public abstract class SternalBoardHandler<T> {
 
     protected abstract void sendLineChange(int score) throws Throwable;
 
+    protected abstract String serializeLine(T value);
+
     protected abstract Object toMinecraftComponent(T value) throws Throwable;
 
     protected abstract T emptyLine();
@@ -584,7 +586,8 @@ public abstract class SternalBoardHandler<T> {
 
     private void setComponentField(Object packet, T value, int count) throws Throwable {
         if (!VersionType.V1_13.isHigherOrEqual()) {
-            setField(packet, String.class, value != null ? value : "", count);
+            String line = value != null ? serializeLine(value) : "";
+            setField(packet, String.class, line, count);
             return;
         }
 

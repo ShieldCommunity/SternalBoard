@@ -118,6 +118,11 @@ public class SternalBoard extends SternalBoardHandler<String> {
     }
 
     @Override
+    protected String serializeLine(String value) {
+        return value;
+    }
+
+    @Override
     protected String emptyLine() {
         return "";
     }
