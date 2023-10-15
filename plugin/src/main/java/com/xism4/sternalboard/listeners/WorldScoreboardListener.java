@@ -15,6 +15,6 @@ public class WorldScoreboardListener implements Listener {
 
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent e) {
-      plugin.getScoreboardManager().checkWorldManager(e.getPlayer());
+      plugin.getScoreboardManager().setBoardAfterCheck(e.getPlayer());
     }
 }
