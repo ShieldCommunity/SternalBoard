@@ -1,6 +1,7 @@
 package com.xism4.sternalboard.commands.completer;
 
 import com.destroystokyo.paper.event.server.AsyncTabCompleteEvent;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -12,7 +13,7 @@ public final class OldPaperTabCompleter implements Listener {
     @EventHandler
     public void onTabComplete(AsyncTabCompleteEvent event) {
         final String buffer = event.getBuffer();
-        final String input = buffer.charAt(0) == '/' ? buffer.substring(1) : buffer;
+        final String input = !(event.getSender() instanceof ConsoleCommandSender && buffer.isEmpty()) && buffer.charAt(0) == '/' ? buffer.substring(1) : buffer;
         final String[] tokens = input.split(" ");
 
         if (tokens.length == 0) return;
