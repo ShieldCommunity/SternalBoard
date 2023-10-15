@@ -1,6 +1,6 @@
-Do u want to contribute to SternalBoard?
+To contribute to SternalBoard you must follow a design pattern
 
-SternalBoard was mainly builded on Java8, ill deny any PR built on J9+ Use JetBRAINS notes.
+All changes must support Java 8 in order to be merged.
 
 It is required that all pr follow this format, 
 since this repository works in this way and so we can
