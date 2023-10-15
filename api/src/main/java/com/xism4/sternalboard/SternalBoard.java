@@ -135,6 +135,6 @@ public class SternalBoard extends SternalBoardHandler<String> {
      * @return max length
      */
     protected boolean hasLinesMaxLength() {
-        return !VersionType.V1_13.isHigherOrEqual();
+        return true;
     }
 }

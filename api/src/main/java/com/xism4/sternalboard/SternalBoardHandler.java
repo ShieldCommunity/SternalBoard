@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /*
  * This file is part of SternalBoard, licensed under the MIT License.
  *
- * Copyright (c) 2019-2022 Ismael Hanbel
+ * Copyright (c) 2019-2023 Ismael Hanbel
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * The plugin can be found on <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
  *
  * @author xIsm4
- * @version 2.0.3
+ * @version 2.2.5
  */
 
 import org.bukkit.ChatColor;
@@ -611,7 +611,7 @@ public abstract class SternalBoardHandler<T> {
         CHANGE, REMOVE
     }
 
-    enum VersionType {
+    public enum VersionType {
         V1_7, V1_8, V1_13, V1_17;
 
         public boolean isHigherOrEqual() {
