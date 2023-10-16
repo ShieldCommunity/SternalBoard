@@ -13,14 +13,27 @@ Lightweight & Async scoreboard based on FastBoard, implementing animations, pack
 ## Maintainers
 * [ShieldCommunity](https://github.com/ShieldCommunity) Currently mantainers are mostly community owners.
 
+## Why another branch?
+The way SternalBoard works has been changed, since before it was not possible to implement other features because of the way it was thought, so now it will be modularized in versions to avoid the use of excessive Reflection.
+Implementation of new APIs such as inject and caffeine to replace the old ones
+This will be merged on main branch when its ready, feel free to help on the new system
+
+
 ## Features
-* Animated scoreboard - With all tasks running asynchronous
-* Per world scoreboard - Optimal for multi-games
-* Gradient scoreboard support - 1.16 up
-* Multi-version scoreboard - Supports 1.7 to lastest
-* Mini-games support, such as "koths, skywars, bedwars"
-* Simple to use, for people who are relatively new to the industry
-* Ready to run on large servers, with no animation limits
+Fully bedrock support - Other plugins have's strange view problems
+World blacklist - If you don't want the scoreboard appear on some worlds you can!
+Auto tab-completer for modern Paper, legacy, Spigot and forks
+MiniMessage formatting support - Intutive colours like hello
+Automatic dependency download to avoid high weights - Also makes all Minecraft versions support
+Not dependency based - Doesn't need other software to run properly
+Packet-based - The plugin will not bug with plugins that use teams
+Animated scoreboard - With all tasks running asynchronous
+Per world scoreboard - Optimal for multi-games
+Gradient scoreboard support - 1.16 up
+Multi-version scoreboard - Supports 1.7 to lastest
+Mini-games support, such as "koths, skywars, bedwars"
+Simple to use, for people who are relatively new to the industry
+Ready to run on large servers, with no animation limits
 
 ## How to integrate
 If you want to integrate SternalBoard to your proyect, you can use Maven and Gradle:
