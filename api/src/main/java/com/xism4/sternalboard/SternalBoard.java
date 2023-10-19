@@ -72,7 +72,7 @@ public class SternalBoard extends SternalBoardHandler<String> {
 
     @Override
     protected void sendLineChange(int score) throws Throwable {
-        int maxLength = hasLinesMaxLength() ? 16 : 1024;
+        int maxLength = 16; //Set max length on 16 chars
         String line = getLineByScore(score);
         String prefix;
         String suffix = "";
@@ -128,12 +128,15 @@ public class SternalBoard extends SternalBoardHandler<String> {
     }
 
     /**
+     * Removed from maxLength int, but kept for backward compatibility.
      * Return if the player has a prefix/suffix characters limit.
      * By default, it returns true only in 1.12 or lower.
      * This method can be overridden to fix compatibility with some versions support plugin.
      *
      * @return max length
      */
+
+    @Deprecated
     protected boolean hasLinesMaxLength() {
         return true;
     }
