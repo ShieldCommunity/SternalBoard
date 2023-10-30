@@ -72,7 +72,7 @@ public class SternalBoard extends SternalBoardHandler<String> {
 
     @Override
     protected void sendLineChange(int score) throws Throwable {
-        int maxLength = 16; //Set max length on 16 chars
+        int maxLength = hasLinesMaxLength() ? 16 : 1024;
         String line = getLineByScore(score);
         String prefix;
         String suffix = "";
@@ -138,6 +138,6 @@ public class SternalBoard extends SternalBoardHandler<String> {
 
     @Deprecated
     protected boolean hasLinesMaxLength() {
-        return true;
+        return !VersionType.V1_13.isHigherOrEqual();
     }
 }
