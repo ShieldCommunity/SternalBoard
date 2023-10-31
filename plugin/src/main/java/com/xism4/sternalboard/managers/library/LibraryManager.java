@@ -1,6 +1,6 @@
-package com.xism4.sternalboard.managers;
+package com.xism4.sternalboard.managers.library;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+import com.xism4.sternalboard.SternalBoardPlugin;
 import net.byteflux.libby.BukkitLibraryManager;
 import net.byteflux.libby.Library;
 
@@ -101,14 +101,13 @@ public class LibraryManager {
      * @return The library
      */
     public static Library getLib(String groupID, String artifact, String version, String relocate) {
-        Library lib = Library.builder()
+        return Library.builder()
                 .groupId(groupID)
                 .artifactId(artifact)
                 .version(version)
                 .isolatedLoad(false)
                 .relocate(groupID, relocate)
                 .build();
-        return lib;
     }
 
     /**
@@ -118,13 +117,12 @@ public class LibraryManager {
      * @return The library
      */
     public static Library getLib(String groupID, String artifact, String version) {
-        Library lib = Library.builder()
+        return Library.builder()
                 .groupId(groupID)
                 .artifactId(artifact)
                 .version(version)
                 .isolatedLoad(false)
                 .build();
-        return lib;
     }
 
     /**
@@ -135,23 +133,34 @@ public class LibraryManager {
      */
     public static Library getLib(String lib, String relocation){
         String[] libInfo = lib.split(":");
-        Library library = getLib(
+        return getLib(
                 libInfo[0],
                 libInfo[1],
                 libInfo[2],
                 relocation
         );
-        return library;
     }
 
     public static Library getAdventureLib(String artifact) {
-        Library lib = Library.builder()
+        return Library.builder()
                 .groupId("net{}kyori")
                 .artifactId(artifact)
                 .version(ADVENTURE_VERSION)
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
-        return lib;
+    }
+
+    public static void loadLibs(SternalBoardPlugin plugin) {
+        BukkitLibraryManager manager = new BukkitLibraryManager(plugin);
+
+        manager.addMavenCentral();
+        manager.addJitPack();
+        manager.addSonatype();
+        manager.addRepository("https://jitpack.io");
+
+        LibraryManager.load();
+        LibraryManager.getLibs().forEach(manager::loadLibrary);
+
     }
 }
