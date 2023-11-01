@@ -6,6 +6,7 @@ import com.xism4.sternalboard.commands.completer.PaperTabCompleter;
 import com.xism4.sternalboard.commands.completer.SpigotTabCompleter;
 import com.xism4.sternalboard.listeners.ScoreboardListener;
 import com.xism4.sternalboard.listeners.WorldScoreboardListener;
+import com.xism4.sternalboard.managers.TablistManager;
 import com.xism4.sternalboard.managers.library.LibraryManager;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
@@ -22,9 +23,13 @@ public class SternalBoardPlugin extends JavaPlugin {
     private static final int STERNAL_ID_METRICS = 13409;
 
     public ScoreboardManager scoreboardManager;
+    public TablistManager tablistManager;
+
     public AnimationManager animationManager;
+
     public BukkitConfiguration animConfig;
     public BukkitConfiguration config;
+
     public boolean animateScoreboard;
 
 
@@ -63,6 +68,9 @@ public class SternalBoardPlugin extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }
+    public TablistManager getTablistManager() {
+        return tablistManager;
+    }
 
     public AnimationManager getAnimationManager() {
         return animationManager;
@@ -94,12 +102,14 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     public void loadScoreboardMgr() {
         scoreboardManager = new ScoreboardManager(this);
+        tablistManager = new TablistManager(this);
 
         if (animateScoreboard) {
             setAnimationManager(new AnimationManager(this)
             );
         }
 
+        tablistManager.load();
         scoreboardManager.init();
     }
 

@@ -3,7 +3,7 @@ package com.xism4.sternalboard.managers;
 import com.xism4.sternalboard.Scoreboards;
 import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardPlugin;
-import org.bukkit.Bukkit;
+import com.xism4.sternalboard.utils.ManagerExtension;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,14 +12,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ScoreboardManager {
-
-    private final SternalBoardPlugin plugin;
+public class ScoreboardManager extends ManagerExtension {
     private final Map<UUID, SternalBoard> boardHandlerMap;
     private Integer updateTask;
 
     public ScoreboardManager(SternalBoardPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
         this.boardHandlerMap = new ConcurrentHashMap<>();
     }
 
@@ -44,9 +42,9 @@ public class ScoreboardManager {
             return;
         }
 
-        updateTask = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+        updateTask = getScheduler().runTaskTimerAsynchronously(plugin, () -> {
 
-            ConfigurationSection defaultSection = plugin.getConfig()
+            ConfigurationSection defaultSection = getConfig()
                     .getConfigurationSection("settings.scoreboard");
 
             boardHandlerMap.forEach((context, handler) -> {
@@ -68,7 +66,7 @@ public class ScoreboardManager {
 
     public void setScoreboard(Player player) {
         SternalBoard handler = new SternalBoard(player);
-        FileConfiguration config = plugin.getConfig();
+        FileConfiguration config = getConfig();
         ConfigurationSection defaultSection = config.getConfigurationSection("settings.scoreboard");
 
         if (plugin.isWorldEnabled() && plugin.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0)
@@ -87,7 +85,7 @@ public class ScoreboardManager {
 
     public void reload() {
         if (updateTask != null) {
-            Bukkit.getServer().getScheduler().cancelTask(updateTask);
+            getScheduler().cancelTask(updateTask);
         }
 
         // TODO: 30/11/2022 view this condition, is it necessary?
@@ -112,7 +110,7 @@ public class ScoreboardManager {
     private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
 
-        ConfigurationSection worldSection = plugin.getConfig()
+        ConfigurationSection worldSection = getConfig()
                 .getConfigurationSection("scoreboard-world." + worldName);
 
         if (worldSection == null) {
@@ -124,8 +122,8 @@ public class ScoreboardManager {
     }
 
     private void processPermissionScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
-        FileConfiguration configuration = plugin.getConfig();
-        Set<String> permissions = Objects.requireNonNull(plugin.getConfig().getConfigurationSection("scoreboard-permission"))
+        FileConfiguration configuration = getConfig();
+        Set<String> permissions = Objects.requireNonNull(getConfig().getConfigurationSection("scoreboard-permission"))
                 .getKeys(true);
 
         String permissionNode;
@@ -161,7 +159,7 @@ public class ScoreboardManager {
             manager.setScoreboard(player);
         }
 
-        @NotNull List<String> worldBlacklist = plugin.getConfig().getStringList(
+        @NotNull List<String> worldBlacklist = getConfig().getStringList(
                 "settings.world-blacklist.worlds"
         );
 

@@ -47,6 +47,19 @@ settings:
       - "your-world2"
 
 #
+# Optional: Tab List System
+#
+# Supports PlaceholderAPI
+tab-list:
+  enabled: false
+  update-interval: 20
+  header:
+    - "&aSternalBoard Header"
+    - "&eby xIsm4"
+  footer:
+    - "&6Download it now!"
+    - "&fAvailable on SpigotMC"
+#
 # Scoreboard per world configuration
 #
 # If world no exist or is not configured, will use scoreboard section
