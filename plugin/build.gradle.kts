@@ -20,7 +20,7 @@ dependencies {
     compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-gson:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.14.0")
-    compileOnly("com.github.BlueSlimeDev:NMSHandlerAPI:0.4")
+    implementation("com.github.BlueSlimeDev:NMSHandlerAPI:0.4")
 
     implementation("net.byteflux:libby-bukkit:1.1.5")
 

@@ -47,15 +47,15 @@ settings:
       - "your-world2"
 
 #
-# Optional: Tab List System
+# Tab-list system configuration
 #
 # Supports PlaceholderAPI
 tab-list:
-  enabled: false
+  enabled: true
   update-interval: 20
   header:
-    - "&aSternalBoard Header"
-    - "&eby xIsm4"
+    - "&eShield&6Community &7| &aTest server"
+    - "&e%player_name%"
   footer:
     - "&6Download it now!"
     - "&fAvailable on SpigotMC"
