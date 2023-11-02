@@ -16,6 +16,7 @@ Lightweight & Async scoreboard based on FastBoard, implementing animations, pack
 
 ## Features
 * Fully bedrock support - Other plugins have's strange view problems
+* Tab system for header and footer - Customize your player's tab view
 * World blacklist - If you don't want the scoreboard appear on some worlds you can!
 * Auto tab-completer for modern Paper, legacy, Spigot and forks
 * MiniMessage formatting support - Intutive colours like <red>hello<reset>
