@@ -29,10 +29,12 @@ public class SternalCommand implements CommandExecutor {
     ){
         if (args.length == 0) {
             sender.sendMessage(
-                    TextUtils.colorize("&e&lSternal&f&lBoard &7- &7by &6xism4")
+                    TextUtils.colorize(
+                            "&e&lSternal&f&lBoard &7- &7by &6xism4 &7- &7v" + plugin.getDescription().getVersion())
             );
             sender.sendMessage(
-                    TextUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin")
+                    TextUtils.colorize(
+                            "&eUse /sternalboard help &fto see more info about the plugin")
             );
             return true;
         }

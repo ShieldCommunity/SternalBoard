@@ -1,8 +1,8 @@
 #
 # SternalBoard - Scoreboard plugin for Spigot and paper servers
 #
-# Version: 2.2.6
-# Author: xism4 and Jonakls
+# Version: 2.2.7
+# Author: xism4
 #
 # Support discord: https://discord.com/invite/jmWk4pR2SG
 # Spigot: https://www.spigotmc.org/resources/sternalboard-lightweight-animated-scoreboard.89245/
@@ -17,9 +17,9 @@ settings:
   animated: false
   # Select scoreboard mode: NORMAL, WORLD, PERMISSION
   #
-  # NORMAL - scoreboard for all players
-  # WORLD - scoreboard per world, u can configure in scoreboard-world section
-  # PERMISSION - scoreboard per permission, u can configure in scoreboard-permission section
+  # NORMAL - Shows the scoreboard for all the players
+  # WORLD - Shows the scoreboard filtering worlds
+  # PERMISSION - Shows the scoreboard checking permissions
   mode: NORMAL
   scoreboard-interval-update: 20
   scoreboard:
@@ -55,7 +55,7 @@ tab-list:
   update-interval: 20
   header:
     - "&eShield&6Community &7| &aTest server"
-    - "&e%player_name%"
+    - "Do you like the plugin? Give a review!"
   footer:
     - "&6Download it now!"
     - "&fAvailable on SpigotMC"
