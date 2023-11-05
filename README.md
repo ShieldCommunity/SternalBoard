@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/76608233/146663681-08cf1e75-e288-44f4-8c79-fdda3531980b.png)
 
-Lightweight & Async scoreboard based on FastBoard, implementing animations, packet based & supporting all versions.
+Lightweight & Async packet-based scoreboard using FastBoard API, implementing animations, tab and supporting all versions.
 
 ## Official Downloads
 
