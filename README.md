@@ -40,7 +40,7 @@ Before nothing, remember that you need jitpack for it (https://jitpack.io/#Shiel
         <dependency>
             <groupId>com.github.ShieldCommunity</groupId>
             <artifactId>SternalBoard</artifactId>
-            <version>2.2.2</version>
+            <version>2.2.7</version>
             <scope>compile</scope>
         </dependency>
 ```
@@ -56,7 +56,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity:2.2.2'
+    implementation 'com.github:shieldcommunity:2.2.7'
 }
 
 shadowJar {
@@ -75,7 +75,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.2.2")
+    implementation("com.github:shieldcommunity:2.2.7")
 }
 
 shadowJar {
