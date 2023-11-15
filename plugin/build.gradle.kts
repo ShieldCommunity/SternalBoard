@@ -23,7 +23,6 @@ dependencies {
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.14.0")
     implementation("com.github.BlueSlimeDev:NMSHandlerAPI:0.4")
     implementation("net.byteflux:libby-bukkit:1.1.5")
-    implementation("com.github.xism4:SternalBoard:2.2.7")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly(libs.spigot)
