@@ -26,7 +26,7 @@ public class ScoreboardManager extends ManagerExtension {
     }
 
     public void init() {
-        FileConfiguration config = plugin.getConfig();
+        FileConfiguration config = getConfig();
         String scoreboardMode = config.getString("settings.mode", "NORMAL")
                 .toUpperCase(Locale.ROOT);
         String intervalUpdatePath = "settings.scoreboard-interval-update";
