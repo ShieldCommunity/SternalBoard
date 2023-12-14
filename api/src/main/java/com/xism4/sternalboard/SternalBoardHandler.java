@@ -64,7 +64,7 @@ import java.util.stream.Stream;
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
  * @author ShieldCommunity
- * @version 2.0.0
+ * @version 2.2.8
  */
 public abstract class SternalBoardHandler<T> {
 
@@ -80,6 +80,8 @@ public abstract class SternalBoardHandler<T> {
     private static final MethodHandle PLAYER_CONNECTION;
     private static final MethodHandle SEND_PACKET;
     private static final MethodHandle PLAYER_GET_HANDLE;
+    private static final MethodHandle PACKET_SB_SET_SCORE;
+    private static final MethodHandle PACKET_SB_RESET_SCORE;
     // Scoreboard packets
     private static final SternalReflection.PacketConstructor PACKET_SB_OBJ;
     private static final SternalReflection.PacketConstructor PACKET_SB_DISPLAY_OBJ;
@@ -142,6 +144,26 @@ public abstract class SternalBoardHandler<T> {
             SEND_PACKET = lookup.unreflect(sendPacketMethod);
             PACKET_SB_OBJ = SternalReflection.findPacketConstructor(packetSbObjClass, lookup);
             PACKET_SB_DISPLAY_OBJ = SternalReflection.findPacketConstructor(packetSbDisplayObjClass, lookup);
+            Optional<Class<?>> numberFormat = SternalReflection.nmsOptionalClass("network.chat.numbers", "NumberFormat");
+            MethodHandle packetSbSetScore;
+            MethodHandle packetSbResetScore = null;
+
+            if (numberFormat.isPresent()) {
+                Class<?> resetScoreClass = SternalReflection.nmsClass(gameProtocolPackage, "ClientboundResetScorePacket");
+                MethodType setScoreType = MethodType.methodType(void.class, String.class, String.class, int.class, CHAT_COMPONENT_CLASS, numberFormat.get());
+                MethodType removeScoreType = MethodType.methodType(void.class, String.class, String.class);
+                packetSbSetScore = lookup.findConstructor(packetSbScoreClass, setScoreType);
+                packetSbResetScore = lookup.findConstructor(resetScoreClass, removeScoreType);
+            } else if (VersionType.V1_17.isHigherOrEqual()) {
+                Class<?> enumSbAction = SternalReflection.nmsClass("server", "ScoreboardServer$Action");
+                MethodType scoreType = MethodType.methodType(void.class, enumSbAction, String.class, String.class, int.class);
+                packetSbSetScore = lookup.findConstructor(packetSbScoreClass, scoreType);
+            } else {
+                packetSbSetScore = lookup.findConstructor(packetSbScoreClass, MethodType.methodType(void.class));
+            }
+
+            PACKET_SB_SET_SCORE = packetSbSetScore;
+            PACKET_SB_RESET_SCORE = packetSbResetScore;
             PACKET_SB_SCORE = SternalReflection.findPacketConstructor(packetSbScoreClass, lookup);
             PACKET_SB_TEAM = SternalReflection.findPacketConstructor(packetSbTeamClass, lookup);
             PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : SternalReflection.findPacketConstructor(sbTeamClass, lookup);
@@ -195,7 +217,7 @@ public abstract class SternalBoardHandler<T> {
      */
     protected SternalBoardHandler(Player player) {
         this.player = Objects.requireNonNull(player, "player");
-        this.id = "fb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
+        this.id = "sb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
 
         try {
             sendObjectivePacket(ObjectiveMode.CREATE);
@@ -484,7 +506,12 @@ public abstract class SternalBoardHandler<T> {
     }
 
     protected void sendScorePacket(int score, ScoreboardAction action) throws Throwable {
-        Object packet = PACKET_SB_SCORE.invoke();
+        if (VersionType.V1_17.isHigherOrEqual()) {
+            sendModernScorePacket(score, action);
+            return;
+        }
+
+        Object packet = PACKET_SB_SET_SCORE.invoke();
 
         setField(packet, String.class, COLOR_CODES[score], 0); // Player Name
 
@@ -506,6 +533,24 @@ public abstract class SternalBoardHandler<T> {
 
     protected void sendTeamPacket(int score, TeamMode mode) throws Throwable {
         sendTeamPacket(score, mode, null, null);
+    }
+
+    private void sendModernScorePacket(int score, ScoreboardAction action) throws Throwable {
+        String objName = COLOR_CODES[score];
+        Object enumAction = action == ScoreboardAction.REMOVE
+                ? ENUM_SB_ACTION_REMOVE : ENUM_SB_ACTION_CHANGE;
+
+        if (PACKET_SB_RESET_SCORE == null) { // Pre 1.20.3
+            sendPacket(PACKET_SB_SET_SCORE.invoke(enumAction, this.id, objName, score));
+            return;
+        }
+
+        if (action == ScoreboardAction.REMOVE) {
+            sendPacket(PACKET_SB_RESET_SCORE.invoke(objName, this.id));
+            return;
+        }
+
+        sendPacket(PACKET_SB_SET_SCORE.invoke(objName, this.id, score, null, null));
     }
 
     protected void sendTeamPacket(int score, TeamMode mode, T prefix, T suffix)

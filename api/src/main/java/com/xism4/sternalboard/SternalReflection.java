@@ -37,10 +37,10 @@ import java.util.function.Predicate;
  * Lightweight packet-based scoreboard API for Bukkit plugins.
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
- * The project is on <a href="https://github.com/MrMicky-FR/FastBoard">GitHub</a>.
+ * The class is based of <a href="https://github.com/MrMicky-FR/FastBoard">GitHub</a>.
  *
- * @author MrMicky
- * @version 2.0.0
+ * @author ShieldCommunity
+ * @version 2.2.7
  */
 
 public final class SternalReflection {

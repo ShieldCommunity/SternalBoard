@@ -8,7 +8,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Array;
 import java.util.Objects;
 
-import com.xism4.sternalboard.SternalBoardHandler.VersionType;
 
 /**
  * {@inheritDoc}
@@ -101,7 +100,7 @@ public class SternalBoard extends SternalBoardHandler<String> {
 
         if (prefix.length() > maxLength || suffix.length() > maxLength) {
             // Something went wrong, just cut to prevent client crash/kick
-            prefix = prefix.substring(0, maxLength);
+            prefix = prefix.substring(0, maxLength); //may be limit to 16?
             suffix = suffix.substring(0, maxLength);
         }
 
