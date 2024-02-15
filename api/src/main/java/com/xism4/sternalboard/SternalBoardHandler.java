@@ -92,6 +92,7 @@ public abstract class SternalBoardHandler<T> {
 
     private static final Class<?> DISPLAY_SLOT_TYPE;
     private static final Class<?> ENUM_SB_HEALTH_DISPLAY;
+    private static final Object BLANK_NUMBER_FORMAT;
     private static final Class<?> ENUM_SB_ACTION;
     private static final Object SIDEBAR_DISPLAY_SLOT;
     private static final Object ENUM_SB_HEALTH_DISPLAY_INTEGER;
@@ -147,13 +148,17 @@ public abstract class SternalBoardHandler<T> {
             Optional<Class<?>> numberFormat = SternalReflection.nmsOptionalClass("network.chat.numbers", "NumberFormat");
             MethodHandle packetSbSetScore;
             MethodHandle packetSbResetScore = null;
+            Object blankNumberFormat = null;
 
             if (numberFormat.isPresent()) {
+                Class<?> blankFormatClass = SternalReflection.nmsClass("network.chat.numbers", "BlankFormat");
                 Class<?> resetScoreClass = SternalReflection.nmsClass(gameProtocolPackage, "ClientboundResetScorePacket");
                 MethodType setScoreType = MethodType.methodType(void.class, String.class, String.class, int.class, CHAT_COMPONENT_CLASS, numberFormat.get());
                 MethodType removeScoreType = MethodType.methodType(void.class, String.class, String.class);
+                Optional<Field> blankField = Arrays.stream(blankFormatClass.getFields()).filter(f -> f.getType() == blankFormatClass).findAny();
                 packetSbSetScore = lookup.findConstructor(packetSbScoreClass, setScoreType);
                 packetSbResetScore = lookup.findConstructor(resetScoreClass, removeScoreType);
+                blankNumberFormat = blankField.isPresent() ? blankField.get().get(null) : null;
             } else if (VersionType.V1_17.isHigherOrEqual()) {
                 Class<?> enumSbAction = SternalReflection.nmsClass("server", "ScoreboardServer$Action");
                 MethodType scoreType = MethodType.methodType(void.class, enumSbAction, String.class, String.class, int.class);
@@ -167,6 +172,7 @@ public abstract class SternalBoardHandler<T> {
             PACKET_SB_SCORE = SternalReflection.findPacketConstructor(packetSbScoreClass, lookup);
             PACKET_SB_TEAM = SternalReflection.findPacketConstructor(packetSbTeamClass, lookup);
             PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : SternalReflection.findPacketConstructor(sbTeamClass, lookup);
+            BLANK_NUMBER_FORMAT = blankNumberFormat;
 
             for (Class<?> clazz : Arrays.asList(packetSbObjClass, packetSbDisplayObjClass, packetSbScoreClass, packetSbTeamClass, sbTeamClass)) {
                 if (clazz == null) {
@@ -550,7 +556,7 @@ public abstract class SternalBoardHandler<T> {
             return;
         }
 
-        sendPacket(PACKET_SB_SET_SCORE.invoke(objName, this.id, score, null, null));
+        sendPacket(PACKET_SB_SET_SCORE.invoke(objName, this.id, score, null, null, BLANK_NUMBER_FORMAT));
     }
 
     protected void sendTeamPacket(int score, TeamMode mode, T prefix, T suffix)
