@@ -1,8 +1,8 @@
 package com.xism4.sternalboard.managers.library;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
-import net.byteflux.libby.BukkitLibraryManager;
-import net.byteflux.libby.Library;
+import com.alessiodp.libby.BukkitLibraryManager;
+import com.alessiodp.libby.Library;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public class LibraryManager {
 
     public static ArrayList<Library> libs = new ArrayList<>();
 
-    public static String ADVENTURE_VERSION = "4.14.0";
+    public static String ADVENTURE_VERSION = "4.17.0-SNAPSHOT";
 
     public static ArrayList<Library> getLibs() {
         return libs;
@@ -36,7 +36,7 @@ public class LibraryManager {
         Library adventureBukkitPlatform = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-bukkit")
-                .version("4.3.0")
+                .version("4.3.3-SNAPSHOT")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -44,7 +44,7 @@ public class LibraryManager {
         Library examination = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("examination-api")
-                .version("1.3.0")
+                .version("1.3.1-SNAPSHOT")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -52,7 +52,7 @@ public class LibraryManager {
         Library adventurePlatformApi = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-api")
-                .version("4.3.0")
+                .version("4.3.3-SNAPSHOT")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -60,7 +60,7 @@ public class LibraryManager {
         Library adventurePlatformFacet = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-facet")
-                .version("4.3.0")
+                .version("4.3.3-SNAPSHOT")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -158,6 +158,7 @@ public class LibraryManager {
         manager.addJitPack();
         manager.addSonatype();
         manager.addRepository("https://jitpack.io");
+        manager.addRepository("https://s01.oss.sonatype.org/content/repositories/snapshots/");
 
         LibraryManager.load();
         LibraryManager.getLibs().forEach(manager::loadLibrary);

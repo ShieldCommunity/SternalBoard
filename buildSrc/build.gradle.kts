@@ -8,6 +8,6 @@ repositories {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "8"
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
