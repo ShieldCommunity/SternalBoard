@@ -6,11 +6,9 @@ import org.bukkit.entity.Player;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /*
@@ -43,8 +41,8 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p>
  * The plugin can be found on <a href="https://github.com/xIsm4/SternalBoard">GitHub</a>.
  *
- * @author xIsm4
- * @version 2.2.5
+ * @author xism4
+ * @version 2.2.9
  */
 
 import java.util.ArrayList;
@@ -56,7 +54,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 /**
@@ -64,7 +61,7 @@ import java.util.stream.Stream;
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
  * @author ShieldCommunity
- * @version 2.2.8
+ * @version 2.2.9
  */
 public abstract class SternalBoardHandler<T> {
 
@@ -82,6 +79,8 @@ public abstract class SternalBoardHandler<T> {
     private static final MethodHandle PLAYER_GET_HANDLE;
     private static final MethodHandle PACKET_SB_SET_SCORE;
     private static final MethodHandle PACKET_SB_RESET_SCORE;
+    private static final boolean SCORE_OPTIONAL_COMPONENTS;
+    private static final MethodHandle FIXED_NUMBER_FORMAT;
     // Scoreboard packets
     private static final SternalReflection.PacketConstructor PACKET_SB_OBJ;
     private static final SternalReflection.PacketConstructor PACKET_SB_DISPLAY_OBJ;
@@ -148,16 +147,24 @@ public abstract class SternalBoardHandler<T> {
             Optional<Class<?>> numberFormat = SternalReflection.nmsOptionalClass("network.chat.numbers", "NumberFormat");
             MethodHandle packetSbSetScore;
             MethodHandle packetSbResetScore = null;
+            MethodHandle fixedFormatConstructor = null;
             Object blankNumberFormat = null;
+            boolean scoreOptionalComponents = false;
 
             if (numberFormat.isPresent()) {
                 Class<?> blankFormatClass = SternalReflection.nmsClass("network.chat.numbers", "BlankFormat");
+                Class<?> fixedFormatClass = SternalReflection.nmsClass("network.chat.numbers", "FixedFormat");
                 Class<?> resetScoreClass = SternalReflection.nmsClass(gameProtocolPackage, "ClientboundResetScorePacket");
-                MethodType setScoreType = MethodType.methodType(void.class, String.class, String.class, int.class, CHAT_COMPONENT_CLASS, numberFormat.get());
-                MethodType removeScoreType = MethodType.methodType(void.class, String.class, String.class);
+                MethodType scoreType = MethodType.methodType(void.class, String.class, String.class, int.class, CHAT_COMPONENT_CLASS, numberFormat.get());
+                MethodType scoreTypeOptional = MethodType.methodType(void.class, String.class, String.class, int.class, Optional.class, Optional.class);
+                MethodType fixedFormatType = MethodType.methodType(void.class, CHAT_COMPONENT_CLASS);
                 Optional<Field> blankField = Arrays.stream(blankFormatClass.getFields()).filter(f -> f.getType() == blankFormatClass).findAny();
-                packetSbSetScore = lookup.findConstructor(packetSbScoreClass, setScoreType);
-                packetSbResetScore = lookup.findConstructor(resetScoreClass, removeScoreType);
+                // Fields are of type Optional in 1.20.5+
+                Optional<MethodHandle> optionalScorePacket = SternalReflection.optionalConstructor(packetSbScoreClass, lookup, scoreTypeOptional);
+                fixedFormatConstructor = lookup.findConstructor(fixedFormatClass, fixedFormatType);
+                packetSbSetScore = optionalScorePacket.isPresent() ? optionalScorePacket.get()
+                        : lookup.findConstructor(packetSbScoreClass, scoreType);
+                scoreOptionalComponents = optionalScorePacket.isPresent();
                 blankNumberFormat = blankField.isPresent() ? blankField.get().get(null) : null;
             } else if (VersionType.V1_17.isHigherOrEqual()) {
                 Class<?> enumSbAction = SternalReflection.nmsClass("server", "ScoreboardServer$Action");
@@ -172,7 +179,9 @@ public abstract class SternalBoardHandler<T> {
             PACKET_SB_SCORE = SternalReflection.findPacketConstructor(packetSbScoreClass, lookup);
             PACKET_SB_TEAM = SternalReflection.findPacketConstructor(packetSbTeamClass, lookup);
             PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : SternalReflection.findPacketConstructor(sbTeamClass, lookup);
+            FIXED_NUMBER_FORMAT = fixedFormatConstructor;
             BLANK_NUMBER_FORMAT = blankNumberFormat;
+            SCORE_OPTIONAL_COMPONENTS = scoreOptionalComponents;
 
             for (Class<?> clazz : Arrays.asList(packetSbObjClass, packetSbDisplayObjClass, packetSbScoreClass, packetSbTeamClass, sbTeamClass)) {
                 if (clazz == null) {
@@ -212,6 +221,7 @@ public abstract class SternalBoardHandler<T> {
     private final String id;
 
     private final List<T> lines = new ArrayList<>();
+    private final List<T> scores = new ArrayList<>();
     private T title = emptyLine();
 
     private boolean deleted = false;
@@ -232,6 +242,7 @@ public abstract class SternalBoardHandler<T> {
             throw new RuntimeException("Unable to create scoreboard", t);
         }
     }
+
 
     /**
      * Get the scoreboard title.
@@ -286,6 +297,19 @@ public abstract class SternalBoardHandler<T> {
     }
 
     /**
+     * Get how a specific line's score is displayed. On 1.20.2 or below, the value returned isn't used.
+     *
+     * @param line the line number
+     * @return the text of how the line is displayed
+     * @throws IndexOutOfBoundsException if the line is higher than {@code size}
+     */
+    public Optional<T> getScore(int line) {
+        checkLineNumber(line, true, false);
+
+        return Optional.ofNullable(this.scores.get(line));
+    }
+
+    /**
      * Update a single scoreboard line.
      *
      * @param line the line number
@@ -293,27 +317,49 @@ public abstract class SternalBoardHandler<T> {
      * @throws IndexOutOfBoundsException if the line is higher than {@link #size() size() + 1}
      */
     public synchronized void updateLine(int line, T text) {
-        checkLineNumber(line, false, true);
+        updateLine(line, text, null);
+    }
+
+    /**
+     * Update a single scoreboard line including how its score is displayed.
+     * The score will only be displayed on 1.20.3 and higher.
+     *
+     * @param line the line number
+     * @param text the new line text
+     * @param scoreText the new line's score, if null will not change current value
+     * @throws IndexOutOfBoundsException if the line is higher than {@link #size() size() + 1}
+     */
+    public synchronized void updateLine(int line, T text, T scoreText) {
+        checkLineNumber(line, false, false);
 
         try {
             if (line < size()) {
                 this.lines.set(line, text);
+                this.scores.set(line, scoreText);
 
                 sendLineChange(getScoreByLine(line));
+
+                if (customScoresSupported()) {
+                    sendScorePacket(getScoreByLine(line), ScoreboardAction.CHANGE);
+                }
+
                 return;
             }
 
             List<T> newLines = new ArrayList<>(this.lines);
+            List<T> newScores = new ArrayList<>(this.scores);
 
             if (line > size()) {
                 for (int i = size(); i < line; i++) {
                     newLines.add(emptyLine());
+                    newScores.add(null);
                 }
             }
 
             newLines.add(text);
+            newScores.add(scoreText);
 
-            updateLines(newLines);
+            updateLines(newLines, newScores);
         } catch (Throwable t) {
             throw new RuntimeException("Unable to update scoreboard lines", t);
         }
@@ -332,8 +378,10 @@ public abstract class SternalBoardHandler<T> {
         }
 
         List<T> newLines = new ArrayList<>(this.lines);
+        List<T> newScores = new ArrayList<>(this.scores);
         newLines.remove(line);
-        updateLines(newLines);
+        newScores.remove(line);
+        updateLines(newLines, newScores);
     }
 
     /**
@@ -355,12 +403,34 @@ public abstract class SternalBoardHandler<T> {
      * @throws IllegalStateException    if {@link #delete()} was call before
      */
     public synchronized void updateLines(Collection<T> lines) {
+        updateLines(lines, null);
+    }
+
+    /**
+     * Update the lines and how their score is displayed on the scoreboard.
+     * The scores will only be displayed for servers on 1.20.3 and higher.
+     *
+     * @param lines the new scoreboard lines
+     * @param scores the set for how each line's score should be, if null will fall back to default (blank)
+     * @throws IllegalArgumentException if one line is longer than 30 chars on 1.12 or lower
+     * @throws IllegalArgumentException if lines and scores are not the same size
+     * @throws IllegalStateException    if {@link #delete()} was call before
+     */
+    public synchronized void updateLines(Collection<T> lines, Collection<T> scores) {
         Objects.requireNonNull(lines, "lines");
         checkLineNumber(lines.size(), false, true);
+
+        if (scores != null && scores.size() != lines.size()) {
+            throw new IllegalArgumentException("The size of the scores must match the size of the board");
+        }
 
         List<T> oldLines = new ArrayList<>(this.lines);
         this.lines.clear();
         this.lines.addAll(lines);
+
+        List<T> oldScores = new ArrayList<>(this.scores);
+        this.scores.clear();
+        this.scores.addAll(scores != null ? scores : Collections.nCopies(lines.size(), null));
 
         int linesSize = this.lines.size();
 
@@ -370,9 +440,8 @@ public abstract class SternalBoardHandler<T> {
 
                 if (oldLines.size() > linesSize) {
                     for (int i = oldLinesCopy.size(); i > linesSize; i--) {
-                        sendTeamPacket(i - 1, TeamMode.REMOVE);
+                        sendTeamPacket(i - 1);
                         sendScorePacket(i - 1, ScoreboardAction.REMOVE);
-
                         oldLines.remove(0);
                     }
                 } else {
@@ -387,6 +456,9 @@ public abstract class SternalBoardHandler<T> {
                 if (!Objects.equals(getLineByScore(oldLines, i), getLineByScore(i))) {
                     sendLineChange(i);
                 }
+                if (!Objects.equals(getLineByScore(oldScores, i), getLineByScore(this.scores, i))) {
+                    sendScorePacket(i, ScoreboardAction.CHANGE);
+                }
             }
         } catch (Throwable t) {
             throw new RuntimeException("Unable to update scoreboard lines", t);
@@ -394,9 +466,89 @@ public abstract class SternalBoardHandler<T> {
     }
 
     /**
+     * Update how a specified line's score is displayed on the scoreboard. A null value will reset the displayed
+     * text back to default. The scores will only be displayed for servers on 1.20.3 and higher.
+     *
+     * @param line the line number
+     * @param text the text to be displayed as the score. if null, no score will be displayed
+     * @throws IllegalArgumentException if the line number is not in range
+     * @throws IllegalStateException    if {@link #delete()} was call before
+     */
+    public synchronized void updateScore(int line, T text) {
+        checkLineNumber(line, true, false);
+
+        this.scores.set(line, text);
+
+        try {
+            if (customScoresSupported()) {
+                sendScorePacket(getScoreByLine(line), ScoreboardAction.CHANGE);
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException("Unable to update line score", e);
+        }
+    }
+
+    /**
+     * Reset a line's score back to default (blank). The score will only be displayed for servers on 1.20.3 and higher.
+     *
+     * @param line the line number
+     * @throws IllegalArgumentException if the line number is not in range
+     * @throws IllegalStateException    if {@link #delete()} was call before
+     */
+    public synchronized void removeScore(int line) {
+        updateScore(line, null);
+    }
+
+    /**
+     * Update how all lines' scores are displayed. A value of null will reset the displayed text back to default.
+     * The scores will only be displayed for servers on 1.20.3 and higher.
+     *
+     * @param texts the set of texts to be displayed as the scores
+     * @throws IllegalArgumentException if the size of the texts does not match the current size of the board
+     * @throws IllegalStateException    if {@link #delete()} was call before
+     */
+    @SafeVarargs
+    public final synchronized void updateScores(T... texts) {
+        updateScores(Arrays.asList(texts));
+    }
+
+    /**
+     * Update how all lines' scores are displayed.  A null value will reset the displayed
+     * text back to default (blank). Only available on 1.20.3+ servers.
+     *
+     * @param texts the set of texts to be displayed as the scores
+     * @throws IllegalArgumentException if the size of the texts does not match the current size of the board
+     * @throws IllegalStateException    if {@link #delete()} was call before
+     */
+    public synchronized void updateScores(Collection<T> texts) {
+        Objects.requireNonNull(texts, "texts");
+
+        if (this.scores.size() != this.lines.size()) {
+            throw new IllegalArgumentException("The size of the scores must match the size of the board");
+        }
+
+        List<T> newScores = new ArrayList<>(texts);
+        for (int i = 0; i < this.scores.size(); i++) {
+            if (Objects.equals(this.scores.get(i), newScores.get(i))) {
+                continue;
+            }
+
+            this.scores.set(i, newScores.get(i));
+
+            try {
+                if (customScoresSupported()) {
+                    sendScorePacket(getScoreByLine(i), ScoreboardAction.CHANGE);
+                }
+            } catch (Throwable e) {
+                throw new RuntimeException("Unable to update scores", e);
+            }
+        }
+    }
+
+    /**
      * Get the player who has the scoreboard.
      *
-     * @return current player for this FastBoard
+     * @return current player for this SternalBoard
      */
     public Player getPlayer() {
         return this.player;
@@ -421,6 +573,15 @@ public abstract class SternalBoardHandler<T> {
     }
 
     /**
+     * Get if the server supports custom scoreboard scores (1.20.3+ servers only).
+     *
+     * @return true if the server supports custom scores
+     */
+    public boolean customScoresSupported() {
+        return BLANK_NUMBER_FORMAT != null;
+    }
+
+    /**
      * Get the scoreboard size (the number of lines).
      *
      * @return the size
@@ -430,7 +591,7 @@ public abstract class SternalBoardHandler<T> {
     }
 
     /**
-     * Delete this FastBoard, and will remove the scoreboard for the associated player if he is online.
+     * Delete this SternalBoard, and will remove the scoreboard for the associated player if he is online.
      * After this, all uses of {@link #updateLines} and {@link #updateTitle} will throw an {@link IllegalStateException}
      *
      * @throws IllegalStateException if this was already call before
@@ -438,7 +599,7 @@ public abstract class SternalBoardHandler<T> {
     public void delete() {
         try {
             for (int i = 0; i < this.lines.size(); i++) {
-                sendTeamPacket(i, TeamMode.REMOVE);
+                sendTeamPacket(i);
             }
 
             sendObjectivePacket(ObjectiveMode.REMOVE);
@@ -451,9 +612,9 @@ public abstract class SternalBoardHandler<T> {
 
     protected abstract void sendLineChange(int score) throws Throwable;
 
-    protected abstract String serializeLine(T value);
-
     protected abstract Object toMinecraftComponent(T value) throws Throwable;
+
+    protected abstract String serializeLine(T value);
 
     protected abstract T emptyLine();
 
@@ -491,6 +652,7 @@ public abstract class SternalBoardHandler<T> {
 
         if (mode != ObjectiveMode.REMOVE) {
             setComponentField(packet, this.title, 1);
+            setField(packet, Optional.class, Optional.empty());
 
             if (VersionType.V1_8.isHigherOrEqual()) {
                 setField(packet, ENUM_SB_HEALTH_DISPLAY, ENUM_SB_HEALTH_DISPLAY_INTEGER);
@@ -537,10 +699,6 @@ public abstract class SternalBoardHandler<T> {
         sendPacket(packet);
     }
 
-    protected void sendTeamPacket(int score, TeamMode mode) throws Throwable {
-        sendTeamPacket(score, mode, null, null);
-    }
-
     private void sendModernScorePacket(int score, ScoreboardAction action) throws Throwable {
         String objName = COLOR_CODES[score];
         Object enumAction = action == ScoreboardAction.REMOVE
@@ -556,7 +714,19 @@ public abstract class SternalBoardHandler<T> {
             return;
         }
 
-        sendPacket(PACKET_SB_SET_SCORE.invoke(objName, this.id, score, null, null, BLANK_NUMBER_FORMAT));
+        T scoreFormat = getLineByScore(this.scores, score);
+        Object format = scoreFormat != null
+                ? FIXED_NUMBER_FORMAT.invoke(toMinecraftComponent(scoreFormat))
+                : BLANK_NUMBER_FORMAT;
+        Object scorePacket = SCORE_OPTIONAL_COMPONENTS
+                ? PACKET_SB_SET_SCORE.invoke(objName, this.id, score, Optional.empty(), Optional.of(format))
+                : PACKET_SB_SET_SCORE.invoke(objName, this.id, score, null, format);
+
+        sendPacket(scorePacket);
+    }
+
+    protected void sendTeamPacket(int score) throws Throwable {
+        sendTeamPacket(score, TeamMode.REMOVE, null, null);
     }
 
     protected void sendTeamPacket(int score, TeamMode mode, T prefix, T suffix)
@@ -601,7 +771,7 @@ public abstract class SternalBoardHandler<T> {
 
     private void sendPacket(Object packet) throws Throwable {
         if (this.deleted) {
-            throw new IllegalStateException("This FastBoard is deleted");
+            throw new IllegalStateException("This SternalBoard is deleted");
         }
 
         if (this.player.isOnline()) {
@@ -653,7 +823,7 @@ public abstract class SternalBoardHandler<T> {
         CHANGE, REMOVE
     }
 
-    public enum VersionType {
+    enum VersionType {
         V1_7, V1_8, V1_13, V1_17;
 
         public boolean isHigherOrEqual() {

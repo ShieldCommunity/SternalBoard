@@ -149,6 +149,13 @@ public final class SternalReflection {
         return () -> allocateMethod.invoke(theUnsafe, packetClass);
     }
 
+    static Optional<MethodHandle> optionalConstructor(Class<?> declaringClass, MethodHandles.Lookup lookup, MethodType methodType) throws IllegalAccessException {
+        try {
+            return Optional.of(lookup.findConstructor(declaringClass, methodType));
+        } catch (NoSuchMethodException e) {
+            return Optional.empty();
+        }
+    }
     @FunctionalInterface
     interface PacketConstructor {
         Object invoke() throws Throwable;
