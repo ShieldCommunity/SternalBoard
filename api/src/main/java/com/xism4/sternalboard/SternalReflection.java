@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /*
  * This file is part of SternalBoard, licensed under the MIT License.
  *
- * Copyright (c) 2019-2022 Ismael Hanbel
+ * Copyright (c) 2019-2024 Ismael Hanbel
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,16 +40,15 @@ import java.util.function.Predicate;
  * The class is based of <a href="https://github.com/MrMicky-FR/FastBoard">GitHub</a>.
  *
  * @author ShieldCommunity
- * @version 2.2.7
+ * @version 2.3.0
  */
 
 public final class SternalReflection {
 
     private static final String NM_PACKAGE = "net.minecraft";
-    public static final String OBC_PACKAGE = "org.bukkit.craftbukkit";
-    public static final String NMS_PACKAGE = NM_PACKAGE + ".server";
 
-    public static final String VERSION = Bukkit.getServer().getClass().getPackage().getName().substring(OBC_PACKAGE.length() + 1);
+    private static final String OBC_PACKAGE = Bukkit.getServer().getClass().getPackage().getName();
+    private static final String NMS_PACKAGE = OBC_PACKAGE.replace("org.bukkit.craftbukkit", NM_PACKAGE + ".server");
 
     private static final MethodType VOID_METHOD_TYPE = MethodType.methodType(void.class);
     private static final boolean NMS_REPACKAGED = optionalClass(NM_PACKAGE + ".network.protocol.Packet").isPresent();
@@ -69,7 +68,7 @@ public final class SternalReflection {
             String classPackage = post1_17package == null ? NM_PACKAGE : NM_PACKAGE + '.' + post1_17package;
             return classPackage + '.' + className;
         }
-        return NMS_PACKAGE + '.' + VERSION + '.' + className;
+        return NMS_PACKAGE + '.' + className;
     }
 
     public static Class<?> nmsClass(String post1_17package, String className) throws ClassNotFoundException {
@@ -81,7 +80,7 @@ public final class SternalReflection {
     }
 
     public static String obcClassName(String className) {
-        return OBC_PACKAGE + '.' + VERSION + '.' + className;
+        return OBC_PACKAGE + '.' + className;
     }
 
     public static Class<?> obcClass(String className) throws ClassNotFoundException {
