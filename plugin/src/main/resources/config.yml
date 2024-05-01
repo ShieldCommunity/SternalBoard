@@ -51,7 +51,7 @@ settings:
 #
 # Supports PlaceholderAPI
 tab-list:
-  enabled: true
+  enabled: false
   update-interval: 20
   header:
     - "&eShield&6Community &7| &aTest server"
