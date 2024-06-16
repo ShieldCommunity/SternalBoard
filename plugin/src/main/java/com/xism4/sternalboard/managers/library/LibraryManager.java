@@ -10,7 +10,7 @@ public class LibraryManager {
 
     public static ArrayList<Library> libs = new ArrayList<>();
 
-    public static String ADVENTURE_VERSION = "4.17.0-SNAPSHOT";
+    public static String ADVENTURE_VERSION = "4.17.0";
 
     public static ArrayList<Library> getLibs() {
         return libs;
@@ -36,7 +36,7 @@ public class LibraryManager {
         Library adventureBukkitPlatform = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-bukkit")
-                .version("4.3.3-SNAPSHOT")
+                .version("4.3.3")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -44,7 +44,7 @@ public class LibraryManager {
         Library examination = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("examination-api")
-                .version("1.3.1-SNAPSHOT")
+                .version("1.3.0")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -52,7 +52,7 @@ public class LibraryManager {
         Library adventurePlatformApi = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-api")
-                .version("4.3.3-SNAPSHOT")
+                .version("4.3.3")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
@@ -60,7 +60,7 @@ public class LibraryManager {
         Library adventurePlatformFacet = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-platform-facet")
-                .version("4.3.3-SNAPSHOT")
+                .version("4.3.3")
                 .isolatedLoad(false)
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
