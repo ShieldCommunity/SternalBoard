@@ -20,9 +20,9 @@ dependencies {
     compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
 
-    compileOnly("net.kyori:adventure-text-minimessage:4.17.0-SNAPSHOT")
-    compileOnly("net.kyori:adventure-text-serializer-gson:4.17.0-SNAPSHOT")
-    compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-minimessage:4.17.0")
+    compileOnly("net.kyori:adventure-text-serializer-gson:4.17.0")
+    compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("com.github.BlueSlimeDev:NMSHandlerAPI:0.5.0")
     implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
 
