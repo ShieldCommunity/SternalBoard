@@ -38,7 +38,11 @@ public enum GameVersion {
     v1_19_R3,
     v1_20_R1,
     v1_20_R2,
-    v1_20_R3;
+    v1_20_R3,
+    v1_20_R4,
+    v_1_20_R5,
+    V_1_21_R1;
+
 
 
     private static final GameVersion CURRENT_VERSION;
