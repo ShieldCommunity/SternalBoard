@@ -1,15 +1,14 @@
 package com.xism4.sternalboard.managers.tab.list;
 
 
+import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.tab.TabExecutor;
-import com.xism4.sternalboard.utils.color.ColorHandler;
-import com.xism4.sternalboard.utils.placeholders.PlaceholderParser;
+import com.xism4.sternalboard.utils.TextUtils;
 import me.blueslime.nmshandlerapi.SpecifiedClass;
 import me.blueslime.nmshandlerapi.method.MethodContainer;
 import me.blueslime.nmshandlerapi.method.MethodData;
 import me.blueslime.nmshandlerapi.utils.presets.Presets;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
@@ -43,10 +42,10 @@ public class LegacyTabExecutor extends TabExecutor {
 
     private Method playerHandler;
 
-    private final JavaPlugin plugin;
+    private final SternalBoardPlugin sternalBoardPlugin;
 
-    public LegacyTabExecutor(JavaPlugin plugin) {
-        this.plugin = plugin;
+    public LegacyTabExecutor(SternalBoardPlugin sternalBoardPlugin) {
+        this.sternalBoardPlugin = sternalBoardPlugin;
 
         generate();
     }
@@ -96,17 +95,9 @@ public class LegacyTabExecutor extends TabExecutor {
         String tempHeader;
         String tempFooter;
 
-        if (plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            tempHeader = ColorHandler.convert(
-                    PlaceholderParser.parse(player, check(headerText))
-            );
-            tempFooter = ColorHandler.convert(
-                    PlaceholderParser.parse(player, check(footerText))
-            );
-        } else {
-            tempHeader = ColorHandler.convert(check(headerText));
-            tempFooter = ColorHandler.convert(check(footerText));
-        }
+        tempHeader = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(headerText)
+        );
+        tempFooter = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(footerText));
 
         try {
             Object header = buildComponent(tempHeader);

@@ -1,34 +1,24 @@
 package com.xism4.sternalboard.managers.tab.list;
 
+import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.tab.TabExecutor;
-import com.xism4.sternalboard.utils.color.ColorHandler;
-import com.xism4.sternalboard.utils.placeholders.PlaceholderParser;
+import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class ModernTabExecutor extends TabExecutor {
-    private final JavaPlugin plugin;
+    private final SternalBoardPlugin plugin;
+    private TextUtils textUtils;
 
-    public ModernTabExecutor(JavaPlugin plugin) {
+    public ModernTabExecutor(SternalBoardPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Override
     public void sendTab(Player player, String header, String footer) {
-        if (plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            player.setPlayerListHeaderFooter(
-                    ColorHandler.convert(
-                            PlaceholderParser.parse(player, check(header))
-                    ),
-                    ColorHandler.convert(
-                            PlaceholderParser.parse(player, check(footer))
-                    )
-            );
-            return;
-        }
+        plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         player.setPlayerListHeaderFooter(
-                ColorHandler.convert(check(header)),
-                ColorHandler.convert(check(footer))
+                TextUtils.processPlaceholders(plugin, player, check(header)),
+                TextUtils.processPlaceholders(plugin, player, check(footer))
         );
     }
 }

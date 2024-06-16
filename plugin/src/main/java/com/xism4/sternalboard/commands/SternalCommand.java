@@ -93,9 +93,15 @@ public class SternalCommand implements CommandExecutor {
     private void reloadSubcommand(CommandSender sender) {
         if (sender.hasPermission("sternalboard.reload")){
             plugin.getRawConfig().reload();
+
             this.config = plugin.getConfig();
-            plugin.setAnimateScoreboard(config.getBoolean("settings.animated"));
+
+            plugin.setAnimateScoreboard(
+                    config.getBoolean("settings.animated")
+            );
+
             plugin.getScoreboardManager().reload();
+
             if (plugin.isAnimationEnabled()) {
                 plugin.getRawAnimConfig().reload();
                 if (plugin.getAnimationManager() != null) {
