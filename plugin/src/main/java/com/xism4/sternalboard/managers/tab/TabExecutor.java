@@ -1,9 +1,9 @@
 package com.xism4.sternalboard.managers.tab;
 
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.tab.list.LegacyTabExecutor;
 import com.xism4.sternalboard.managers.tab.list.ModernTabExecutor;
-import com.xism4.sternalboard.utils.GameVersion;
 import org.bukkit.entity.Player;
 
 public abstract class TabExecutor {
@@ -12,7 +12,7 @@ public abstract class TabExecutor {
 
     private static TabExecutor getInstance(SternalBoardPlugin plugin) {
         if (instance == null) {
-            if (GameVersion.isGreaterEqualThan(GameVersion.v1_13_R1)) {
+            if (SternalBoardHandler.VersionType.V1_13.isHigherOrEqual()) {
                 instance = new ModernTabExecutor(
                         plugin
                 );

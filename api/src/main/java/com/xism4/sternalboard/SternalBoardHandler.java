@@ -820,7 +820,7 @@ public abstract class SternalBoardHandler<T> {
         CHANGE, REMOVE
     }
 
-    enum VersionType {
+    public enum VersionType {
         V1_7, V1_8, V1_13, V1_17;
 
         public boolean isHigherOrEqual() {
