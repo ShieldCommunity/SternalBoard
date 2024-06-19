@@ -1,11 +1,10 @@
 package com.xism4.sternalboard.utils;
 
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 import net.md_5.bungee.api.ChatColor;
@@ -21,18 +20,15 @@ public class TextUtils {
     private static final String MINI_MESSAGE_HEX = "<color:{color}>";
     private static final Pattern HEX_PATTERN = Pattern.compile("(#|&#)([A-Fa-f0-9]){6}");
 
-    private static final int SERVER_VERSION = Integer.parseInt(
-            Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]
-    );
 
     public static String colorize(String text) {
 
-        if (SERVER_VERSION < 16) {
+        if (SternalBoardHandler.VersionType.V1_13.isLowerOrEqual()) {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
 
         text = transformLegacyHex(text);
-        text = text.replaceAll("\u00a7", "&");
+        text = text.replaceAll("§", "&");
 
         MiniMessage mm = MiniMessage.miniMessage();
         text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
