@@ -95,8 +95,7 @@ public class LegacyTabExecutor extends TabExecutor {
         String tempHeader;
         String tempFooter;
 
-        tempHeader = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(headerText)
-        );
+        tempHeader = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(headerText));
         tempFooter = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(footerText));
 
         try {

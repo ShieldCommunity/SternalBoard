@@ -6,10 +6,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
@@ -20,7 +17,6 @@ public class TextUtils {
     private static final String MINI_MESSAGE_HEX = "<color:{color}>";
     private static final Pattern HEX_PATTERN = Pattern.compile("(#|&#)([A-Fa-f0-9]){6}");
 
-
     public static String colorize(String text) {
 
         if (SternalBoardHandler.VersionType.V1_13.isLowerOrEqual()) {
@@ -28,7 +24,7 @@ public class TextUtils {
         }
 
         text = transformLegacyHex(text);
-        text = text.replaceAll("§", "&");
+        text = text.replace("§", "&");
 
         MiniMessage mm = MiniMessage.miniMessage();
         text = LegacyComponentSerializer.legacySection().serialize(mm.deserialize(text));
@@ -54,11 +50,7 @@ public class TextUtils {
     }
 
     public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
-        if (plugin.placeholderCheck()) {
-            return colorize(PlaceholderAPI.setPlaceholders(player, text));
-        }
-
-        return colorize(text);
+        return plugin.placeholderCheck() ? colorize(PlaceholderAPI.setPlaceholders(player, text)) : colorize(text);
     }
 
     @SuppressWarnings("unused")
