@@ -4,6 +4,10 @@ authors: [ xism4, Jonakls ]
 version: '${version}'
 api-version: "1.13"
 softdepend: [ PlaceholderAPI ]
+libraries:
+  - net.kyori:adventure-text-minimessage:4.17.0
+  - net.kyori:adventure-text-serializer-gson:4.17.0
+  - net.kyori:adventure-text-serializer-legacy:4.17.0
 commands:
   sternalboard:
     description: Main command for sternalboard plugin.

@@ -7,7 +7,6 @@ import com.xism4.sternalboard.commands.completer.SpigotTabCompleter;
 import com.xism4.sternalboard.listeners.ScoreboardListener;
 import com.xism4.sternalboard.listeners.WorldScoreboardListener;
 import com.xism4.sternalboard.managers.TablistManager;
-import com.xism4.sternalboard.managers.library.LibraryManager;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.Metrics;
@@ -43,7 +42,6 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        LibraryManager.loadLibs(this);
         loadScoreboardMgr();
         commandHandler();
         loadTabCompletions();
