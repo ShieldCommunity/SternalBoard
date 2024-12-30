@@ -60,14 +60,4 @@ public class TextUtils {
 
         return colorize(text);
     }
-
-    @SuppressWarnings("unused")
-    public static Component toComponent(String text) {
-        text = text.replace("\n", "<br>")
-                .replace(LegacyComponentSerializer.SECTION_CHAR, LegacyComponentSerializer.AMPERSAND_CHAR);
-        Component initial = LegacyComponentSerializer.legacyAmpersand().deserialize(text);
-        String deserializedAsMini = MiniMessage.miniMessage().serialize(initial).replace("\\", "");
-
-        return MiniMessage.miniMessage().deserialize(deserializedAsMini);
-    }
 }

@@ -91,35 +91,43 @@ public class SternalCommand implements CommandExecutor {
     }
 
     private void reloadSubcommand(CommandSender sender) {
-        if (sender.hasPermission("sternalboard.reload")){
-            plugin.getRawConfig().reload();
+        if (!sender.hasPermission("sternalboard.reload")) {
+            noPermission(sender);
+            return;
+        }
 
-            this.config = plugin.getConfig();
+        plugin.getRawConfig().reload();
+        this.config = plugin.getConfig();
 
-            plugin.setAnimateScoreboard(
-                    config.getBoolean("settings.animated")
-            );
+        boolean isAnimationEnabled = config.getBoolean("settings.animated");
+        plugin.setAnimateScoreboard(isAnimationEnabled);
 
-            plugin.getScoreboardManager().reload();
+        plugin.getScoreboardManager().reload();
 
-            if (plugin.isAnimationEnabled()) {
-                plugin.getRawAnimConfig().reload();
-                if (plugin.getAnimationManager() != null) {
-                    plugin.getAnimationManager().reload();
+        plugin.getRawAnimConfig().reload();
+        AnimationManager animationManager = plugin.getAnimationManager();
+
+        switch (Boolean.toString(isAnimationEnabled)) {
+            case "true":
+                if (animationManager != null) {
+                    animationManager.reload();
                 } else {
                     plugin.setAnimationManager(new AnimationManager(plugin));
                 }
-            } else {
-                if (plugin.getAnimationManager() != null) {
-                    plugin.getAnimationManager().reload();
+                break;
+
+            case "false":
+                if (animationManager != null) {
+                    animationManager.reload();
                 }
-            }
-            sender.sendMessage(TextUtils.colorize(
-                    "&aThe plugin has been reloaded successfully")
-            );
-            return;
+                break;
+
+            default:
+                sender.sendMessage(TextUtils.colorize("&cUnexpected animation state detected!"));
+                break;
         }
-        noPermission(sender);
+
+        sender.sendMessage(TextUtils.colorize("&aThe plugin has been reloaded successfully"));
     }
 
     private void noPermission(CommandSender sender){

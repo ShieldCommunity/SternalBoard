@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.tinylog.Logger;
 
 import java.util.Objects;
 
@@ -43,6 +44,7 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        Logger.info("Starting SternalBoard Plugin");
         LibraryManager.loadLibs(this);
         loadScoreboardMgr();
         commandHandler();

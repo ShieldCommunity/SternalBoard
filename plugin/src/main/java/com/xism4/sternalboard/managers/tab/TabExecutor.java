@@ -12,19 +12,19 @@ public abstract class TabExecutor {
 
     private static TabExecutor getInstance(SternalBoardPlugin plugin) {
         if (instance == null) {
-            if (SternalBoardHandler.VersionType.V1_13.isHigherOrEqual()) {
-                instance = new ModernTabExecutor(
-                        plugin
-                );
-            } else {
-                instance = new LegacyTabExecutor(
-                        plugin
-                );
+            boolean isModern = SternalBoardHandler.VersionType.V1_13.isHigherOrEqual();
+            switch (isModern ? "MODERN" : "LEGACY") {
+                case "MODERN":
+                    instance = new ModernTabExecutor(plugin);
+                    break;
+                case "LEGACY":
+                    instance = new LegacyTabExecutor(plugin);
+                    break;
             }
         }
         return instance;
     }
-
+    
     public abstract void sendTab(Player player, String header, String footer);
 
     public static void sendTabList(SternalBoardPlugin plugin, Player player, String header, String footer) {

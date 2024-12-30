@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimationManager {
+    private static final String TITLE_LINES_KEY = "scoreboard-animated.title.lines";
+    private static final String TITLE_UPDATE_RATE_KEY = "scoreboard-animated.title.update-rate";
+    private static final String SCORE_LINES_KEY = "scoreboard-animated.score-lines";
+
     private final SternalBoardPlugin plugin;
     private String title;
     private String[] lines;
@@ -27,111 +31,91 @@ public class AnimationManager {
     }
 
     public void load() {
-        FileConfiguration config = plugin.getAnimConfig();
-
         if (!plugin.isAnimationEnabled()) {
-            this.lines = null;
+            lines = null;
             return;
         }
 
-        this.taskIds = new ArrayList<>();
-
-        List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
-        titleLines.replaceAll(TextUtils::colorize);
-        this.title = titleLines.get(0);
-
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
-        titleUpdateTask.runTaskTimerAsynchronously(
-                plugin,
-                config.getInt(
-                        "scoreboard-animated.title.update-rate"),
-                config.getInt(
-                        "scoreboard-animated.title.update-rate")
-        );
-        taskIds.add(titleUpdateTask.getTaskId()
-        );
-
-        List<String> linesList = Lists.newArrayList();
-        ConfigurationSection configSection = config.getConfigurationSection(
-                "scoreboard-animated.score-lines"
-        );
-
-        updateLines(configSection, linesList);
-
-        this.lines = linesList.toArray(new String[0]);
+        resetTasks();
+        FileConfiguration config = plugin.getAnimConfig();
+        loadTitle(config);
+        loadLines(config);
     }
 
     public void reload() {
-        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        FileConfiguration config = plugin.getAnimConfig();
-
-        for (Integer taskId : taskIds) {
-            scheduler.cancelTask(taskId);
+        resetTasks();
+        if (plugin.isAnimationEnabled()) {
+            FileConfiguration config = plugin.getAnimConfig();
+            loadTitle(config);
+            adjustLinesIfNecessary(config);
+            loadLines(config);
         }
-
-        this.taskIds = new ArrayList<>();
-
-        if (!plugin.isAnimationEnabled()) {
-            return;
-        }
-
-        List<String> titleLines = config.getStringList("scoreboard-animated.title.lines");
-
-        titleLines.replaceAll(TextUtils::colorize);
-
-        this.title = titleLines.get(0);
-
-        TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
-        titleUpdateTask.runTaskTimerAsynchronously(
-                plugin,
-                config.getInt(
-                        "scoreboard-animated.title.update-rate"),
-                config.getInt(
-                        "scoreboard-animated.title.update-rate")
-        );
-        taskIds.add(titleUpdateTask.getTaskId()
-        );
-
-        List<String> linesList = Lists.newArrayList();
-        ConfigurationSection configSection = config.getConfigurationSection(
-                "scoreboard-animated.score-lines"
-        );
-
-        int newLinesLength = configSection.getKeys(false).size();
-
-        if (newLinesLength < lines.length) {
-            ScoreboardManager scoreboardManager = plugin.getScoreboardManager();
-            int linesToDelete = lines.length - newLinesLength;
-
-            for (int i = 1; i <= linesToDelete; i++) {
-                int lineToDelete = lines.length - i;
-
-                for (SternalBoardHandler sb : scoreboardManager.getBoardsHandler().values()) {
-                    sb.removeLine(lineToDelete);
-                }
-            }
-        }
-
-        updateLines(configSection, linesList);
-        this.lines = linesList.toArray(new String[0]);
     }
 
-    private void updateLines(ConfigurationSection configSection, List<String> linesList) {
+    private void resetTasks() {
+        if (taskIds != null) {
+            BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+            taskIds.forEach(scheduler::cancelTask);
+        }
+        taskIds = new ArrayList<>();
+    }
+
+    private void loadTitle(FileConfiguration config) {
+        List<String> titleLines = config.getStringList(TITLE_LINES_KEY);
+        titleLines.replaceAll(TextUtils::colorize);
+
+        if (!titleLines.isEmpty()) {
+            title = titleLines.get(0);
+            TitleUpdateTask titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
+            int updateRate = config.getInt(TITLE_UPDATE_RATE_KEY);
+            titleUpdateTask.runTaskTimerAsynchronously(plugin, updateRate, updateRate);
+            taskIds.add(titleUpdateTask.getTaskId());
+        }
+    }
+
+    private void loadLines(FileConfiguration config) {
+        ConfigurationSection configSection = config.getConfigurationSection(SCORE_LINES_KEY);
+        if (configSection == null) return;
+
+        List<String> linesList = Lists.newArrayList();
         for (String key : configSection.getKeys(false)) {
-            List<String> list = configSection.getStringList(key + ".lines");
-            int updateRate = configSection.getInt(key + ".update-rate");
-            int lineNumber = Integer.parseInt(key);
+            processLine(configSection, key, linesList);
+        }
+        lines = linesList.toArray(new String[0]);
+    }
 
-            list.replaceAll(TextUtils::colorize);
+    private void processLine(ConfigurationSection configSection, String key, List<String> linesList) {
+        List<String> lineVariations = configSection.getStringList(key + ".lines");
+        lineVariations.replaceAll(TextUtils::colorize);
 
-            linesList.add(list.get(0));
+        int updateRate = configSection.getInt(key + ".update-rate");
+        int lineNumber = Integer.parseInt(key);
 
-            LineUpdateTask lineUpdateTask = new LineUpdateTask(
-                    plugin, this, list, lineNumber
-            );
+        if (!lineVariations.isEmpty()) {
+            linesList.add(lineVariations.get(0));
+            LineUpdateTask lineUpdateTask = new LineUpdateTask(plugin, this, lineVariations, lineNumber);
             lineUpdateTask.runTaskTimerAsynchronously(plugin, updateRate, updateRate);
-            taskIds.add(lineUpdateTask.getTaskId()
-            );
+            taskIds.add(lineUpdateTask.getTaskId());
+        }
+    }
+
+    private void adjustLinesIfNecessary(FileConfiguration config) {
+        ConfigurationSection configSection = config.getConfigurationSection(SCORE_LINES_KEY);
+        if (configSection == null) return;
+
+        int newLinesLength = configSection.getKeys(false).size();
+        if (lines != null && newLinesLength < lines.length) {
+            linesCheck(newLinesLength);
+        }
+    }
+
+    private void linesCheck(int newLinesLength) {
+        ScoreboardManager scoreboardManager = plugin.getScoreboardManager();
+        int linesToDelete = lines.length - newLinesLength;
+
+        for (int i = 1; i <= linesToDelete; i++) {
+            int lineToDelete = lines.length - i;
+            scoreboardManager.getBoardsHandler().values().forEach(sb -> sb.removeLine(lineToDelete));
         }
     }
 
@@ -144,10 +128,12 @@ public class AnimationManager {
     }
 
     public void setTitle(String line) {
-        this.title = line;
+        title = line;
     }
 
     public void setLine(int lineNumber, String line) {
-        this.lines[lineNumber] = line;
+        if (lines != null && lineNumber >= 0 && lineNumber < lines.length) {
+            lines[lineNumber] = line;
+        }
     }
 }
