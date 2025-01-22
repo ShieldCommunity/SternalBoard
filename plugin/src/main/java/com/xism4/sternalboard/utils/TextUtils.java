@@ -54,10 +54,6 @@ public class TextUtils {
     }
 
     public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
-        if (plugin.placeholderCheck()) {
-            return colorize(PlaceholderAPI.setPlaceholders(player, text));
-        }
-
-        return colorize(text);
+        return plugin.placeholderCheck() ? colorize(PlaceholderAPI.setPlaceholders(player, text)) : colorize(text);
     }
 }
