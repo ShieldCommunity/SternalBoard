@@ -8,29 +8,21 @@ import org.bukkit.entity.Player;
 
 public abstract class TabExecutor {
 
-    private static TabExecutor instance = null;
+    private static TabExecutor instance;
 
     private static TabExecutor getInstance(SternalBoardPlugin plugin) {
         if (instance == null) {
-            boolean isModern = SternalBoardHandler.VersionType.V1_13.isHigherOrEqual();
-            switch (isModern ? "MODERN" : "LEGACY") {
-                case "MODERN":
-                    instance = new ModernTabExecutor(plugin);
-                    break;
-                case "LEGACY":
-                    instance = new LegacyTabExecutor(plugin);
-                    break;
-            }
+            instance = SternalBoardHandler.VersionType.V1_13.isHigherOrEqual() //todo: Change to 1.17 in the future
+                    ? new ModernTabExecutor(plugin)
+                    : new LegacyTabExecutor(plugin);
         }
         return instance;
     }
-    
+
     public abstract void sendTab(Player player, String header, String footer);
 
     public static void sendTabList(SternalBoardPlugin plugin, Player player, String header, String footer) {
-        getInstance(plugin).sendTab(
-                player, header, footer
-        );
+        getInstance(plugin).sendTab(player, header, footer);
     }
 
     public String check(String line) {
