@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /*
  * This file is part of SternalBoard, licensed under the MIT License.
  *
- * Copyright (c) 2019-2024 Ismael Hanbel
+ * Copyright (c) 2019-2025 Ismael Hanbel
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * SOFTWARE.
  */
 
-/**
+/*
  * Packet based scoreboard implementing Reflection & Animations.
  * It can be safely used asynchronously as everything is at packet level.
  * <p>
@@ -102,9 +102,11 @@ public abstract class SternalBoardHandler<T> {
 
             if (SternalReflection.isRepackaged()) {
                 VERSION_TYPE = VersionType.V1_17;
-            } else if (SternalReflection.nmsOptionalClass(null, "ScoreboardServer$Action").isPresent()) {
+            } else if (SternalReflection.nmsOptionalClass(null, "ScoreboardServer$Action").isPresent()
+                    || SternalReflection.nmsOptionalClass(null, "ServerScoreboard$Method").isPresent()) {
                 VERSION_TYPE = VersionType.V1_13;
-            } else if (SternalReflection.nmsOptionalClass(null, "IScoreboardCriteria$EnumScoreboardHealthDisplay").isPresent()) {
+            } else if (SternalReflection.nmsOptionalClass(null, "IScoreboardCriteria$EnumScoreboardHealthDisplay").isPresent()
+                    || SternalReflection.nmsOptionalClass(null, "ObjectiveCriteria$RenderType").isPresent()) {
                 VERSION_TYPE = VersionType.V1_8;
             } else {
                 VERSION_TYPE = VersionType.V1_7;
@@ -112,13 +114,13 @@ public abstract class SternalBoardHandler<T> {
 
             String gameProtocolPackage = "network.protocol.game";
             Class<?> craftPlayerClass = SternalReflection.obcClass("entity.CraftPlayer");
-            Class<?> entityPlayerClass = SternalReflection.nmsClass("server.level", "EntityPlayer");
-            Class<?> playerConnectionClass = SternalReflection.nmsClass("server.network", "PlayerConnection");
+            Class<?> entityPlayerClass = SternalReflection.nmsClass("server.level", "EntityPlayer", "ServerPlayer");
+            Class<?> playerConnectionClass = SternalReflection.nmsClass("server.network", "PlayerConnection", "ServerGamePacketListenerImpl");
             Class<?> packetClass = SternalReflection.nmsClass("network.protocol", "Packet");
-            Class<?> packetSbObjClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardObjective");
-            Class<?> packetSbDisplayObjClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardDisplayObjective");
-            Class<?> packetSbScoreClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardScore");
-            Class<?> packetSbTeamClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardTeam");
+            Class<?> packetSbObjClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardObjective", "ClientboundSetObjectivePacket");
+            Class<?> packetSbDisplayObjClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardDisplayObjective", "ClientboundSetDisplayObjectivePacket");
+            Class<?> packetSbScoreClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardScore", "ClientboundSetScorePacket");
+            Class<?> packetSbTeamClass = SternalReflection.nmsClass(gameProtocolPackage, "PacketPlayOutScoreboardTeam", "ClientboundSetPlayerTeamPacket");
             Class<?> sbTeamClass = VersionType.V1_17.isHigherOrEqual()
                     ? SternalReflection.innerClass(packetSbTeamClass, innerClass -> !innerClass.isEnum()) : null;
             Field playerConnectionField = Arrays.stream(entityPlayerClass.getFields())
@@ -131,8 +133,8 @@ public abstract class SternalBoardHandler<T> {
                     .filter(m -> m.getParameterCount() == 1 && m.getParameterTypes()[0] == packetClass)
                     .findFirst().orElseThrow(NoSuchMethodException::new);
             Optional<Class<?>> displaySlotEnum = SternalReflection.nmsOptionalClass("world.scores", "DisplaySlot");
-            CHAT_COMPONENT_CLASS = SternalReflection.nmsClass("network.chat", "IChatBaseComponent");
-            CHAT_FORMAT_ENUM = SternalReflection.nmsClass(null, "EnumChatFormat");
+            CHAT_COMPONENT_CLASS = SternalReflection.nmsClass("network.chat", "IChatBaseComponent","Component");
+            CHAT_FORMAT_ENUM = SternalReflection.nmsClass(null, "EnumChatFormat", "ChatFormatting");
             DISPLAY_SLOT_TYPE = displaySlotEnum.orElse(int.class);
             RESET_FORMATTING = SternalReflection.enumValueOf(CHAT_FORMAT_ENUM, "RESET", 21);
             SIDEBAR_DISPLAY_SLOT = displaySlotEnum.isPresent() ? SternalReflection.enumValueOf(DISPLAY_SLOT_TYPE, "SIDEBAR", 1) : 1;
@@ -167,7 +169,7 @@ public abstract class SternalBoardHandler<T> {
                 packetSbResetScore = lookup.findConstructor(resetScoreClass, removeScoreType);
                 blankNumberFormat = blankField.isPresent() ? blankField.get().get(null) : null;
             } else if (VersionType.V1_17.isHigherOrEqual()) {
-                Class<?> enumSbAction = SternalReflection.nmsClass("server", "ScoreboardServer$Action");
+                Class<?> enumSbAction = SternalReflection.nmsClass("server", "ScoreboardServer$Action", "ServerScoreboard$Method");
                 MethodType scoreType = MethodType.methodType(void.class, enumSbAction, String.class, String.class, int.class);
                 packetSbSetScore = lookup.findConstructor(packetSbScoreClass, scoreType);
             } else {
@@ -199,8 +201,8 @@ public abstract class SternalBoardHandler<T> {
                 String enumSbActionClass = VersionType.V1_13.isHigherOrEqual()
                         ? "ScoreboardServer$Action"
                         : "PacketPlayOutScoreboardScore$EnumScoreboardAction";
-                ENUM_SB_HEALTH_DISPLAY = SternalReflection.nmsClass("world.scores.criteria", "IScoreboardCriteria$EnumScoreboardHealthDisplay");
-                ENUM_SB_ACTION = SternalReflection.nmsClass("server", enumSbActionClass);
+                ENUM_SB_HEALTH_DISPLAY = SternalReflection.nmsClass("world.scores.criteria", "IScoreboardCriteria$EnumScoreboardHealthDisplay", "ObjectiveCriteria$RenderType");
+                ENUM_SB_ACTION = SternalReflection.nmsClass("server", enumSbActionClass, "ServerScoreboard$Method");
                 ENUM_SB_HEALTH_DISPLAY_INTEGER = SternalReflection.enumValueOf(ENUM_SB_HEALTH_DISPLAY, "INTEGER", 0);
                 ENUM_SB_ACTION_CHANGE = SternalReflection.enumValueOf(ENUM_SB_ACTION, "CHANGE", 0);
                 ENUM_SB_ACTION_REMOVE = SternalReflection.enumValueOf(ENUM_SB_ACTION, "REMOVE", 1);
@@ -226,13 +228,13 @@ public abstract class SternalBoardHandler<T> {
     private boolean deleted = false;
 
     /**
-     * Creates a new SternalBoard.
+     * Creates a new FastBoard.
      *
      * @param player the owner of the scoreboard
      */
     protected SternalBoardHandler(Player player) {
         this.player = Objects.requireNonNull(player, "player");
-        this.id = "sternalboard-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
+        this.id = "sb-" + Integer.toHexString(ThreadLocalRandom.current().nextInt());
 
         try {
             sendObjectivePacket(ObjectiveMode.CREATE);
@@ -820,7 +822,7 @@ public abstract class SternalBoardHandler<T> {
         CHANGE, REMOVE
     }
 
-   public enum VersionType {
+    public enum VersionType {
         V1_7, V1_8, V1_13, V1_17;
 
         public boolean isHigherOrEqual() {

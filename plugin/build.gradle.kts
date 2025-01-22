@@ -20,7 +20,7 @@ dependencies {
     compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
 
-    compileOnly("net.kyori:adventure-text-minimessage:4.17.0")
+    compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-gson:4.17.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("org.tinylog:tinylog-api-kotlin:2.7.0")

@@ -42,16 +42,15 @@ import java.util.function.Predicate;
  * @author ShieldCommunity
  * @version 2.3.0
  */
-
 public final class SternalReflection {
 
     private static final String NM_PACKAGE = "net.minecraft";
-
     private static final String OBC_PACKAGE = Bukkit.getServer().getClass().getPackage().getName();
     private static final String NMS_PACKAGE = OBC_PACKAGE.replace("org.bukkit.craftbukkit", NM_PACKAGE + ".server");
 
     private static final MethodType VOID_METHOD_TYPE = MethodType.methodType(void.class);
     private static final boolean NMS_REPACKAGED = optionalClass(NM_PACKAGE + ".network.protocol.Packet").isPresent();
+    private static final boolean MOJANG_MAPPINGS = optionalClass(NM_PACKAGE + ".network.chat.Component").isPresent();
 
     private static volatile Object theUnsafe;
 
@@ -66,13 +65,19 @@ public final class SternalReflection {
     public static String nmsClassName(String post1_17package, String className) {
         if (NMS_REPACKAGED) {
             String classPackage = post1_17package == null ? NM_PACKAGE : NM_PACKAGE + '.' + post1_17package;
+
             return classPackage + '.' + className;
         }
+
         return NMS_PACKAGE + '.' + className;
     }
 
     public static Class<?> nmsClass(String post1_17package, String className) throws ClassNotFoundException {
         return Class.forName(nmsClassName(post1_17package, className));
+    }
+
+    public static Class<?> nmsClass(String post1_17package, String spigotClass, String mojangClass) throws ClassNotFoundException {
+        return nmsClass(post1_17package, MOJANG_MAPPINGS ? mojangClass : spigotClass);
     }
 
     public static Optional<Class<?>> nmsOptionalClass(String post1_17package, String className) {
@@ -148,13 +153,14 @@ public final class SternalReflection {
         return () -> allocateMethod.invoke(theUnsafe, packetClass);
     }
 
-    static Optional<MethodHandle> optionalConstructor(Class<?> declaringClass, MethodHandles.Lookup lookup, MethodType methodType) throws IllegalAccessException {
+    static Optional<MethodHandle> optionalConstructor(Class<?> declaringClass, MethodHandles.Lookup lookup, MethodType type) throws IllegalAccessException {
         try {
-            return Optional.of(lookup.findConstructor(declaringClass, methodType));
+            return Optional.of(lookup.findConstructor(declaringClass, type));
         } catch (NoSuchMethodException e) {
             return Optional.empty();
         }
     }
+
     @FunctionalInterface
     interface PacketConstructor {
         Object invoke() throws Throwable;

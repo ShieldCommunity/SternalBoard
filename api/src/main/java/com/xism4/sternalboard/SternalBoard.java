@@ -8,7 +8,6 @@ import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Array;
 import java.util.Objects;
 
-
 /**
  * {@inheritDoc}
  */
@@ -100,7 +99,7 @@ public class SternalBoard extends SternalBoardHandler<String> {
 
         if (prefix.length() > maxLength || suffix.length() > maxLength) {
             // Something went wrong, just cut to prevent client crash/kick
-            prefix = prefix.substring(0, maxLength); //may be limit to 16?
+            prefix = prefix.substring(0, maxLength);
             suffix = suffix.substring(0, maxLength);
         }
 
@@ -125,16 +124,9 @@ public class SternalBoard extends SternalBoardHandler<String> {
     protected String emptyLine() {
         return "";
     }
-
     /**
-     * Removed from maxLength int, but kept for backward compatibility.
-     * Return if the player has a prefix/suffix characters limit.
-     * By default, it returns true only in 1.12 or lower.
-     * This method can be overridden to fix compatibility with some versions support plugin.
-     *
-     * @return max length
+     * Método para verificar el máximo de caracteres de las líneas.
      */
-
     @Deprecated
     protected boolean hasLinesMaxLength() {
         return !VersionType.V1_13.isHigherOrEqual();
