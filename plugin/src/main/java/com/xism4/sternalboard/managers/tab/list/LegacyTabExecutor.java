@@ -1,6 +1,5 @@
 package com.xism4.sternalboard.managers.tab.list;
 
-
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.tab.TabExecutor;
 import com.xism4.sternalboard.utils.TextUtils;
@@ -16,6 +15,10 @@ import java.lang.reflect.Method;
 import java.util.concurrent.CompletableFuture;
 
 public class LegacyTabExecutor extends TabExecutor {
+
+    private static final String JSON_LEFT = "{\"text\":\"";
+    private static final String JSON_RIGHT = "\"}";
+
     private final SpecifiedClass baseComponent = SpecifiedClass.build(
             false,
             "[minecraft].[version].IChatBaseComponent",
@@ -35,53 +38,40 @@ public class LegacyTabExecutor extends TabExecutor {
             "[craftbukkit].CraftPlayer"
     );
 
+    private final SternalBoardPlugin plugin;
     private MethodContainer container;
-
-    private static final String RIGHT = "\"}";
-    private static final String LEFT = "{\"text\":\"";
-
     private Method playerHandler;
 
-    private final SternalBoardPlugin sternalBoardPlugin;
-
-    public LegacyTabExecutor(SternalBoardPlugin sternalBoardPlugin) {
-        this.sternalBoardPlugin = sternalBoardPlugin;
-
-        generate();
+    public LegacyTabExecutor(SternalBoardPlugin plugin) {
+        this.plugin = plugin;
+        startMethod();
     }
 
-    public void generate() {
-        if (!baseComponent.exists()) {
-            return;
+    private void startMethod() {
+        if (baseComponent.exists()) {
+            container = MethodContainer.builder(
+                    MethodData.build(
+                            baseComponent.getResult().getDeclaredClasses()[0],
+                            MethodData.SearchMethod.DECLARED,
+                            0,
+                            "a",
+                            String.class
+                    )
+            );
         }
-
-        container = MethodContainer.builder(
-                MethodData.build(
-                        baseComponent.getResult().getDeclaredClasses()[0],
-                        MethodData.SearchMethod.DECLARED,
-                        0,
-                        "a",
-                        String.class
-                )
-        );
 
         if (player.exists()) {
             try {
                 playerHandler = player.getResult().getDeclaredMethod("getHandle");
-            } catch (Exception ignored) {
-
+            } catch (Exception e) {
+                playerHandler = null;
             }
-        } else {
-            playerHandler = null;
         }
     }
 
     private Object buildComponent(String text) {
-        if (container.exists()) {
-            return container.execute(
-                    null,
-                    LEFT + text + RIGHT
-            );
+        if (container != null && container.exists()) {
+            return container.execute(null, JSON_LEFT + text + JSON_RIGHT);
         }
         return null;
     }
@@ -92,40 +82,40 @@ public class LegacyTabExecutor extends TabExecutor {
             return;
         }
 
-        String tempHeader;
-        String tempFooter;
-
-        tempHeader = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(headerText)
-        );
-        tempFooter = TextUtils.processPlaceholders(sternalBoardPlugin, player, check(footerText));
+        String processedHeader = TextUtils.processPlaceholders(plugin, player, check(headerText));
+        String processedFooter = TextUtils.processPlaceholders(plugin, player, check(footerText));
 
         try {
-            Object header = buildComponent(tempHeader);
-            Object footer = buildComponent(tempFooter);
+            Object headerComponent = buildComponent(processedHeader);
+            Object footerComponent = buildComponent(processedFooter);
 
             Object packet = this.packet.getResult().getConstructor().newInstance();
 
-            Field aField;
-            Field bField;
+            setPacketFields(packet, headerComponent, footerComponent);
 
-            try {
-                aField = packet.getClass().getDeclaredField("a");
-                bField = packet.getClass().getDeclaredField("b");
-            } catch (Exception ex) {
-                aField = packet.getClass().getDeclaredField("header");
-                bField = packet.getClass().getDeclaredField("footer");
-            }
-
-            aField.setAccessible(true);
-            aField.set(packet, header);
-
-            bField.setAccessible(true);
-            bField.set(packet, footer);
-
-            sendPacket(player, packet);
-        } catch (Exception ignored) {
-
+            sendAsyncPacket(player, packet);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void setPacketFields(Object packet, Object header, Object footer) throws Exception {
+        Field headerField;
+        Field footerField;
+
+        try {
+            headerField = packet.getClass().getDeclaredField("a");
+            footerField = packet.getClass().getDeclaredField("b");
+        } catch (Exception e) {
+            headerField = packet.getClass().getDeclaredField("header");
+            footerField = packet.getClass().getDeclaredField("footer");
+        }
+
+        headerField.setAccessible(true);
+        headerField.set(packet, header);
+
+        footerField.setAccessible(true);
+        footerField.set(packet, footer);
     }
 
     /**
@@ -140,7 +130,7 @@ public class LegacyTabExecutor extends TabExecutor {
      * @since 1.0.0
      */
     @Nonnull
-    public CompletableFuture<Void> sendPacket(@Nonnull Player player, @Nonnull Object... packets) {
+    public CompletableFuture<Void> sendAsyncPacket(@Nonnull Player player, @Nonnull Object... packets) {
         return CompletableFuture.runAsync(() -> sendPacketSync(player, packets));
     }
 
@@ -150,7 +140,7 @@ public class LegacyTabExecutor extends TabExecutor {
      * @param player  the player to send the packet to.
      * @param packets the packets to send.
      *
-     * @see #sendPacket(Player, Object...)
+     * @see #sendAsyncPacket(Player, Object...) (Player, Object...)
      * @since 2.0.0
      */
     public void sendPacketSync(@Nonnull Player player, @Nonnull Object... packets) {
@@ -159,24 +149,25 @@ public class LegacyTabExecutor extends TabExecutor {
         }
     }
 
-    public void sendDirectPacket(Player player, Object packet) {
+    private void sendDirectPacket(Player player, Object packet) {
         try {
             Object connection = playerHandler.invoke(getCraftPlayer(player));
 
-            Field playerConnectionField = connection.getClass().getDeclaredField("playerConnection");
+            Field connectionField = connection.getClass().getDeclaredField("playerConnection");
+            connectionField.setAccessible(true);
 
-            Object obtainConnection = playerConnectionField.get(connection);
+            Object playerConnection = connectionField.get(connection);
 
-            Method sendPacket = obtainConnection.getClass().getDeclaredMethod("sendPacket", Presets.PACKET.getResult());
+            Method sendPacketMethod = playerConnection.getClass().getDeclaredMethod("sendPacket", Presets.PACKET.getResult());
+            sendPacketMethod.setAccessible(true);
 
-            sendPacket.invoke(
-                    obtainConnection,
-                    packet
-            );
-        } catch (Exception ignored) {}
+            sendPacketMethod.invoke(playerConnection, packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public Object getCraftPlayer(Player player) {
+    private Object getCraftPlayer(Player player) {
         return this.player.getResult().cast(player);
     }
 }
