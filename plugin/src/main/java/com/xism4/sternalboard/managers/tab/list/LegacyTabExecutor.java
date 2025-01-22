@@ -130,7 +130,7 @@ public class LegacyTabExecutor extends TabExecutor {
      * @since 1.0.0
      */
     @Nonnull
-    public CompletableFuture<Void> sendAsyncPacket(@Nonnull Player player, @Nonnull Object... packets) {
+    private CompletableFuture<Void> sendAsyncPacket(@Nonnull Player player, @Nonnull Object... packets) {
         return CompletableFuture.runAsync(() -> sendPacketSync(player, packets));
     }
 
@@ -143,7 +143,7 @@ public class LegacyTabExecutor extends TabExecutor {
      * @see #sendAsyncPacket(Player, Object...) (Player, Object...)
      * @since 2.0.0
      */
-    public void sendPacketSync(@Nonnull Player player, @Nonnull Object... packets) {
+    private void sendPacketSync(@Nonnull Player player, @Nonnull Object... packets) {
         for (Object packet : packets) {
             sendDirectPacket(player, packet);
         }
