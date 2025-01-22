@@ -99,6 +99,7 @@ public class SternalCommand implements CommandExecutor {
         plugin.getRawConfig().reload();
         this.config = plugin.getConfig();
 
+        this.plugin.getTablistManager().load();
         boolean isAnimationEnabled = config.getBoolean("settings.animated");
         plugin.setAnimateScoreboard(isAnimationEnabled);
 
