@@ -89,6 +89,10 @@ public class LegacyTabExecutor extends TabExecutor {
             Object headerComponent = buildComponent(processedHeader);
             Object footerComponent = buildComponent(processedFooter);
 
+            if (headerComponent == null || footerComponent == null) {
+                return; // check if components are null and avoid sending the packet
+            }
+
             Object packet = this.packet.getResult().getConstructor().newInstance();
 
             setPacketFields(packet, headerComponent, footerComponent);
@@ -98,6 +102,7 @@ public class LegacyTabExecutor extends TabExecutor {
             e.printStackTrace();
         }
     }
+
 
     private void setPacketFields(Object packet, Object header, Object footer) throws Exception {
         Field headerField;
