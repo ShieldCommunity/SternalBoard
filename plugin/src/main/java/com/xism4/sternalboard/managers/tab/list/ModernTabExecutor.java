@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 public class ModernTabExecutor extends TabExecutor {
     private final SternalBoardPlugin plugin;
-    private TextUtils textUtils;
 
     public ModernTabExecutor(SternalBoardPlugin plugin) {
         this.plugin = plugin;
@@ -15,7 +14,6 @@ public class ModernTabExecutor extends TabExecutor {
 
     @Override
     public void sendTab(Player player, String header, String footer) {
-        plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI");
         player.setPlayerListHeaderFooter(
                 TextUtils.processPlaceholders(plugin, player, check(header)),
                 TextUtils.processPlaceholders(plugin, player, check(footer))
