@@ -11,7 +11,9 @@ import com.xism4.sternalboard.managers.library.LibraryManager;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.Metrics;
+import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -47,9 +49,11 @@ public class SternalBoardPlugin extends JavaPlugin {
         Logger.info("Starting SternalBoard Plugin");
         LibraryManager.loadLibs(this);
         loadScoreboardMgr();
-        commandHandler();
         loadTabCompletions();
         eventHandler();
+
+        BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
+        manager.registerCommand(new SternalCommand(this));
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
     }
@@ -113,12 +117,6 @@ public class SternalBoardPlugin extends JavaPlugin {
 
         tablistManager.load();
         scoreboardManager.init();
-    }
-
-    public void commandHandler() {
-        Objects.requireNonNull(this.getCommand(
-                "sternalboard")).setExecutor(new SternalCommand(this)
-        );
     }
 
     public void loadTabCompletions() {

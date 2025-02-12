@@ -3,14 +3,18 @@ package com.xism4.sternalboard.commands;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
 import com.xism4.sternalboard.utils.TextUtils;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import dev.triumphteam.cmd.bukkit.annotation.Permission;
+import dev.triumphteam.cmd.core.BaseCommand;
+import dev.triumphteam.cmd.core.annotation.Default;
+import dev.triumphteam.cmd.core.annotation.SubCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.command.CommandSender;
 
-public class SternalCommand implements CommandExecutor {
+import java.util.Optional;
+
+@dev.triumphteam.cmd.core.annotation.Command("sternalboard")
+public class SternalCommand extends BaseCommand {
 
     private final SternalBoardPlugin plugin;
     private FileConfiguration config;
@@ -20,120 +24,53 @@ public class SternalCommand implements CommandExecutor {
         this.config = plugin.getConfig();
     }
 
-    @Override
-    public boolean onCommand(
-            @NotNull CommandSender sender,
-            @NotNull Command commands,
-            @NotNull String label,
-            String[] args
-    ){
-        if (args.length == 0) {
-            sender.sendMessage(
-                    TextUtils.colorize(
-                            "&e&lSternal&f&lBoard &7- &7by &6xism4 &7- &7v" + plugin.getDescription().getVersion())
-            );
-            sender.sendMessage(
-                    TextUtils.colorize(
-                            "&eUse /sternalboard help &fto see more info about the plugin")
-            );
-        }
-        else {
-            switch (args[0].toLowerCase()) {
-                case "help" -> {
-                    helpSubcommand(sender);
-                }
-                case "toggle" -> {
-                    toggleSubcommand(sender);
-                }
-                case "reload" -> {
-                    reloadSubcommand(sender);
-                }
-                default -> {
-                    sender.sendMessage(
-                            TextUtils.colorize("&cCommand not recognized!")
-                    );
-                }
-            }
-        }
-        return true;
+    @Default
+    public void mainCommand(CommandSender sender) {
+        String version = plugin.getDescription().getVersion();
+        sender.sendMessage(TextUtils.colorize(String.format("&e&lSternal&f&lBoard &7- &7by &6xism4 &7- &7v%s", version)));
+        sender.sendMessage(TextUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin"));
     }
 
-    private void helpSubcommand(CommandSender sender){
-        sender.sendMessage(
-                TextUtils.colorize("&eSternalBoard &fcommands")
-        );
-        sender.sendMessage(
-                TextUtils.colorize(
-                        "- &e/sb help&f: Shows all the commands available for you")
-        );
-        if (sender.hasPermission("sternalboard.toggle") && sender instanceof Player) {
-            sender.sendMessage(
-                    TextUtils.colorize(
-                            "- &e/sb toggle&f: Toggles the scoreboard on or off")
-            );
-        }
-        if (sender.hasPermission("sternalboard.reload")){
-            sender.sendMessage(
-                    TextUtils.colorize(
-                            "- &e/sb reload&f: Reloads the config")
-            );
-        }
+    @SubCommand("help")
+    public void helpSubcommand(CommandSender sender) {
+        sender.sendMessage(TextUtils.colorize("&eSternalBoard &fcommands"));
+        sender.sendMessage(TextUtils.colorize("- &e/sb help&f: Shows all available commands"));
+        sender.sendMessage(TextUtils.colorize("- &e/sb toggle&f: Toggles the scoreboard on or off"));
+        sender.sendMessage(TextUtils.colorize("- &e/sb reload&f: Reloads the config"));
     }
 
-    private void toggleSubcommand(CommandSender sender) {
-        if (sender instanceof Player){
-            if (sender.hasPermission("sternalboard.toggle")){
-                plugin.getScoreboardManager().toggle((Player) sender);
-                return;
-            }
-        }
-        noPermission(sender);
+    @SubCommand("toggle")
+    @Permission("sternalboard.toggle")
+    public void toggleSubcommand(Player player) {
+        plugin.getScoreboardManager().toggle(player);
     }
 
-    private void reloadSubcommand(CommandSender sender) {
-        if (!sender.hasPermission("sternalboard.reload")) {
-            noPermission(sender);
-            return;
-        }
-
+    @SubCommand("reload")
+    @Permission("sternalboard.reload")
+    public void reloadSubcommand(CommandSender sender) {
         plugin.getRawConfig().reload();
         this.config = plugin.getConfig();
 
-        this.plugin.getTablistManager().load();
+        plugin.getTablistManager().load();
         boolean isAnimationEnabled = config.getBoolean("settings.animated");
         plugin.setAnimateScoreboard(isAnimationEnabled);
-
         plugin.getScoreboardManager().reload();
-
         plugin.getRawAnimConfig().reload();
-        AnimationManager animationManager = plugin.getAnimationManager();
 
-        switch (Boolean.toString(isAnimationEnabled)) {
-            case "true":
-                if (animationManager != null) {
-                    animationManager.reload();
-                } else {
-                    plugin.setAnimationManager(new AnimationManager(plugin));
-                }
-                break;
-
-            case "false":
-                if (animationManager != null) {
-                    animationManager.reload();
-                }
-                break;
-
-            default:
-                sender.sendMessage(TextUtils.colorize("&cUnexpected animation state detected!"));
-                break;
-        }
+        Optional.ofNullable(plugin.getAnimationManager())
+                .ifPresentOrElse(
+                        animationManager -> {
+                            if (isAnimationEnabled) {
+                                animationManager.reload();
+                            }
+                        },
+                        () -> {
+                            if (isAnimationEnabled) {
+                                plugin.setAnimationManager(new AnimationManager(plugin));
+                            }
+                        }
+                );
 
         sender.sendMessage(TextUtils.colorize("&aThe plugin has been reloaded successfully"));
-    }
-
-    private void noPermission(CommandSender sender){
-        sender.sendMessage(
-                TextUtils.colorize("&cYou don't have the permission to do that!")
-        );
     }
 }

@@ -11,6 +11,7 @@ repositories {
     maven("https://jitpack.io/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://plugins.gradle.org/m2/")
+    maven("https://repo.triumphteam.dev/snapshots/")
     mavenCentral()
 }
 
@@ -23,11 +24,11 @@ dependencies {
     compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
     compileOnly("net.kyori:adventure-text-serializer-gson:4.17.0")
     compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
-    implementation("org.tinylog:tinylog-api-kotlin:2.7.0")
+    compileOnly("org.tinylog:tinylog-api-kotlin:2.7.0")
 
     implementation("org.tinylog:tinylog-impl:2.7.0")
-    implementation("com.github.BlueSlimeDev:NMSHandlerAPI:0.5.0")
     implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
+    implementation("dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly(libs.spigot)
@@ -38,7 +39,6 @@ tasks {
     shadowJar {
         relocate("com.alessiodp.libby", "com.xism4.sternalboard.libs")
         relocate("net.kyori", "com.xism4.sternalboard.libs.kyori")
-        relocate("me.blueslime", "com.xism4.sternalboard.libs.blueslime")
         archiveBaseName.set("SternalBoard")
         destinationDirectory.set(file("$rootDir/bin/"))
         minimize()
