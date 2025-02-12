@@ -13,6 +13,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreboardManager extends ManagerExtension {
+    //Constants
+    private static final String SCOREBOARD_MODE_KEY = "settings.mode";
+    private static final String INTERVAL_UPDATE_KEY = "settings.scoreboard-interval-update";
+    private static final String SCOREBOARD_SECTION_KEY = "settings.scoreboard";
+    private static final String WORLD_BLACKLIST_KEY = "settings.world-blacklist.enabled";
+    private static final String WORLD_BLACKLIST_WORLDS_KEY = "settings.world-blacklist.worlds";
+
     private final Map<UUID, SternalBoard> boardHandlerMap;
     private Integer updateTask;
 
@@ -27,14 +34,11 @@ public class ScoreboardManager extends ManagerExtension {
 
     public void init() {
         FileConfiguration config = getConfig();
-        String scoreboardMode = config.getString("settings.mode", "NORMAL")
-                .toUpperCase(Locale.ROOT);
-        String intervalUpdatePath = "settings.scoreboard-interval-update";
-        int updateTime = config.getInt(intervalUpdatePath);
+        String scoreboardMode = config.getString(SCOREBOARD_MODE_KEY, "NORMAL").toUpperCase(Locale.ROOT);
+        int updateTime = config.getInt(INTERVAL_UPDATE_KEY, 20);
 
         if (updateTime <= 0) {
-            config.set(intervalUpdatePath, 20);
-            updateTime = 20;
+            config.set(INTERVAL_UPDATE_KEY, 20);
             plugin.saveConfig();
         }
 
@@ -43,9 +47,7 @@ public class ScoreboardManager extends ManagerExtension {
         }
 
         updateTask = getScheduler().runTaskTimerAsynchronously(plugin, () -> {
-
-            ConfigurationSection defaultSection = getConfig()
-                    .getConfigurationSection("settings.scoreboard");
+            ConfigurationSection defaultSection = getConfig().getConfigurationSection(SCOREBOARD_SECTION_KEY);
 
             boardHandlerMap.forEach((context, handler) -> {
                 switch (scoreboardMode) {
@@ -65,9 +67,9 @@ public class ScoreboardManager extends ManagerExtension {
     }
 
     public void setScoreboard(Player player) {
-        SternalBoard handler = new SternalBoard(player);
+        var handler = new SternalBoard(player);
         FileConfiguration config = getConfig();
-        ConfigurationSection defaultSection = config.getConfigurationSection("settings.scoreboard");
+        ConfigurationSection defaultSection = config.getConfigurationSection(SCOREBOARD_SECTION_KEY);
 
         if (plugin.isWorldEnabled() && plugin.isAnimationEnabled() && config.getInt("settings.scoreboard.update") != 0)
             return;
@@ -77,10 +79,8 @@ public class ScoreboardManager extends ManagerExtension {
     }
 
     public void removeScoreboard(Player player) {
-        SternalBoard board = boardHandlerMap.remove(player.getUniqueId());
-        if (board != null) {
-            board.delete();
-        }
+        Optional.ofNullable(boardHandlerMap.remove(player.getUniqueId()))
+                .ifPresent(SternalBoard::delete);
     }
 
     public void reload() {
@@ -88,61 +88,44 @@ public class ScoreboardManager extends ManagerExtension {
             getScheduler().cancelTask(updateTask);
         }
 
-        // TODO: 30/11/2022 view this condition, is it necessary?
         if (plugin.isAnimationEnabled() && updateTask != null) {
-            for (SternalBoard board : this.boardHandlerMap.values()) {
-                board.updateLines("");
-            }
+            boardHandlerMap.values().forEach(board -> board.updateLines(""));
         }
         init();
     }
 
     public void toggle(Player player) {
-        SternalBoard oldBoard = boardHandlerMap.remove(player.getUniqueId());
-        if (oldBoard != null) {
-            oldBoard.delete();
-        } else {
-            setScoreboard(player);
-        }
+        Optional.ofNullable(boardHandlerMap.remove(player.getUniqueId()))
+                .ifPresent(SternalBoard::delete);
+
+        setScoreboard(player);
     }
 
-    // STATIC BOARD FEATURES
     private void processWorldScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
         String worldName = handler.getPlayer().getWorld().getName();
 
-        ConfigurationSection worldSection = getConfig()
-                .getConfigurationSection("scoreboard-world." + worldName);
-
-        if (worldSection == null) {
-            Scoreboards.updateFromSection(plugin, handler, defaultSection);
-            return;
-        }
-
-        Scoreboards.updateFromSection(plugin, handler, worldSection);
+        Optional.ofNullable(getConfig().getConfigurationSection("scoreboard-world." + worldName))
+                .ifPresentOrElse(
+                        worldSection -> Scoreboards.updateFromSection(plugin, handler, worldSection),
+                        () -> Scoreboards.updateFromSection(plugin, handler, defaultSection)
+                );
     }
 
     private void processPermissionScoreboard(SternalBoard handler, ConfigurationSection defaultSection) {
-        FileConfiguration configuration = getConfig();
-        Set<String> permissions = Objects.requireNonNull(getConfig().getConfigurationSection("scoreboard-permission"))
-                .getKeys(true);
+        Set<String> permissions = Objects.requireNonNull(getConfig().getConfigurationSection("scoreboard-permission")).getKeys(true);
+        FileConfiguration config = getConfig();
 
-        String permissionNode;
-        ConfigurationSection permissionSection = null;
-        for (String key : permissions) {
-            permissionNode = configuration.getString("scoreboard-permission." + key + ".node");
-            if (permissionNode == null) continue;
-            if (handler.getPlayer().hasPermission(permissionNode)) {
-                permissionSection = configuration.getConfigurationSection("scoreboard-permission." + key);
-                break;
-            }
-        }
+        Optional<ConfigurationSection> permissionSection = permissions.stream()
+                .map(permission -> config.getString("scoreboard-permission." + permission + ".node"))
+                .filter(Objects::nonNull)
+                .filter(node -> handler.getPlayer().hasPermission(node))
+                .map(permission -> config.getConfigurationSection("scoreboard-permission." + permission))
+                .findFirst();
 
-        if (permissionSection == null) {
-            Scoreboards.updateFromSection(plugin, handler, defaultSection);
-            return;
-        }
-
-        Scoreboards.updateFromSection(plugin, handler, permissionSection);
+        permissionSection.ifPresentOrElse(
+                section -> Scoreboards.updateFromSection(plugin, handler, section),
+                () -> Scoreboards.updateFromSection(plugin, handler, defaultSection)
+        );
     }
 
     /**
@@ -151,23 +134,18 @@ public class ScoreboardManager extends ManagerExtension {
     public void setBoardAfterCheck(Player player) {
         ScoreboardManager manager = plugin.getScoreboardManager();
 
-        if (!plugin.getConfig().getBoolean("settings.world-blacklist.enabled")) {
-            if (manager.getBoardsHandler().containsKey(player.getUniqueId())) {
-                return;
+        if (!plugin.getConfig().getBoolean(WORLD_BLACKLIST_KEY)) {
+            if (!manager.getBoardsHandler().containsKey(player.getUniqueId())) {
+                manager.setScoreboard(player);
             }
-
-            manager.setScoreboard(player);
-        }
-
-        @NotNull List<String> worldBlacklist = getConfig().getStringList(
-                "settings.world-blacklist.worlds"
-        );
-
-        if (worldBlacklist.contains(player.getWorld().getName())) {
-            manager.removeScoreboard(player);
             return;
         }
 
-        manager.setScoreboard(player);
+        List<String> worldBlacklist = getConfig().getStringList(WORLD_BLACKLIST_WORLDS_KEY);
+        if (worldBlacklist.contains(player.getWorld().getName())) {
+            manager.removeScoreboard(player);
+        } else {
+            manager.setScoreboard(player);
+        }
     }
 }
