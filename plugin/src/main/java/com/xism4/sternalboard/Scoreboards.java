@@ -4,31 +4,24 @@ import com.xism4.sternalboard.utils.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Scoreboards {
 
-    public static void updateFromSection(
-            SternalBoardPlugin plugin, SternalBoard handler, ConfigurationSection section
-    ) {
-        if (section == null) {
-            return;
-        }
+    public static void updateFromSection(SternalBoardPlugin plugin, SternalBoard handler, ConfigurationSection section) {
+        if (section == null) return;
 
-        String title = section.getString("title");
-        List<String> lines = section.getStringList("lines");
+        var title = Objects.requireNonNullElse(section.getString("title"), handler.getTitle());
+        var lines = section.getStringList("lines").isEmpty() ? handler.getLines() : section.getStringList("lines");
 
-        if (title == null) {
-            title = handler.getTitle();
-        }
+        var player = handler.getPlayer();
 
-        if (lines.isEmpty()) {
-            lines = handler.getLines();
-        }
+        var processedLines = lines.stream()
+                .map(line -> TextUtils.processPlaceholders(plugin, player, line))
+                .toList();
 
-        lines.replaceAll(line -> TextUtils.processPlaceholders(plugin, handler.getPlayer(), line));
-
-        handler.updateTitle(TextUtils.processPlaceholders(plugin, handler.getPlayer(), title));
-        handler.updateLines(lines);
+        handler.updateTitle(TextUtils.processPlaceholders(plugin, player, title));
+        handler.updateLines(processedLines);
     }
-
 }
