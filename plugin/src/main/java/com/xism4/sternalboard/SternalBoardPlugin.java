@@ -1,9 +1,6 @@
 package com.xism4.sternalboard;
 
 import com.xism4.sternalboard.commands.SternalCommand;
-import com.xism4.sternalboard.commands.completer.OldPaperTabCompleter;
-import com.xism4.sternalboard.commands.completer.PaperTabCompleter;
-import com.xism4.sternalboard.commands.completer.SpigotTabCompleter;
 import com.xism4.sternalboard.listeners.ScoreboardListener;
 import com.xism4.sternalboard.managers.TablistManager;
 import com.xism4.sternalboard.managers.library.LibraryManager;
@@ -49,7 +46,6 @@ public class SternalBoardPlugin extends JavaPlugin {
         Logger.info("Starting SternalBoard Plugin");
         LibraryManager.loadLibs(this);
         loadScoreboardMgr();
-        loadTabCompletions();
         eventHandler();
         manager.registerCommand(new SternalCommand(this));
 
@@ -115,34 +111,6 @@ public class SternalBoardPlugin extends JavaPlugin {
 
         tablistManager.load();
         scoreboardManager.init();
-    }
-
-    public void loadTabCompletions() {
-        try {
-            Class.forName("com.destroystokyo.paper.event.server.AsyncTabCompleteEvent");
-            getServer().getPluginManager().registerEvents(
-                    componentCompletions()
-                            ? new PaperTabCompleter()
-                            : new OldPaperTabCompleter(),
-                    this);
-        } catch (ClassNotFoundException e) {
-            Objects.requireNonNull(this.getCommand(
-                    "sternalboard")).setTabCompleter(new SpigotTabCompleter()
-            );
-        }
-    }
-
-    public boolean componentCompletions() {
-        try {
-            Class<?> clazz = Class.forName(
-                    "com.destroystokyo.paper.event.server.AsyncTabCompleteEvent$Completion"
-            );
-            Class<?> examinable = Class.forName("net.kyori.examination.Examinable");
-            return clazz.isAssignableFrom(examinable);
-        }
-        catch (ClassNotFoundException e) {
-            return false;
-        }
     }
 
     public void eventHandler() {
