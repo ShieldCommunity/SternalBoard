@@ -2,7 +2,7 @@ package com.xism4.sternalboard;
 
 import com.xism4.sternalboard.commands.SternalCommand;
 import com.xism4.sternalboard.listeners.ScoreboardListener;
-import com.xism4.sternalboard.managers.TablistManager;
+import com.xism4.sternalboard.managers.TabManager;
 import com.xism4.sternalboard.managers.library.LibraryManager;
 import com.xism4.sternalboard.managers.ScoreboardManager;
 import com.xism4.sternalboard.managers.animation.AnimationManager;
@@ -15,19 +15,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.tinylog.Logger;
 
-import java.util.Objects;
-
 public class SternalBoardPlugin extends JavaPlugin {
 
     private static final int STERNAL_ID_METRICS = 13409;
 
     public ScoreboardManager scoreboardManager;
-    public TablistManager tablistManager;
-
     public AnimationManager animationManager;
-
     public BukkitConfiguration animConfig;
     public BukkitConfiguration config;
+    public TabManager tabManager;
 
     public boolean animateScoreboard;
 
@@ -47,6 +43,7 @@ public class SternalBoardPlugin extends JavaPlugin {
         LibraryManager.loadLibs(this);
         loadScoreboardMgr();
         eventHandler();
+
         manager.registerCommand(new SternalCommand(this));
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
@@ -68,8 +65,9 @@ public class SternalBoardPlugin extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }
-    public TablistManager getTablistManager() {
-        return tablistManager;
+
+    public TabManager getTabManager() {
+        return tabManager;
     }
 
     public AnimationManager getAnimationManager() {
@@ -102,15 +100,15 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     public void loadScoreboardMgr() {
         scoreboardManager = new ScoreboardManager(this);
-        tablistManager = new TablistManager(this);
+        tabManager = new TabManager(this);
 
         if (animateScoreboard) {
             setAnimationManager(new AnimationManager(this)
             );
         }
 
-        tablistManager.load();
         scoreboardManager.init();
+        tabManager.init();
     }
 
     public void eventHandler() {

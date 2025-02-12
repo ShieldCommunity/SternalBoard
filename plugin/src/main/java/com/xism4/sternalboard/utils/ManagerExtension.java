@@ -2,7 +2,6 @@ package com.xism4.sternalboard.utils;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.managers.ScoreboardManager;
-import com.xism4.sternalboard.managers.TablistManager;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
@@ -43,7 +42,4 @@ public class ManagerExtension {
         return plugin.getScoreboardManager();
     }
 
-    public TablistManager getTablist() {
-        return plugin.getTablistManager();
-    }
 }

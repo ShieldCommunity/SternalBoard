@@ -51,10 +51,10 @@ public class SternalCommand extends BaseCommand {
         plugin.getRawConfig().reload();
         this.config = plugin.getConfig();
 
-        plugin.getTablistManager().load();
         boolean isAnimationEnabled = config.getBoolean("settings.animated");
         plugin.setAnimateScoreboard(isAnimationEnabled);
         plugin.getScoreboardManager().reload();
+        plugin.getTabManager().reload();
         plugin.getRawAnimConfig().reload();
 
         Optional.ofNullable(plugin.getAnimationManager())

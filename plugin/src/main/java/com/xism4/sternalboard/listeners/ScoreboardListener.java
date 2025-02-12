@@ -18,6 +18,7 @@ public class ScoreboardListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         plugin.getScoreboardManager().setBoardAfterCheck(e.getPlayer());
+        plugin.getTabManager().sendTabList(e.getPlayer());
     }
 
 
