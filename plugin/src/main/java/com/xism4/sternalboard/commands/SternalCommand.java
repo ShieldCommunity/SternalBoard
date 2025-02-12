@@ -36,26 +36,26 @@ public class SternalCommand implements CommandExecutor {
                     TextUtils.colorize(
                             "&eUse /sternalboard help &fto see more info about the plugin")
             );
-            return true;
         }
         else {
-            switch (args[0].toLowerCase()){
-                case "help":
+            switch (args[0].toLowerCase()) {
+                case "help" -> {
                     helpSubcommand(sender);
-                    return true;
-                case "toggle":
+                }
+                case "toggle" -> {
                     toggleSubcommand(sender);
-                    return true;
-                case "reload":
+                }
+                case "reload" -> {
                     reloadSubcommand(sender);
-                    return true;
-                default:
+                }
+                default -> {
                     sender.sendMessage(
                             TextUtils.colorize("&cCommand not recognized!")
                     );
-                    return true;
+                }
             }
         }
+        return true;
     }
 
     private void helpSubcommand(CommandSender sender){
