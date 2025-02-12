@@ -1,5 +1,6 @@
 package com.xism4.sternalboard.manager;
 
+import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -48,7 +49,7 @@ public class TabManager {
     public void sendTabList(Player player) {
         FileConfiguration configuration = plugin.getConfig();
 
-        if (!configuration.getBoolean("tab-list.enabled", false)) return;
+        if (SternalBoardHandler.VersionType.V1_17.isLowerOrEqual() &&!configuration.getBoolean("tab-list.enabled", false)) return;
 
         List<String> headerList = configuration.getStringList("tab-list.header");
         List<String> footerList = configuration.getStringList("tab-list.footer");
