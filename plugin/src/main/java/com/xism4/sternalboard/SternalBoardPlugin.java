@@ -34,6 +34,7 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     public boolean animateScoreboard;
 
+    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
 
     @Override
     public void onLoad() {
@@ -50,8 +51,6 @@ public class SternalBoardPlugin extends JavaPlugin {
         loadScoreboardMgr();
         loadTabCompletions();
         eventHandler();
-
-        BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
         manager.registerCommand(new SternalCommand(this));
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));

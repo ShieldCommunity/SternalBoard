@@ -4,7 +4,8 @@ authors: [ xism4, Jonakls ]
 version: '${version}'
 api-version: "1.13"
 softdepend: [ PlaceholderAPI ]
+#Keep this for Spigot tab completion support
 commands:
   sternalboard:
     description: Main command for sternalboard plugin.
-    aliases: [ sb, sideboard, board ]
+    aliases: [ sb ]

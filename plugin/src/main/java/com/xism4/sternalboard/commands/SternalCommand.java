@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.Optional;
 
-@dev.triumphteam.cmd.core.annotation.Command("sternalboard")
+@dev.triumphteam.cmd.core.annotation.Command(value = "sternalboard", alias = "sb")
 public class SternalCommand extends BaseCommand {
 
     private final SternalBoardPlugin plugin;
