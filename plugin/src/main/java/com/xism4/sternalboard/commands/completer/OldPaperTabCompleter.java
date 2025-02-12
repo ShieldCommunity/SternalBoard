@@ -5,31 +5,29 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public final class OldPaperTabCompleter implements Listener {
 
     @EventHandler
     public void onTabComplete(AsyncTabCompleteEvent event) {
-        final String buffer = event.getBuffer();
-        final String input = !(event.getSender() instanceof ConsoleCommandSender && buffer.isEmpty()) && buffer.charAt(0) == '/' ? buffer.substring(1) : buffer;
-        final String[] tokens = input.split(" ");
+        var buffer = event.getBuffer();
+        var sender = event.getSender();
+
+        var input = (
+                sender instanceof ConsoleCommandSender && buffer.isEmpty()) ? buffer : buffer.startsWith("/") ? buffer.substring(1) : buffer;
+
+        var tokens = input.split(" ");
 
         if (tokens.length == 0) return;
 
         if (tokens.length == 1 && ("sternalboard".equalsIgnoreCase(tokens[0]) || "sb".equalsIgnoreCase(tokens[0]))) {
-            final List<String> completions = new ArrayList<>(2);
-            if (event.getSender().hasPermission(
-                    "sternalboard.reload")) {
-                completions.add("reload"
-                );
-            }
-            if (event.getSender().hasPermission(
-                    "sternalboard.toggle")) {
-                completions.add("toggle"
-                );
-            }
+            var completions = Stream.of(
+                    sender.hasPermission("sternalboard.reload") ? "reload" : null,
+                    sender.hasPermission("sternalboard.toggle") ? "toggle" : null
+            ).filter(Objects::nonNull).toList();
+
             event.setCompletions(completions);
         }
     }
