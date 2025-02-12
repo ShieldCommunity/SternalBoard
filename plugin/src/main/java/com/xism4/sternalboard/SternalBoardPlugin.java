@@ -1,19 +1,20 @@
 package com.xism4.sternalboard;
 
-import com.xism4.sternalboard.commands.SternalCommand;
-import com.xism4.sternalboard.listeners.ScoreboardListener;
-import com.xism4.sternalboard.managers.TabManager;
-import com.xism4.sternalboard.managers.library.LibraryManager;
-import com.xism4.sternalboard.managers.ScoreboardManager;
-import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.Metrics;
-import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
+import com.xism4.sternalboard.listener.ScoreboardListener;
+import com.xism4.sternalboard.manager.ScoreboardManager;
+import com.xism4.sternalboard.manager.TabManager;
+import com.xism4.sternalboard.manager.animation.AnimationManager;
+import com.xism4.sternalboard.manager.library.LibraryManager;
+import com.xism4.sternalboard.module.PluginModule;
+import com.xism4.sternalboard.util.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.tinylog.Logger;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Injector;
+import team.unnamed.inject.Named;
 
 public class SternalBoardPlugin extends JavaPlugin {
 
@@ -21,18 +22,19 @@ public class SternalBoardPlugin extends JavaPlugin {
 
     public ScoreboardManager scoreboardManager;
     public AnimationManager animationManager;
+
+    @Inject
+    @Named
     public BukkitConfiguration animConfig;
+    @Inject
     public BukkitConfiguration config;
     public TabManager tabManager;
 
     public boolean animateScoreboard;
 
-    BukkitCommandManager<CommandSender> manager = BukkitCommandManager.create(this);
-
     @Override
     public void onLoad() {
-        this.animConfig = new BukkitConfiguration(this, "animated-board");
-        this.config = new BukkitConfiguration(this, "config");
+        Injector.create(new PluginModule(this)).injectMembers(this);
 
         setAnimateScoreboard(config.get().getBoolean("settings.animated"));
     }
@@ -43,8 +45,6 @@ public class SternalBoardPlugin extends JavaPlugin {
         LibraryManager.loadLibs(this);
         loadScoreboardMgr();
         eventHandler();
-
-        manager.registerCommand(new SternalCommand(this));
 
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
     }

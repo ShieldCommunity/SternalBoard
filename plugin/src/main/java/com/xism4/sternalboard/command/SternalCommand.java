@@ -1,19 +1,20 @@
-package com.xism4.sternalboard.commands;
+package com.xism4.sternalboard.command;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
-import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.TextUtils;
+import com.xism4.sternalboard.manager.animation.AnimationManager;
+import com.xism4.sternalboard.util.TextUtils;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
+import dev.triumphteam.cmd.core.annotation.Command;
 import dev.triumphteam.cmd.core.annotation.Default;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.command.CommandSender;
 
 import java.util.Optional;
 
-@dev.triumphteam.cmd.core.annotation.Command(value = "sternalboard", alias = "sb")
+@Command(value = "sternalboard", alias = "sb")
 public class SternalCommand extends BaseCommand {
 
     private final SternalBoardPlugin plugin;

@@ -15,7 +15,8 @@ public class BukkitConfiguration {
     private final File file;
     private FileConfiguration config;
 
-    public BukkitConfiguration(File folder, String fileName) {
+    private BukkitConfiguration(final Plugin plugin, final String fileName) {
+        final File folder = plugin.getDataFolder();
         if (!folder.exists() && !folder.mkdirs()) {
             throw new IllegalStateException("Plugin folder" + folder.getName() + "cannot be created");
         }
@@ -34,8 +35,8 @@ public class BukkitConfiguration {
         reload();
     }
 
-    public BukkitConfiguration(Plugin plugin, String fileName) {
-        this(plugin.getDataFolder(), fileName);
+    public static BukkitConfiguration create(final Plugin plugin, final String fileName) {
+        return new BukkitConfiguration(plugin, fileName);
     }
 
     public FileConfiguration get() {

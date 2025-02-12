@@ -1,6 +1,6 @@
 package com.xism4.sternalboard.test.utils;
 
-import com.xism4.sternalboard.utils.TextUtils;
+import com.xism4.sternalboard.util.TextUtils;
 import org.junit.jupiter.api.Test;
 
 public class TextUtilsTest {

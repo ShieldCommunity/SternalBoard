@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.managers.library;
+package com.xism4.sternalboard.manager.library;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.alessiodp.libby.BukkitLibraryManager;
@@ -16,7 +16,7 @@ public class LibraryManager {
         return libs;
     }
 
-    public static void load(){
+    public static void load() {
         Library miniMessage = Library.builder()
                 .groupId("net{}kyori")
                 .artifactId("adventure-text-minimessage")
@@ -94,9 +94,10 @@ public class LibraryManager {
 
     /**
      * Get a library from Maven Central or JitPack
-     * @param groupID The group ID of the library
+     *
+     * @param groupID  The group ID of the library
      * @param artifact The artifact ID of the library
-     * @param version The version of the library
+     * @param version  The version of the library
      * @param relocate The package to relocate the library to
      * @return The library
      */
@@ -111,9 +112,9 @@ public class LibraryManager {
     }
 
     /**
-     * @param groupID The groupID of the library
+     * @param groupID  The groupID of the library
      * @param artifact The artifact of the library
-     * @param version The version of the library
+     * @param version  The version of the library
      * @return The library
      */
     public static Library getLib(String groupID, String artifact, String version) {
@@ -127,11 +128,12 @@ public class LibraryManager {
 
     /**
      * Get a library by its ID
-     * @param lib The ID of the library
+     *
+     * @param lib        The ID of the library
      * @param relocation The relocation of the library
      * @return The library
      */
-    public static Library getLib(String lib, String relocation){
+    public static Library getLib(String lib, String relocation) {
         String[] libInfo = lib.split(":");
         return getLib(
                 libInfo[0],

@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.listeners;
+package com.xism4.sternalboard.listener;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
 import org.bukkit.event.EventHandler;

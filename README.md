@@ -12,7 +12,7 @@ Lightweight & Async packet-based scoreboard using FastBoard API, implementing an
 
 ## Maintainers
 * [xism4](https://github.com/xism4) Main developer
-* [jonakls](https://github.com/jonakls) Retired developer
+* [jonakls](https://github.com/jonakls) Developer
 
 ## Features
 * Fully bedrock support - Other plugins have's strange view problems

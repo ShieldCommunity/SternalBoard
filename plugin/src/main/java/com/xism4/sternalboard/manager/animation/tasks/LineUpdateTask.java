@@ -1,9 +1,9 @@
-package com.xism4.sternalboard.managers.animation.tasks;
+package com.xism4.sternalboard.manager.animation.tasks;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
-import com.xism4.sternalboard.managers.ScoreboardManager;
-import com.xism4.sternalboard.managers.animation.AnimationManager;
-import com.xism4.sternalboard.utils.TextUtils;
+import com.xism4.sternalboard.manager.ScoreboardManager;
+import com.xism4.sternalboard.manager.animation.AnimationManager;
+import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;

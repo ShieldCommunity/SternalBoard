@@ -1,9 +1,9 @@
-package com.xism4.sternalboard.managers.animation;
+package com.xism4.sternalboard.manager.animation;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
-import com.xism4.sternalboard.managers.animation.tasks.LineUpdateTask;
-import com.xism4.sternalboard.managers.animation.tasks.TitleUpdateTask;
-import com.xism4.sternalboard.utils.TextUtils;
+import com.xism4.sternalboard.manager.animation.tasks.LineUpdateTask;
+import com.xism4.sternalboard.manager.animation.tasks.TitleUpdateTask;
+import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;

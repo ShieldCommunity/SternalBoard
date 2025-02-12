@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.spigot)
+    compileOnly(libs.paper)
 }

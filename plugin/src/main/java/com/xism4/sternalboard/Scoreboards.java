@@ -1,11 +1,9 @@
 package com.xism4.sternalboard;
 
-import com.xism4.sternalboard.utils.TextUtils;
+import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Scoreboards {
 

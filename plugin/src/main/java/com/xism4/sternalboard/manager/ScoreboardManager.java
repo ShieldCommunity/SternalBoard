@@ -1,9 +1,9 @@
-package com.xism4.sternalboard.managers;
+package com.xism4.sternalboard.manager;
 
 import com.xism4.sternalboard.Scoreboards;
 import com.xism4.sternalboard.SternalBoard;
 import com.xism4.sternalboard.SternalBoardPlugin;
-import com.xism4.sternalboard.utils.ManagerExtension;
+import com.xism4.sternalboard.util.ManagerExtension;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;

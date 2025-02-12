@@ -17,21 +17,20 @@ repositories {
 
 dependencies {
     api(project(":api"))
-
-    compileOnly(libs.spigot)
     compileOnly(libs.placeholder)
+    compileOnly(libs.paper)
 
-    compileOnly("net.kyori:adventure-text-minimessage:4.14.0")
-    compileOnly("net.kyori:adventure-text-serializer-gson:4.17.0")
-    compileOnly("net.kyori:adventure-text-serializer-legacy:4.17.0")
-    compileOnly("org.tinylog:tinylog-api-kotlin:2.7.0")
+    compileOnly(libs.minimessage)
+    compileOnly(libs.gsonAdventure)
+    compileOnly(libs.legacySerializer)
+    compileOnly(libs.tinylog)
+    implementation(libs.tinylogImpl)
 
-    implementation("org.tinylog:tinylog-impl:2.7.0")
     implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
-    implementation("dev.triumphteam:triumph-cmd-bukkit:2.0.0-SNAPSHOT")
+    implementation(libs.cmd)
+    implementation(libs.inject)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testRuntimeOnly(libs.spigot)
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
 }
 
