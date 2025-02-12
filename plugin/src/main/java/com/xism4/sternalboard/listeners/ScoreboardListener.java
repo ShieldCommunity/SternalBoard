@@ -18,7 +18,6 @@ public class ScoreboardListener implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e) {
         plugin.getScoreboardManager().setBoardAfterCheck(e.getPlayer());
-
     }
 
 
