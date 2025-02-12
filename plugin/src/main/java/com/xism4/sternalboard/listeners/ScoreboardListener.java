@@ -3,6 +3,7 @@ package com.xism4.sternalboard.listeners;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -26,5 +27,10 @@ public class ScoreboardListener implements Listener {
         plugin.getScoreboardManager().removeScoreboard(
                 e.getPlayer()
         );
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        plugin.getScoreboardManager().setBoardAfterCheck(e.getPlayer());
     }
 }
