@@ -38,11 +38,13 @@ tasks {
     shadowJar {
         relocate("com.alessiodp.libby", "com.xism4.sternalboard.libs")
         relocate("net.kyori", "com.xism4.sternalboard.libs.kyori")
+        relocate("dev.triumphteam", "com.xism4.sternalboard.libs.commands")
+        relocate("org.tinylog", "com.xism4.sternalboard.libs.logger")
+        relocate("team.unnamed", "com.xism4.sternalboard.libs.injector")
         archiveBaseName.set("SternalBoard")
         destinationDirectory.set(file("$rootDir/bin/"))
         minimize()
     }
-
     clean {
         delete("${rootDir}/bin/")
     }
