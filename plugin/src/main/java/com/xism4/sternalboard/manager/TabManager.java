@@ -3,7 +3,6 @@ package com.xism4.sternalboard.manager;
 import com.xism4.sternalboard.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.util.TextUtils;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -18,12 +17,10 @@ public class TabManager {
     }
 
     public void init() {
-        if (updateTask != null && updateTask != 0) {
-            return;
-        }
+        if (updateTask != null && updateTask != 0) return;
 
-        FileConfiguration config = plugin.getConfig();
-        int updateInterval = config.getInt("tab-list.update-interval", 20);
+        var config = plugin.getConfig();
+        var updateInterval = config.getInt("tab-list.update-interval", 20);
 
         if (updateInterval <= 0) {
             config.set("tab-list.update-interval", 20);
@@ -33,9 +30,7 @@ public class TabManager {
 
         updateTask = plugin.getServer().getScheduler().runTaskTimerAsynchronously(
                 plugin,
-                () -> {
-                    plugin.getServer().getOnlinePlayers().forEach(this::sendTabList);
-                },
+                () -> plugin.getServer().getOnlinePlayers().forEach(this::sendTabList),
                 0,
                 updateInterval
         ).getTaskId();
@@ -47,26 +42,20 @@ public class TabManager {
     }
 
     public void sendTabList(Player player) {
-        FileConfiguration configuration = plugin.getConfig();
+        var config = plugin.getConfig();
 
-        if (!configuration.getBoolean("tab-list.enabled", false)) return;
+        if (!config.getBoolean("tab-list.enabled", false) || !SternalBoardHandler.VersionType.V1_17.isHigherOrEqual()) {
+            return;
+        }
 
-        if(SternalBoardHandler.VersionType.V1_17.isLowerOrEqual()) return;
-
-        List<String> headerList = configuration.getStringList("tab-list.header");
-        List<String> footerList = configuration.getStringList("tab-list.footer");
-
-        String header = TextUtils.processPlaceholders(plugin, player, generate(headerList));
-        String footer = TextUtils.processPlaceholders(plugin, player, generate(footerList));
+        var header = TextUtils.processPlaceholders(plugin, player, generate(config.getStringList("tab-list.header")));
+        var footer = TextUtils.processPlaceholders(plugin, player, generate(config.getStringList("tab-list.footer")));
 
         player.setPlayerListHeaderFooter(header, footer);
     }
 
     private String generate(List<String> list) {
-        if (list.isEmpty()) {
-            return " ";
-        }
-        return String.join("\n", list);
+        return list.isEmpty() ? " " : String.join("\n", list);
     }
 
     private void cancel() {
