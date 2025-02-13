@@ -49,7 +49,9 @@ public class TabManager {
     public void sendTabList(Player player) {
         FileConfiguration configuration = plugin.getConfig();
 
-        if (SternalBoardHandler.VersionType.V1_17.isLowerOrEqual() &&!configuration.getBoolean("tab-list.enabled", false)) return;
+        if (!configuration.getBoolean("tab-list.enabled", false)) return;
+
+        if(SternalBoardHandler.VersionType.V1_17.isLowerOrEqual()) return;
 
         List<String> headerList = configuration.getStringList("tab-list.header");
         List<String> footerList = configuration.getStringList("tab-list.footer");
