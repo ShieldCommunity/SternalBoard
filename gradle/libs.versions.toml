@@ -4,16 +4,20 @@ placeholder = "2.11.5"
 minimessage = "4.14.0"
 adventure = "4.17.0"
 tinylog = "2.7.0"
+injector = "2.0.1"
+cmd = "2.0.0-SNAPSHOT"
 
 [libraries]
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 placeholder = { group = "me.clip", name = "placeholderapi", version.ref = "placeholder" }
 
-cmd = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version = "2.0.0-SNAPSHOT" }
-inject = { group = "team.unnamed", name = "inject", version = "2.0.1" }
+cmd = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version.ref = "cmd" }
+inject = { group = "team.unnamed", name = "inject", version.ref =  "injector"}
+
 minimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "minimessage" }
 legacySerializer = { group = "net.kyori", name = "adventure-text-serializer-legacy", version.ref = "adventure" }
 gsonAdventure = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure" }
+
 tinylog = { group = "org.tinylog", name = "tinylog-api-kotlin", version.ref = "tinylog" }
 tinylogImpl = { group = "org.tinylog", name = "tinylog-impl", version.ref = "tinylog" }
 
