@@ -55,11 +55,11 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity:2.3.1'
+    implementation 'com.xism4.sternalboard:2.3.1'
 }
 
 shadowJar {
-    relocate 'com.shieldcommunity.sternalboard', 'you.package.like.scoreboard'
+    relocate 'com.xism4.sternalboard', 'you.package.like.scoreboard'
 }
 ```
 
@@ -74,11 +74,11 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.3.1")
+    implementation("com.xism4:sternalboard:2.3.1")
 }
 
 shadowJar {
-    relocate("com.shieldcommunity.sternalboard", "you.yourpackage.like.scoreboard")
+    relocate("com.xism4.sternalboard", "you.yourpackage.like.scoreboard")
 }
 ```
 
