@@ -2,7 +2,7 @@
 
 ![image](https://user-images.githubusercontent.com/76608233/146663681-08cf1e75-e288-44f4-8c79-fdda3531980b.png)
 
-Lightweight & Async packet-based scoreboard using FastBoard API, implementing animations, tab and supporting all versions.
+Lightweight & Async packet-based multi-version scoreboard using FastBoard API.
 
 ## Official Downloads
 
@@ -17,7 +17,7 @@ Lightweight & Async packet-based scoreboard using FastBoard API, implementing an
 ## Features
 * High-performance - Well-known libraries are used by their good resource management and cleanup. In addition to running most features asynchronously.
 * Bedrock support - Will look exactly the same as on other platforms with no vision problems
-* Tab system for header and footer - Customize your player's tab view
+* Tab system - You will be able to modify the header and footer of the player view 
 * World blacklist - Ability to disable the scoreboard in certain worlds
 * Auto tab-completer for modern Paper, legacy, Spigot and forks
 * MiniMessage formatting support - Adventure colours like <red>hello<reset>
