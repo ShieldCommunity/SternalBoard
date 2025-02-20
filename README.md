@@ -15,6 +15,7 @@ Lightweight & Async packet-based scoreboard using FastBoard API, implementing an
 * [jonakls](https://github.com/jonakls) Developer
 
 ## Features
+* High-performance - Well-known libraries are used by their good resource management and cleanup. In addition to running most features asynchronously.
 * Fully bedrock support - Other plugins have's strange view problems
 * Tab system for header and footer - Customize your player's tab view
 * World blacklist - If you don't want the scoreboard appear on some worlds you can!
