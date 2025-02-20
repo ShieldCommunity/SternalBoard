@@ -24,8 +24,8 @@ dependencies {
     compileOnly(libs.gsonAdventure)
     compileOnly(libs.legacySerializer)
     compileOnly(libs.tinylog)
-    compileOnly(libs.cmd)
 
+    implementation(libs.cmd)
     implementation(libs.inject)
     implementation(libs.tinylogImpl)
     implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")

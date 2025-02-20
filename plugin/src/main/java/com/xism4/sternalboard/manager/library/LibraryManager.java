@@ -73,14 +73,6 @@ public class LibraryManager {
                 .relocate("net{}kyori", "com{}xism4{}sternalboard{}libs{}kyori")
                 .build();
 
-        Library commandManager = Library.builder()
-                .groupId("dev{}triumphteam")
-                .artifactId("triumph-cmd-bukkit")
-                .version("2.0.0-ALPHA-10") //do not use snapshot builds
-                .isolatedLoad(false)
-                .relocate("dev{}triumphteam", "com{}xism4{}sternalboard{}libs{}commands")
-                .build();
-
         libs.add(getAdventureLib("adventure-text-serializer-legacy"));
         libs.add(getAdventureLib("adventure-text-serializer-plain"));
         libs.add(getAdventureLib("adventure-text-serializer-json"));
@@ -90,7 +82,6 @@ public class LibraryManager {
         libs.add(getAdventureLib("adventure-text-serializer-json-legacy-impl"));
         libs.add(getAdventureLib("adventure-text-serializer-gson-legacy-impl"));
 
-
         libs.add(miniMessage);
         libs.add(adventureAPI);
         libs.add(examination);
@@ -98,7 +89,6 @@ public class LibraryManager {
         libs.add(adventureBukkitPlatform);
         libs.add(adventurePlatformFacet);
         libs.add(adventureKey);
-        libs.add(commandManager);
     }
 
     /**
@@ -170,7 +160,6 @@ public class LibraryManager {
         manager.addSonatype();
         manager.addRepository("https://jitpack.io");
         manager.addRepository("https://s01.oss.sonatype.org/content/repositories/snapshots/");
-        manager.addRepository("https://repo.triumphteam.dev/snapshots");
 
         LibraryManager.load();
         LibraryManager.getLibs().forEach(manager::loadLibrary);

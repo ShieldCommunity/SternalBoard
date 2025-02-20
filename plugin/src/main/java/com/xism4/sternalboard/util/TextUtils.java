@@ -20,9 +20,7 @@ public final class TextUtils {
 
         text = transformLegacyHex(text);
 
-        if (text.contains("&") || text.contains("§")) {
-            return ChatColor.translateAlternateColorCodes('&', text);
-        }
+        if (text.contains("&") || text.contains("§")) return ChatColor.translateAlternateColorCodes('&', text);
 
         return LEGACY_SERIALIZER.serialize(MINI_MESSAGE.deserialize(text));
     }
