@@ -24,11 +24,11 @@ dependencies {
     compileOnly(libs.gsonAdventure)
     compileOnly(libs.legacySerializer)
     compileOnly(libs.tinylog)
-    implementation(libs.tinylogImpl)
+    compileOnly(libs.cmd)
 
-    implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
-    implementation(libs.cmd)
     implementation(libs.inject)
+    implementation(libs.tinylogImpl)
+    implementation("com.alessiodp.libby:libby-bukkit:2.0.0-SNAPSHOT")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
