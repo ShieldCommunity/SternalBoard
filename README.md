@@ -18,19 +18,17 @@ Lightweight & Async packet-based scoreboard using FastBoard API, implementing an
 * High-performance - Well-known libraries are used by their good resource management and cleanup. In addition to running most features asynchronously.
 * Fully bedrock support - Other plugins have's strange view problems
 * Tab system for header and footer - Customize your player's tab view
-* World blacklist - If you don't want the scoreboard appear on some worlds you can!
+* World blacklist - Ability to disable the scoreboard in certain worlds
 * Auto tab-completer for modern Paper, legacy, Spigot and forks
-* MiniMessage formatting support - Intutive colours like <red>hello<reset>
+* MiniMessage formatting support - Adventure colours like <red>hello<reset>
 * Automatic dependency download to avoid high weights - Also makes all Minecraft versions support
-* Not dependency based - Doesn't need other software to run properly
+* Not dependency based - The plugin will start without relying on other plugins
 * Packet-based - The plugin will not bug with plugins that use teams
-* Animated scoreboard - With all tasks running asynchronous
-* Per world scoreboard - Optimal for multi-games
-* Gradient scoreboard support - 1.16 up
-* Multi-version scoreboard - Supports 1.7 to lastest
-* Mini-games support, such as "koths, skywars, bedwars"
-* Simple to use, for people who are relatively new to the industry
-* Ready to run on large servers, with no animation limits
+* Animated scoreboard - The scoreboard data is constantly being modified
+* Per world scoreboard - Ability to display different scoreboards in selected worlds
+* Multi-version plugin - Supports 1.7 to lastest
+* Mini-games support - The API was implemented in several mini-games supporting their custom scoreboards
+* Simple to use - Very intuitive configuration for new people
 
 ## How to integrate
 If you want to integrate SternalBoard to your proyect, you can use Maven and Gradle:
