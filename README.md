@@ -16,20 +16,20 @@ Lightweight & Async packet-based scoreboard using FastBoard API, implementing an
 
 ## Features
 * High-performance - Well-known libraries are used by their good resource management and cleanup. In addition to running most features asynchronously.
-* Fully bedrock support - Other plugins have's strange view problems
+* Bedrock support - Will look exactly the same as on other platforms with no vision problems
 * Tab system for header and footer - Customize your player's tab view
 * World blacklist - Ability to disable the scoreboard in certain worlds
 * Auto tab-completer for modern Paper, legacy, Spigot and forks
 * MiniMessage formatting support - Adventure colours like <red>hello<reset>
-* Automatic dependency download to avoid high weights - Also makes all Minecraft versions support
-* Not dependency based - The plugin will start without relying on other plugins
 * Packet-based - The plugin will not bug with plugins that use teams
 * Animated scoreboard - The scoreboard data is constantly being modified
 * Per world scoreboard - Ability to display different scoreboards in selected worlds
 * Multi-version plugin - Supports 1.7 to lastest
 * Mini-games support - The API was implemented in several mini-games supporting their custom scoreboards
 * Simple to use - Very intuitive configuration for new people
-
+* Maximum weight compression thanks to library downloader
+* The plugin will start without relying on other plugins
+  
 ## How to integrate
 If you want to integrate SternalBoard to your proyect, you can use Maven and Gradle:
 Before nothing, remember that you need jitpack for it (https://jitpack.io/#ShieldCommunity/SternalBoard)
@@ -39,7 +39,7 @@ Before nothing, remember that you need jitpack for it (https://jitpack.io/#Shiel
         <dependency>
             <groupId>com.github.ShieldCommunity</groupId>
             <artifactId>SternalBoard</artifactId>
-            <version>2.2.9</version>
+            <version>2.3.1</version>
             <scope>compile</scope>
         </dependency>
 ```
@@ -47,7 +47,7 @@ Before nothing, remember that you need jitpack for it (https://jitpack.io/#Shiel
 ## Gradle
 ```gradle
 plugins {
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 repositories {
@@ -55,18 +55,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github:shieldcommunity:2.2.9'
+    implementation 'com.github:shieldcommunity:2.3.1'
 }
 
 shadowJar {
-    relocate 'com.shieldcommunity.sternalboard', 'you.yourpackage.like'
+    relocate 'com.shieldcommunity.sternalboard', 'you.package.like.scoreboard'
 }
 ```
 
 ## Gradle DSL
 ```kts
 plugins {
-    id("com.github.johnrengelman.shadow") version("7.1.2")
+    id("com.github.johnrengelman.shadow") version("8.1.1")
 }
 
 repositories {
@@ -74,26 +74,24 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github:shieldcommunity:2.2.9")
+    implementation("com.github:shieldcommunity:2.3.1")
 }
 
 shadowJar {
-    relocate("com.shieldcommunity.sternalboard", "you.yourpackage.like")
+    relocate("com.shieldcommunity.sternalboard", "you.yourpackage.like.scoreboard")
 }
 ```
 
 ## Manually
-If you just don't want to use a dependency-manager, you can copy our api classes to your proyect.
+You can copy the classes and paste them into your project if you are not yet using a dependency system such as gradle or maven
 
 ## How to hook into it
-With SternalBoard, it's really easy to set your first scoreboard!
-
-Either you can use our method of #setBoard, or manually.
+With a simple call you can create your first scoreboard
 
 ```java
 public class ExampleBoard {
 
-    public void setYourScoreboard(Player player){
+    public void setScoreboard(Player player){
         SternalBoardHandler board = new SternalBoardHandler(player);
 
         board.updateTitle(ChatColor.GREEN+
@@ -101,14 +99,13 @@ public class ExampleBoard {
         );
 
         board.updateLines("Hello", //You can do lines as your version allows!
-                "Bye",
-                "Hello again :)"
+                "shieldcommunity.net",
         );
     }
 }
 
 ```
 
-#Servers using modern SternalBoard
+#Servers using SternalBoard
 
 <img src="https://bstats.org/signatures/bukkit/SternalBoard.svg" alt="ResourceHolders statics">
