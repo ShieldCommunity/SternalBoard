@@ -18,9 +18,11 @@ public final class TextUtils {
     public static String colorize(String text) {
         if (text == null || text.isEmpty()) return "";
 
-        return ChatColor.translateAlternateColorCodes('&',
-                LEGACY_SERIALIZER.serialize(
-                        MINI_MESSAGE.deserialize(transformLegacyHex(text).replaceAll("§", "&"))
+        text = transformLegacyHex(text);
+
+        return LEGACY_SERIALIZER.serialize(
+                MINI_MESSAGE.deserialize(
+                        ChatColor.translateAlternateColorCodes('&', text)
                 )
         );
     }
