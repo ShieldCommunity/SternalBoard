@@ -1,8 +1,10 @@
 package com.xism4.sternalboard.manager.animation;
 
+import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.manager.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.manager.animation.tasks.TitleUpdateTask;
+import com.xism4.sternalboard.scoreboard.ScoreboardManager;
 import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -11,38 +13,40 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
+// TODO: Migrate this to AnimateScoreboardHandler, override handle method and override stop method
 public class AnimationManager {
     private static final String TITLE_LINES_KEY = "scoreboard-animated.title.lines";
     private static final String TITLE_UPDATE_RATE_KEY = "scoreboard-animated.title.update-rate";
     private static final String SCORE_LINES_KEY = "scoreboard-animated.score-lines";
 
-    private final SternalBoardPlugin plugin;
+    private SternalBoardPlugin plugin;
+
+    private boolean animated = false;
+
+    private ScoreboardManager scoreboardManager;
+    private BukkitConfiguration animConfig;
+
     private String title;
     private String[] lines;
-    private final List<Integer> taskIds;
-
-    public AnimationManager(SternalBoardPlugin plugin) {
-        this.plugin = plugin;
-        this.taskIds = new ArrayList<>();
-        load();
-    }
+    private final List<Integer> taskIds = new ArrayList<>();
 
     public void load() {
-        if (!plugin.isAnimationEnabled()) {
+        if (!animated) {
             lines = null;
             return;
         }
 
         resetTasks();
-        var config = plugin.getAnimConfig();
+        var config = this.animConfig.get();
         loadTitle(config);
         loadLines(config);
     }
 
     public void reload() {
         resetTasks();
-        if (plugin.isAnimationEnabled()) {
-            var config = plugin.getAnimConfig();
+        if (animated) {
+            var config = this.animConfig.get();
             loadTitle(config);
             adjustLinesIfNecessary(config);
             loadLines(config);
@@ -105,12 +109,11 @@ public class AnimationManager {
     }
 
     private void linesCheck(int newLinesLength) {
-        var scoreboardManager = plugin.getScoreboardManager();
         var linesToDelete = lines.length - newLinesLength;
 
         for (int i = 1; i <= linesToDelete; i++) {
             var lineToDelete = lines.length - i;
-            scoreboardManager.getBoardsHandler().values().forEach(sb -> sb.removeLine(lineToDelete));
+            //scoreboardManager.getBoardsHandler().values().forEach(sb -> sb.removeLine(lineToDelete));
         }
     }
 
