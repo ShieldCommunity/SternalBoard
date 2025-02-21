@@ -5,6 +5,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.regex.Pattern;
@@ -29,7 +30,10 @@ public final class TextUtils {
         return HEX_PATTERN.matcher(text).replaceAll(matcher -> "<color:" + matcher.group(2) + ">");
     }
 
-    public static String processPlaceholders(SternalBoardPlugin plugin, Player player, String text) {
-        return colorize(plugin.placeholderCheck() ? PlaceholderAPI.setPlaceholders(player, text) : text);
+    public static String processPlaceholders(final Player player, String text) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            return colorize(text);
+        }
+        return colorize(PlaceholderAPI.setPlaceholders(player, text));
     }
 }

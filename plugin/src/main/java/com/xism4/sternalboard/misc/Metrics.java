@@ -1,4 +1,4 @@
-package com.xism4.sternalboard.util;
+package com.xism4.sternalboard.misc;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

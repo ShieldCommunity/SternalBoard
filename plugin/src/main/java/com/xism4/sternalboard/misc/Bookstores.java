@@ -1,12 +1,16 @@
-package com.xism4.sternalboard.manager.library;
+package com.xism4.sternalboard.misc;
 
-import com.xism4.sternalboard.SternalBoardPlugin;
 import com.alessiodp.libby.BukkitLibraryManager;
 import com.alessiodp.libby.Library;
+import com.xism4.sternalboard.SternalBoardPlugin;
 
 import java.util.ArrayList;
 
-public class LibraryManager {
+public class Bookstores {
+
+    private Bookstores() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
 
     public static ArrayList<Library> libs = new ArrayList<>();
 
@@ -161,8 +165,8 @@ public class LibraryManager {
         manager.addRepository("https://jitpack.io");
         manager.addRepository("https://s01.oss.sonatype.org/content/repositories/snapshots/");
 
-        LibraryManager.load();
-        LibraryManager.getLibs().forEach(manager::loadLibrary);
+        Bookstores.load();
+        Bookstores.getLibs().forEach(manager::loadLibrary);
 
     }
 }

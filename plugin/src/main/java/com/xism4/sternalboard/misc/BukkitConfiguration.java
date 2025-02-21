@@ -1,8 +1,9 @@
-package com.xism4.sternalboard;
+package com.xism4.sternalboard.misc;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +40,11 @@ public class BukkitConfiguration {
         return new BukkitConfiguration(plugin, fileName);
     }
 
+    @NotNull
     public FileConfiguration get() {
+        if (config == null) {
+            reload();
+        }
         return config;
     }
 
