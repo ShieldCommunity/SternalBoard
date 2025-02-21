@@ -1,4 +1,4 @@
-package com.xism4.sternalboard;
+package com.xism4.sternalboard.api;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

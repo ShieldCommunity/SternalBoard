@@ -1,7 +1,7 @@
-package com.xism4.sternalboard.adventure;
+package com.xism4.sternalboard.api.adventure;
 
-import com.xism4.sternalboard.SternalBoardHandler;
-import com.xism4.sternalboard.SternalReflection;
+import com.xism4.sternalboard.api.SternalBoardHandler;
+import com.xism4.sternalboard.api.SternalReflection;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
