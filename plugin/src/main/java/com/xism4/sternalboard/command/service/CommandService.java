@@ -1,5 +1,6 @@
-package com.xism4.sternalboard.service;
+package com.xism4.sternalboard.command.service;
 
+import com.xism4.sternalboard.service.Service;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import dev.triumphteam.cmd.core.BaseCommand;
 import org.bukkit.command.CommandSender;
