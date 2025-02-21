@@ -1,7 +1,9 @@
 package com.xism4.sternalboard.command;
 
+import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
-import com.xism4.sternalboard.manager.animation.AnimationManager;
+import com.xism4.sternalboard.scoreboard.ScoreboardManager;
+import com.xism4.sternalboard.manager.TabManager;
 import com.xism4.sternalboard.util.TextUtils;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
@@ -9,21 +11,24 @@ import dev.triumphteam.cmd.core.annotation.Command;
 import dev.triumphteam.cmd.core.annotation.Default;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.util.Optional;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Named;
 
 @Command(value = "sternalboard", alias = "sb")
 public class SternalCommand extends BaseCommand {
 
-    private final SternalBoardPlugin plugin;
-    private FileConfiguration config;
-
-    public SternalCommand(SternalBoardPlugin plugin) {
-        this.plugin = plugin;
-        this.config = plugin.getConfig();
-    }
+    @Inject
+    private SternalBoardPlugin plugin;
+    @Inject
+    private BukkitConfiguration config;
+    @Inject
+    @Named("animate")
+    private BukkitConfiguration animConfig;
+    @Inject
+    private ScoreboardManager scoreboardManager;
+    @Inject
+    private TabManager tabManager;
 
     @Default
     public void mainCommand(CommandSender sender) {
@@ -43,34 +48,16 @@ public class SternalCommand extends BaseCommand {
     @SubCommand("toggle")
     @Permission("sternalboard.toggle")
     public void toggleSubcommand(Player player) {
-        plugin.getScoreboardManager().toggle(player);
+        // Toggle the scoreboard
     }
 
     @SubCommand("reload")
     @Permission("sternalboard.reload")
     public void reloadSubcommand(CommandSender sender) {
-        plugin.getRawConfig().reload();
-        this.config = plugin.getConfig();
-
-        boolean isAnimationEnabled = config.getBoolean("settings.animated");
-        plugin.setAnimateScoreboard(isAnimationEnabled);
-        plugin.getScoreboardManager().reload();
-        plugin.getTabManager().reload();
-        plugin.getRawAnimConfig().reload();
-
-        Optional.ofNullable(plugin.getAnimationManager())
-                .ifPresentOrElse(
-                        animationManager -> {
-                            if (isAnimationEnabled) {
-                                animationManager.reload();
-                            }
-                        },
-                        () -> {
-                            if (isAnimationEnabled) {
-                                plugin.setAnimationManager(new AnimationManager(plugin));
-                            }
-                        }
-                );
+        this.config.reload();
+        this.animConfig.reload();
+        this.scoreboardManager.reload();
+        this.tabManager.reload();
 
         sender.sendMessage(TextUtils.colorize("&aThe plugin has been reloaded successfully"));
     }

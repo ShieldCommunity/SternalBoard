@@ -1,128 +1,43 @@
 package com.xism4.sternalboard;
 
-import com.xism4.sternalboard.listener.ScoreboardListener;
-import com.xism4.sternalboard.manager.ScoreboardManager;
-import com.xism4.sternalboard.manager.TabManager;
-import com.xism4.sternalboard.manager.animation.AnimationManager;
-import com.xism4.sternalboard.manager.library.LibraryManager;
+import com.xism4.sternalboard.misc.Bookstores;
 import com.xism4.sternalboard.module.PluginModule;
-import com.xism4.sternalboard.util.Metrics;
+import com.xism4.sternalboard.service.Service;
+import com.xism4.sternalboard.misc.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.tinylog.Logger;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Injector;
-import team.unnamed.inject.Named;
+
+import java.util.Set;
 
 public class SternalBoardPlugin extends JavaPlugin {
 
     private static final int STERNAL_ID_METRICS = 13409;
 
-    public ScoreboardManager scoreboardManager;
-    public AnimationManager animationManager;
-
     @Inject
-    @Named
-    public BukkitConfiguration animConfig;
-    @Inject
-    public BukkitConfiguration config;
-    public TabManager tabManager;
-
-    public boolean animateScoreboard;
+    public Set<Service> services;
 
     @Override
     public void onLoad() {
         Injector.create(new PluginModule(this)).injectMembers(this);
-
-        setAnimateScoreboard(config.get().getBoolean("settings.animated"));
     }
 
     @Override
     public void onEnable() {
         Logger.info("Starting SternalBoard Plugin");
-        LibraryManager.loadLibs(this);
-        loadScoreboardMgr();
-        eventHandler();
-
+        Bookstores.loadLibs(this);
+        this.services.forEach(Service::start);
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
-    }
-
-    public boolean isAnimationEnabled() {
-        return animateScoreboard;
-    }
-
-    public boolean isWorldEnabled() {
-        return config.get().getBoolean("settings.scoreboard.world-blacklist.enabled");
-    }
-
-    public ScoreboardManager getScoreboardManager() {
-        return scoreboardManager;
-    }
-
-    public TabManager getTabManager() {
-        return tabManager;
-    }
-
-    public AnimationManager getAnimationManager() {
-        return animationManager;
+        this.services.forEach(Service::stop);
     }
 
     public boolean placeholderCheck() {
         return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
-    }
-
-    public BukkitConfiguration getRawAnimConfig() {
-        return animConfig;
-    }
-
-    // TODO 09/04/2023: review instance of FileConfiguration on reload class
-    public @NotNull FileConfiguration getAnimConfig() {
-        return animConfig.get();
-    }
-
-
-    public @NotNull BukkitConfiguration getRawConfig() {
-        return config;
-    }
-
-    // TODO 09/04/2023: review instance of FileConfiguration on reload class
-    @Override
-    public @NotNull FileConfiguration getConfig() {
-        return config.get();
-    }
-
-    public void loadScoreboardMgr() {
-        scoreboardManager = new ScoreboardManager(this);
-        tabManager = new TabManager(this);
-
-        if (animateScoreboard) {
-            setAnimationManager(new AnimationManager(this)
-            );
-        }
-
-        scoreboardManager.init();
-        tabManager.init();
-    }
-
-    public void eventHandler() {
-        getServer().getPluginManager().registerEvents(
-                new ScoreboardListener(this),
-                this
-        );
-    }
-
-    public void setAnimateScoreboard(boolean animateScoreboard) {
-        this.animateScoreboard = animateScoreboard;
-    }
-
-    public void setAnimationManager(AnimationManager animationManager) {
-        this.animationManager = animationManager;
     }
 }

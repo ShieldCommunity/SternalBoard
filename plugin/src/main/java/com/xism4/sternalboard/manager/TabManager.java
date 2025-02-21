@@ -1,20 +1,20 @@
 package com.xism4.sternalboard.manager;
 
-import com.xism4.sternalboard.SternalBoardHandler;
+import com.xism4.sternalboard.api.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.entity.Player;
+import team.unnamed.inject.Inject;
+import team.unnamed.inject.Singleton;
 
 import java.util.List;
 
+@Singleton
 public class TabManager {
 
-    private final SternalBoardPlugin plugin;
+    @Inject
+    private SternalBoardPlugin plugin;
     private Integer updateTask;
-
-    public TabManager(SternalBoardPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     public void init() {
         if (updateTask != null && updateTask != 0) return;
@@ -48,8 +48,8 @@ public class TabManager {
             return;
         }
 
-        var header = TextUtils.processPlaceholders(plugin, player, generate(config.getStringList("tab-list.header")));
-        var footer = TextUtils.processPlaceholders(plugin, player, generate(config.getStringList("tab-list.footer")));
+        var header = TextUtils.processPlaceholders(player, generate(config.getStringList("tab-list.header")));
+        var footer = TextUtils.processPlaceholders(player, generate(config.getStringList("tab-list.footer")));
 
         player.setPlayerListHeaderFooter(header, footer);
     }
