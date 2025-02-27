@@ -23,3 +23,5 @@ tinylogImpl = { group = "org.tinylog", name = "tinylog-impl", version.ref = "tin
 
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1"}
+zapper = { id = "io.github.revxrsal.zapper", version = "1.0.3" }
+
