@@ -1,6 +1,7 @@
 plugins {
     id("project.common-conventions")
     alias(libs.plugins.shadow)
+    alias(libs.plugins.zapper)
 }
 
 repositories {
