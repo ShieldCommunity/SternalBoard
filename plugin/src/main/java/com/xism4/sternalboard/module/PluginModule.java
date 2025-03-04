@@ -1,12 +1,12 @@
 package com.xism4.sternalboard.module;
 
-import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.api.SternalBoard;
 import com.xism4.sternalboard.api.repository.ObjectCacheRepository;
 import com.xism4.sternalboard.api.repository.impl.ObjectCacheRepositoryImpl;
 import com.xism4.sternalboard.command.module.CommandModule;
 import com.xism4.sternalboard.listener.module.ListenerModule;
+import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.service.module.ServiceModule;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import org.bukkit.command.CommandSender;
@@ -50,7 +50,7 @@ public class PluginModule extends AbstractModule {
         this.bind(new TypeReference<ObjectCacheRepository<SternalBoard>>() {
         }).toInstance(new ObjectCacheRepositoryImpl());
 
-
+        super.install(new ManagerModule());
         super.install(new ServiceModule());
         super.install(new CommandModule());
         super.install(new ListenerModule());
