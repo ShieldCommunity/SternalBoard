@@ -1,7 +1,8 @@
-package com.xism4.sternalboard.manager;
+package com.xism4.sternalboard.scoreboard;
 
-import com.xism4.sternalboard.api.SternalBoardHandler;
 import com.xism4.sternalboard.SternalBoardPlugin;
+import com.xism4.sternalboard.api.SternalBoardHandler;
+import com.xism4.sternalboard.manager.Manager;
 import com.xism4.sternalboard.util.TextUtils;
 import org.bukkit.entity.Player;
 import team.unnamed.inject.Inject;
@@ -10,7 +11,7 @@ import team.unnamed.inject.Singleton;
 import java.util.List;
 
 @Singleton
-public class TabManager {
+public class TabManager implements Manager {
 
     @Inject
     private SternalBoardPlugin plugin;
