@@ -29,7 +29,8 @@ public class ScoreboardManager implements Manager {
     }
 
     public void reload() {
-        this.handler = this.factory.create();
+        this.handler.stop();
+        this.init();
     }
 
     public ObjectCacheRepository<SternalBoard> get() {
