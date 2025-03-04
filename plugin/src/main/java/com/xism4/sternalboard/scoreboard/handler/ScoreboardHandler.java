@@ -1,11 +1,12 @@
 package com.xism4.sternalboard.scoreboard.handler;
 
-import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
+import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.scoreboard.ScoreboardManager;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public abstract class ScoreboardHandler {
+
     protected String intervalUpdateKey = "settings.scoreboard-interval-update";
     protected String scoreboardSectionKey = "settings.scoreboard";
 
@@ -23,7 +24,6 @@ public abstract class ScoreboardHandler {
         this.configuration = configuration;
         this.manager = manager;
     }
-
 
     public void handle() {
         final FileConfiguration config = this.configuration.get();
