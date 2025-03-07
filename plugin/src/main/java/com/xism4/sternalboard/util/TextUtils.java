@@ -1,15 +1,19 @@
 package com.xism4.sternalboard.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public final class TextUtils {
@@ -32,8 +36,34 @@ public final class TextUtils {
         return LEGACY_SERIALIZER.serialize(MINI_MESSAGE.deserialize(text));
     }
 
-    public static Component asComponent(String text) {
-        return MINI_MESSAGE.deserialize(formatMiniMessage(text));
+    public static @NotNull Component deserialize(final @NotNull String message) {
+        return MINI_MESSAGE.deserialize(formatMiniMessage(message));
+    }
+
+    public static @NotNull Component deserialize(final @NotNull String message, final @NotNull TagResolver... placeholders) {
+        return MINI_MESSAGE.deserialize(formatMiniMessage(message), placeholders);
+    }
+
+    public static void sendMessage(final @NotNull Audience audience, final @NotNull String message) {
+        audience.sendMessage(deserialize(message));
+    }
+
+    public static void sendMessage(final @NotNull Audience audience, final @NotNull String message, final @NotNull TagResolver... placeholders) {
+        audience.sendMessage(deserialize(message, placeholders));
+    }
+
+    public static void sendMessages(final @NotNull Audience audience, final @NotNull List<String> message) {
+        for (final String line : message) {
+            sendMessage(audience, line);
+        }
+    }
+
+    public static @NotNull String deserializeToJson(final @NotNull String text) {
+        return GsonComponentSerializer.gson().serialize(deserialize(text));
+    }
+
+    public static @NotNull String deserializeToJson(final @NotNull String text, final @NotNull TagResolver... placeholders) {
+        return GsonComponentSerializer.gson().serialize(deserialize(text, placeholders));
     }
 
     // Workaround to support both legacy and minimessage format.

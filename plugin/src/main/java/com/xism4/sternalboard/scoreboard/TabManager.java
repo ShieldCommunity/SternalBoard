@@ -63,8 +63,7 @@ public class TabManager implements Manager {
         var header = TextUtils.processPlaceholders(player, generate(config.getStringList("tab-list.header")));
         var footer = TextUtils.processPlaceholders(player, generate(config.getStringList("tab-list.footer")));
 
-        player.sendPlayerListHeaderAndFooter(TextUtils.asComponent(header), TextUtils.asComponent(footer));
-        //player.setPlayerListHeaderFooter(header, footer);
+        player.sendPlayerListHeaderAndFooter(TextUtils.deserialize(header), TextUtils.deserialize(footer));
     }
 
     private String generate(List<String> list) {
