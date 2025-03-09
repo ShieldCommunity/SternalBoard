@@ -6,14 +6,11 @@ import team.unnamed.inject.AbstractModule;
 
 public class CommandModule extends AbstractModule {
 
-
     @Override
     protected void configure() {
         super.multibind(BaseCommand.class)
                 .asSet()
                 .to(SternalCommand.class)
                 .singleton();
-
     }
-
 }

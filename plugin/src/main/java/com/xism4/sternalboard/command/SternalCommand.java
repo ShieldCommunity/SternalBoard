@@ -1,9 +1,9 @@
 package com.xism4.sternalboard.command;
 
-import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
+import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.scoreboard.ScoreboardManager;
-import com.xism4.sternalboard.manager.TabManager;
+import com.xism4.sternalboard.scoreboard.TabManager;
 import com.xism4.sternalboard.util.TextUtils;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.BaseCommand;
