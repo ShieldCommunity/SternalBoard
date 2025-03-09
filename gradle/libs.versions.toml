@@ -5,10 +5,13 @@ adventure = "4.17.0"
 tinylog = "2.7.0"
 injector = "2.0.1"
 cmd = "2.0.0-SNAPSHOT"
+worldguard = "7.0.9"
 
 [libraries]
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
 placeholder = { group = "me.clip", name = "placeholderapi", version.ref = "placeholder" }
+
+worldguard = { group = "com.sk89q.worldguard", name = "worldguard-bukkit", version.ref = "worldguard" }
 
 cmd = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version.ref = "cmd" }
 inject = { group = "team.unnamed", name = "inject", version.ref =  "injector"}

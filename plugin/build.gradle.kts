@@ -9,6 +9,7 @@ repositories {
     maven("https://jitpack.io/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.triumphteam.dev/snapshots/")
+    maven("https://maven.enginehub.org/repo/")
     mavenCentral()
 }
 
@@ -17,6 +18,7 @@ dependencies {
 
     compileOnly(libs.placeholder)
     compileOnly(libs.paper)
+    compileOnly(libs.worldguard)
     compileOnly(libs.tinylog)
 
     zap(libs.gsonAdventure)

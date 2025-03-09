@@ -3,5 +3,5 @@ main: com.xism4.sternalboard.SternalBoardPlugin
 authors: [ xism4, Jonakls ]
 version: '${version}'
 api-version: "1.13"
-softdepend: [ PlaceholderAPI ]
+softdepend: [ PlaceholderAPI, WorldGuard ]
 description: High-performance packet-based scoreboard

@@ -40,6 +40,7 @@ public class ScoreboardFactory {
             case "WORLD" -> new PerWorldScoreboardHandler(this.plugin, this.configuration, this.manager);
             case "PERMISSION" -> new PermissionScoreboardHandler(this.plugin, this.configuration, this.manager);
             case "ANIMATE" -> new AnimateScoreboardHandler(this.plugin, this.animationConfiguration, this.manager);
+            case "WORLDGUARD" -> new WorldGuardScoreboardHandler(this.plugin, this.configuration, this.manager);
             default -> new NaturalScoreboardHandler(this.plugin, this.configuration, this.manager);
         };
     }
