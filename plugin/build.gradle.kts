@@ -19,9 +19,7 @@ dependencies {
     compileOnly(libs.paper)
     compileOnly(libs.tinylog)
 
-    zap(libs.minimessage)
     zap(libs.gsonAdventure)
-    zap(libs.legacySerializer)
     zap(libs.inject)
     zap(libs.tinylogImpl)
 
@@ -47,7 +45,6 @@ zapper {
 
     relocate("net.elytrium.serializer", "serializer")
     relocate("team.unnamed", "injector")
-    relocate("net.kyori", "adventure")
     relocate("org.tinylog", "tinylog")
 }
 
