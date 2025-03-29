@@ -90,11 +90,15 @@ public abstract class SternalBoardHandler<T> {
     private static final Class<?> DISPLAY_SLOT_TYPE;
     private static final Class<?> ENUM_SB_HEALTH_DISPLAY;
     private static final Class<?> ENUM_SB_ACTION;
+    private static final Class<?> ENUM_VISIBILITY;
+    private static final Class<?> ENUM_COLLISION_RULE;
     private static final Object BLANK_NUMBER_FORMAT;
     private static final Object SIDEBAR_DISPLAY_SLOT;
     private static final Object ENUM_SB_HEALTH_DISPLAY_INTEGER;
     private static final Object ENUM_SB_ACTION_CHANGE;
     private static final Object ENUM_SB_ACTION_REMOVE;
+    private static final Object ENUM_VISIBILITY_ALWAYS;
+    private static final Object ENUM_COLLISION_RULE_ALWAYS;
 
     static {
         try {
@@ -183,6 +187,20 @@ public abstract class SternalBoardHandler<T> {
             FIXED_NUMBER_FORMAT = fixedFormatConstructor;
             BLANK_NUMBER_FORMAT = blankNumberFormat;
             SCORE_OPTIONAL_COMPONENTS = scoreOptionalComponents;
+
+
+            if (VersionType.V1_17.isHigherOrEqual()) {
+                ENUM_VISIBILITY = SternalReflection.nmsClass("world.scores", "ScoreboardTeamBase$EnumNameTagVisibility", "Team$Visibility");
+                ENUM_COLLISION_RULE = SternalReflection.nmsClass("world.scores", "ScoreboardTeamBase$EnumTeamPush", "Team$CollisionRule");
+                ENUM_VISIBILITY_ALWAYS = SternalReflection.enumValueOf(ENUM_VISIBILITY, "ALWAYS", 0);
+                ENUM_COLLISION_RULE_ALWAYS = SternalReflection.enumValueOf(ENUM_COLLISION_RULE, "ALWAYS", 0);
+            } else {
+                ENUM_VISIBILITY = null;
+                ENUM_COLLISION_RULE = null;
+                ENUM_VISIBILITY_ALWAYS = null;
+                ENUM_COLLISION_RULE_ALWAYS = null;
+            }
+
 
             for (Class<?> clazz : Arrays.asList(packetSbObjClass, packetSbDisplayObjClass, packetSbScoreClass, packetSbTeamClass, sbTeamClass)) {
                 if (clazz == null) {
@@ -753,6 +771,8 @@ public abstract class SternalBoardHandler<T> {
             setComponentField(team, suffix, 2); // Suffix
             setField(team, String.class, "always", 0); // Visibility
             setField(team, String.class, "always", 1); // Collisions
+            setField(team, ENUM_VISIBILITY, ENUM_VISIBILITY_ALWAYS, 0);
+            setField(team, ENUM_COLLISION_RULE, ENUM_COLLISION_RULE_ALWAYS, 0);
             setField(packet, Optional.class, Optional.of(team));
         } else {
             setComponentField(packet, prefix, 2); // Prefix
