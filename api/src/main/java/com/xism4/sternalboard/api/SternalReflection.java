@@ -84,6 +84,11 @@ public final class SternalReflection {
         return optionalClass(nmsClassName(post1_17package, className));
     }
 
+    public static Optional<Class<?>> nmsOptionalClass(String post1_17package, String spigotClass, String mojangClass) {
+        return optionalClass(nmsClassName(post1_17package, MOJANG_MAPPINGS ? mojangClass : spigotClass));
+    }
+
+
     public static String obcClassName(String className) {
         return OBC_PACKAGE + '.' + className;
     }

@@ -183,7 +183,7 @@ public abstract class SternalBoardHandler<T> {
             PACKET_SB_SET_SCORE = packetSbSetScore;
             PACKET_SB_RESET_SCORE = packetSbResetScore;
             PACKET_SB_TEAM = SternalReflection.findPacketConstructor(packetSbTeamClass, lookup);
-            PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass == null ? null : SternalReflection.findPacketConstructor(sbTeamClass, lookup);
+            PACKET_SB_SERIALIZABLE_TEAM = sbTeamClass != null ? SternalReflection.findPacketConstructor(sbTeamClass, lookup) : null;
             FIXED_NUMBER_FORMAT = fixedFormatConstructor;
             BLANK_NUMBER_FORMAT = blankNumberFormat;
             SCORE_OPTIONAL_COMPONENTS = scoreOptionalComponents;
@@ -220,10 +220,10 @@ public abstract class SternalBoardHandler<T> {
                         ? "ScoreboardServer$Action"
                         : "PacketPlayOutScoreboardScore$EnumScoreboardAction";
                 ENUM_SB_HEALTH_DISPLAY = SternalReflection.nmsClass("world.scores.criteria", "IScoreboardCriteria$EnumScoreboardHealthDisplay", "ObjectiveCriteria$RenderType");
-                ENUM_SB_ACTION = SternalReflection.nmsClass("server", enumSbActionClass, "ServerScoreboard$Method");
+                ENUM_SB_ACTION = SternalReflection.nmsOptionalClass("server", enumSbActionClass, "ServerScoreboard$Method").orElse(null);
                 ENUM_SB_HEALTH_DISPLAY_INTEGER = SternalReflection.enumValueOf(ENUM_SB_HEALTH_DISPLAY, "INTEGER", 0);
-                ENUM_SB_ACTION_CHANGE = SternalReflection.enumValueOf(ENUM_SB_ACTION, "CHANGE", 0);
-                ENUM_SB_ACTION_REMOVE = SternalReflection.enumValueOf(ENUM_SB_ACTION, "REMOVE", 1);
+                ENUM_SB_ACTION_CHANGE = ENUM_SB_ACTION != null ? SternalReflection.enumValueOf(ENUM_SB_ACTION, "CHANGE", 0) : null;
+                ENUM_SB_ACTION_REMOVE = ENUM_SB_ACTION != null ? SternalReflection.enumValueOf(ENUM_SB_ACTION, "REMOVE", 1) : null;
             } else {
                 ENUM_SB_HEALTH_DISPLAY = null;
                 ENUM_SB_ACTION = null;
