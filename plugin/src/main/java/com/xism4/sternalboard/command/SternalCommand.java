@@ -48,7 +48,7 @@ public class SternalCommand extends BaseCommand {
     @SubCommand("toggle")
     @Permission("sternalboard.toggle")
     public void toggleSubcommand(Player player) {
-        // Toggle the scoreboard
+        this.scoreboardManager.toggle(player);
     }
 
     @SubCommand("reload")

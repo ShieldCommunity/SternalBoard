@@ -53,6 +53,11 @@ public class TabManager implements Manager {
         init();
     }
 
+    @Override
+    public void toggle(Player player) {
+        //keep unused
+    }
+
     public void sendTabList(Player player) {
         var config = configuration.get();
 

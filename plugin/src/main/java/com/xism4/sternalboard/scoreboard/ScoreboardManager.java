@@ -6,8 +6,11 @@ import com.xism4.sternalboard.api.repository.ObjectCacheRepository;
 import com.xism4.sternalboard.manager.Manager;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.scoreboard.handler.ScoreboardHandler;
+import org.bukkit.entity.Player;
 import team.unnamed.inject.Inject;
 import team.unnamed.inject.Singleton;
+
+import java.util.UUID;
 
 @Singleton
 public class ScoreboardManager implements Manager {
@@ -33,6 +36,19 @@ public class ScoreboardManager implements Manager {
         this.init();
     }
 
+    @Override
+    public void toggle(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        if (cacheRepository.exists(uuid)) {
+            SternalBoard board = cacheRepository.find(uuid);
+            board.delete();
+            return;
+        }
+
+        SternalBoard board = new SternalBoard(player);
+        cacheRepository.create(board);
+    }
     public ObjectCacheRepository<SternalBoard> get() {
         return this.cacheRepository;
     }
