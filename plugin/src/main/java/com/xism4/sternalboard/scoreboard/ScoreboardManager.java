@@ -43,6 +43,7 @@ public class ScoreboardManager implements Manager {
         if (cacheRepository.exists(uuid)) {
             SternalBoard board = cacheRepository.find(uuid);
             board.delete();
+            cacheRepository.delete(uuid);
             return;
         }
 
