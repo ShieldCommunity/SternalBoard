@@ -1,17 +1,16 @@
 package com.xism4.sternalboard.manager.animation;
 
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.manager.animation.tasks.LineUpdateTask;
 import com.xism4.sternalboard.manager.animation.tasks.TitleUpdateTask;
 import com.xism4.sternalboard.scoreboard.ScoreboardManager;
 import com.xism4.sternalboard.util.TextUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Deprecated
 // TODO: Migrate this to AnimateScoreboardHandler, override handle method and override stop method
@@ -29,7 +28,7 @@ public class AnimationManager {
 
     private String title;
     private String[] lines;
-    private final List<Integer> taskIds = new ArrayList<>();
+    private final Map<UUID, WrappedTask> tasks = new HashMap<>();
 
     public void load() {
         if (!animated) {
@@ -54,11 +53,12 @@ public class AnimationManager {
     }
 
     private void resetTasks() {
-        if (!taskIds.isEmpty()) {
-            var scheduler = Bukkit.getServer().getScheduler();
-            taskIds.forEach(scheduler::cancelTask);
+        if (!tasks.isEmpty()) {
+            tasks.forEach((uuid, task) -> {
+                task.cancel();
+            });
         }
-        taskIds.clear();
+        tasks.clear();
     }
 
     private void loadTitle(FileConfiguration config) {
@@ -69,8 +69,10 @@ public class AnimationManager {
             title = titleLines.get(0);
             var titleUpdateTask = new TitleUpdateTask(plugin, this, titleLines);
             int updateRate = config.getInt(TITLE_UPDATE_RATE_KEY);
-            titleUpdateTask.runTaskTimerAsynchronously(plugin, updateRate, updateRate);
-            taskIds.add(titleUpdateTask.getTaskId());
+            WrappedTask task = plugin.getFoliaLib().getScheduler()
+                    .runTimerAsync(titleUpdateTask, updateRate, updateRate);
+
+            tasks.put(UUID.randomUUID(), task);
         }
     }
 
@@ -93,8 +95,10 @@ public class AnimationManager {
         if (!lineVariations.isEmpty()) {
             linesList.add(lineVariations.get(0));
             var lineUpdateTask = new LineUpdateTask(plugin, this, lineVariations, lineNumber);
-            lineUpdateTask.runTaskTimerAsynchronously(plugin, updateRate, updateRate);
-            taskIds.add(lineUpdateTask.getTaskId());
+
+            WrappedTask task = plugin.getFoliaLib().getScheduler()
+                            .runTimerAsync(lineUpdateTask, updateRate, updateRate);
+            tasks.put(UUID.randomUUID(), task);
         }
     }
 

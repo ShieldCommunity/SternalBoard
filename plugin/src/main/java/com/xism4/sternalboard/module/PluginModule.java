@@ -1,5 +1,6 @@
 package com.xism4.sternalboard.module;
 
+import com.tcoded.folialib.FoliaLib;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.api.SternalBoard;
 import com.xism4.sternalboard.api.repository.ObjectCacheRepository;
@@ -28,6 +29,12 @@ public class PluginModule extends AbstractModule {
     @Singleton
     public BukkitCommandManager<CommandSender> provideCommandManager(final SternalBoardPlugin plugin) {
         return BukkitCommandManager.create(plugin);
+    }
+
+    @Provides
+    @Singleton
+    public FoliaLib provideFoliaLib(final SternalBoardPlugin plugin) {
+        return new FoliaLib(plugin);
     }
 
     @Provides

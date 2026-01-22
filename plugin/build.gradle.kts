@@ -10,6 +10,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.triumphteam.dev/snapshots/")
     maven("https://maven.enginehub.org/repo/")
+    maven("https://repo.tcoded.com/releases")
     mavenCentral()
 }
 
@@ -26,6 +27,7 @@ dependencies {
     zap(libs.tinylogImpl)
 
     implementation(libs.cmd) //only provides snapshot build
+    implementation(libs.folialib)
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
@@ -48,6 +50,7 @@ zapper {
     relocate("net.elytrium.serializer", "serializer")
     relocate("team.unnamed", "injector")
     relocate("org.tinylog", "tinylog")
+    relocate("com.tcoded.folialib", "folialib")
 }
 
 tasks {
@@ -55,7 +58,10 @@ tasks {
         archiveBaseName.set("SternalBoard")
         relocate("dev.triumphteam", "com.xism4.sternalboard.libs.commands") //same as up
         destinationDirectory.set(file("$rootDir/bin/"))
-        minimize()
+        // Don't let the minimizer strip or merge FoliaLib; keep com.tcoded:folialib as-is
+        minimize {
+            exclude(dependency("com.tcoded:FoliaLib"))
+        }
     }
     clean {
         delete("${rootDir}/bin/")

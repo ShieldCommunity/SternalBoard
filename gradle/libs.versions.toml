@@ -6,6 +6,7 @@ tinylog = "2.7.0"
 injector = "2.0.1"
 cmd = "2.0.0-SNAPSHOT"
 worldguard = "7.0.9"
+folialib = "0.5.1"
 
 [libraries]
 paper = { group = "io.papermc.paper", name = "paper-api", version.ref = "paper" }
@@ -14,14 +15,16 @@ placeholder = { group = "me.clip", name = "placeholderapi", version.ref = "place
 worldguard = { group = "com.sk89q.worldguard", name = "worldguard-bukkit", version.ref = "worldguard" }
 
 cmd = { group = "dev.triumphteam", name = "triumph-cmd-bukkit", version.ref = "cmd" }
-inject = { group = "team.unnamed", name = "inject", version.ref =  "injector"}
+inject = { group = "team.unnamed", name = "inject", version.ref = "injector" }
 
 gsonAdventure = { group = "net.kyori", name = "adventure-text-serializer-gson", version.ref = "adventure" }
 
 tinylog = { group = "org.tinylog", name = "tinylog-api-kotlin", version.ref = "tinylog" }
 tinylogImpl = { group = "org.tinylog", name = "tinylog-impl", version.ref = "tinylog" }
 
+folialib = { group = "com.tcoded", name = "FoliaLib", version.ref = "folialib" }
+
 [plugins]
-shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1"}
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 zapper = { id = "io.github.revxrsal.zapper", version = "1.0.3" }
 

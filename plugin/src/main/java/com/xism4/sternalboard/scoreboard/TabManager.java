@@ -1,5 +1,6 @@
 package com.xism4.sternalboard.scoreboard;
 
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.manager.Manager;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
@@ -20,12 +21,12 @@ public class TabManager implements Manager {
     @Inject
     private BukkitConfiguration configuration;
 
-    private Integer updateTask;
+    private WrappedTask updateTask;
 
     private final String TAB_LIST_ENABLED = "tab-list.enabled";
 
     public void init() {
-        if (updateTask != null && updateTask != 0) return;
+        if (updateTask != null) return;
 
         var config = configuration.get();
         var TAB_LIST_UPDATE_INTERVAL = "tab-list.update-interval";
@@ -40,12 +41,11 @@ public class TabManager implements Manager {
         // Don't schedule task if option is disabled.
         if (!config.getBoolean(TAB_LIST_ENABLED, false)) return;
 
-        updateTask = plugin.getServer().getScheduler().runTaskTimerAsynchronously(
-                plugin,
+        updateTask = plugin.getFoliaLib().getScheduler().runTimerAsync(
                 () -> plugin.getServer().getOnlinePlayers().forEach(this::sendTabList),
                 0,
                 updateInterval
-        ).getTaskId();
+        );
     }
 
     public void reload() {
@@ -78,9 +78,9 @@ public class TabManager implements Manager {
     private void cancel() {
         var config = configuration.get();
 
-        if (updateTask != null && updateTask != 0) {
-            plugin.getServer().getScheduler().cancelTask(updateTask);
-            updateTask = 0;
+        if (updateTask != null) {
+            updateTask.cancel();
+            updateTask = null;
         }
 
         if (!config.getBoolean(TAB_LIST_ENABLED, false)) {

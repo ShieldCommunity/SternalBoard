@@ -2,6 +2,7 @@ name: SternalBoard
 main: com.xism4.sternalboard.SternalBoardPlugin
 authors: [ xism4, Jonakls ]
 version: '${version}'
+folia-supported: true
 api-version: "1.13"
 softdepend: [ PlaceholderAPI, WorldGuard ]
 description: High-performance packet-based scoreboard

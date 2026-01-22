@@ -1,5 +1,6 @@
 package com.xism4.sternalboard;
 
+import com.tcoded.folialib.FoliaLib;
 import com.xism4.sternalboard.module.PluginModule;
 import com.xism4.sternalboard.service.Service;
 import com.xism4.sternalboard.misc.Metrics;
@@ -19,6 +20,13 @@ public class SternalBoardPlugin extends ZapperJavaPlugin {
     @Inject
     public Set<Service> services;
 
+    @Inject
+    private FoliaLib foliaLib;
+
+    public FoliaLib getFoliaLib() {
+        return foliaLib;
+    }
+
     @Override
     public void onLoad() {
         Injector.create(new PluginModule(this)).injectMembers(this);
@@ -28,7 +36,7 @@ public class SternalBoardPlugin extends ZapperJavaPlugin {
     public void onEnable() {
         Logger.info("Starting SternalBoard Plugin");
         this.services.forEach(Service::start);
-        Bukkit.getScheduler().runTaskAsynchronously(this, () -> new Metrics(this, STERNAL_ID_METRICS));
+        foliaLib.getScheduler().runAsync((wrappedTask) -> new Metrics(this, STERNAL_ID_METRICS));
     }
 
     @Override

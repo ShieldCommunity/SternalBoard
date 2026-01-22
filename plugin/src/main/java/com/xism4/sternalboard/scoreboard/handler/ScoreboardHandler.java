@@ -1,5 +1,6 @@
 package com.xism4.sternalboard.scoreboard.handler;
 
+import com.tcoded.folialib.wrapper.task.WrappedTask;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.scoreboard.ScoreboardManager;
@@ -13,7 +14,7 @@ public abstract class ScoreboardHandler {
     protected BukkitConfiguration configuration;
     protected SternalBoardPlugin plugin;
     protected ScoreboardManager manager;
-    protected Integer updateTask;
+    protected WrappedTask updateTask;
 
     public ScoreboardHandler(
             final SternalBoardPlugin plugin,
@@ -27,22 +28,20 @@ public abstract class ScoreboardHandler {
 
     public void handle() {
         final FileConfiguration config = this.configuration.get();
-        this.updateTask = this.plugin.getServer()
+        this.updateTask = this.plugin.getFoliaLib()
                 .getScheduler()
-                .runTaskTimerAsynchronously(
-                        plugin,
+                .runTimerAsync(
                         this.task(),
                         0,
                         config.getInt(this.intervalUpdateKey, 20)
-                )
-                .getTaskId();
+                );
     }
 
     public abstract Runnable task();
 
     public void stop() {
         if (this.updateTask != null) {
-            this.plugin.getServer().getScheduler().cancelTask(this.updateTask);
+            this.updateTask.cancel();
         }
     }
 

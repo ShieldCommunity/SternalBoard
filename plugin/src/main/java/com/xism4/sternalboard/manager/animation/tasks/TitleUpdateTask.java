@@ -2,13 +2,12 @@ package com.xism4.sternalboard.manager.animation.tasks;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.manager.animation.AnimationManager;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
 @Deprecated
 // TODO: Migrate this to AnimateScoreboardHandler, override handle method and override stop method
-public class TitleUpdateTask extends BukkitRunnable {
+public class TitleUpdateTask implements Runnable {
     private final List<String> lines;
     private final AnimationManager animationManager;
     //private final ScoreboardManager scoreboardManager;
