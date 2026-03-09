@@ -19,50 +19,64 @@ import java.util.regex.Pattern;
 public final class TextUtils {
 
     private static final Pattern HEX_PATTERN = Pattern.compile("(#|&#)([A-Fa-f0-9]{6})");
-    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
-    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacySection();
     private static final int SERVER_VERSION = Integer.parseInt(Bukkit.getBukkitVersion().split("-")[0].split("\\.")[1]);
+
+    private static final MiniMessage MINI_MESSAGE = SERVER_VERSION >= 16 ? MiniMessage.miniMessage() : null;
+    private static final LegacyComponentSerializer LEGACY_SERIALIZER =
+            SERVER_VERSION >= 16 ? LegacyComponentSerializer.legacySection() : null;
 
     public static String colorize(String text) {
         if (text == null || text.isEmpty()) return "";
 
-        boolean containsLegacyFormat = text.contains("&") || text.contains("§");
-        if (containsLegacyFormat && SERVER_VERSION < 16) {
+        if (SERVER_VERSION < 16) {
             return ChatColor.translateAlternateColorCodes('&', text);
         }
 
+        boolean containsLegacy = text.contains("&") || text.contains("§"); //skip
+
         text = transformLegacyHex(text);
-        text = containsLegacyFormat ? formatMiniMessage(text) : text;
+        text = containsLegacy ? formatMiniMessage(text) : text;
+
         return LEGACY_SERIALIZER.serialize(MINI_MESSAGE.deserialize(text));
     }
 
-    public static @NotNull Component deserialize(final @NotNull String message) {
+    public static @NotNull Component deserialize(@NotNull String message) {
+        if (SERVER_VERSION < 16) {
+            return Component.text(ChatColor.translateAlternateColorCodes('&', message));
+        }
         return MINI_MESSAGE.deserialize(formatMiniMessage(message));
     }
 
-    public static @NotNull Component deserialize(final @NotNull String message, final @NotNull TagResolver... placeholders) {
+    public static @NotNull Component deserialize(@NotNull String message, @NotNull TagResolver... placeholders) {
+        if (SERVER_VERSION < 16) {
+            return Component.text(ChatColor.translateAlternateColorCodes('&', message));
+        }
         return MINI_MESSAGE.deserialize(formatMiniMessage(message), placeholders);
     }
 
-    public static void sendMessage(final @NotNull Audience audience, final @NotNull String message) {
+    public static void sendMessage(@NotNull Audience audience, @NotNull String message) {
         audience.sendMessage(deserialize(message));
     }
 
-    public static void sendMessage(final @NotNull Audience audience, final @NotNull String message, final @NotNull TagResolver... placeholders) {
+    @SuppressWarnings("Unused")
+    public static void sendMessage(@NotNull Audience audience, @NotNull String message, @NotNull TagResolver... placeholders) {
         audience.sendMessage(deserialize(message, placeholders));
     }
 
-    public static void sendMessages(final @NotNull Audience audience, final @NotNull List<String> message) {
-        for (final String line : message) {
+    @SuppressWarnings("Unused")
+    public static void sendMessages(@NotNull Audience audience, @NotNull List<String> message) {
+        for (String line : message) {
             sendMessage(audience, line);
         }
     }
 
-    public static @NotNull String deserializeToJson(final @NotNull String text) {
+    @SuppressWarnings("Unused")
+    public static @NotNull String deserializeToJson(@NotNull String text) {
         return GsonComponentSerializer.gson().serialize(deserialize(text));
     }
 
-    public static @NotNull String deserializeToJson(final @NotNull String text, final @NotNull TagResolver... placeholders) {
+    @SuppressWarnings("Unused")
+    public static @NotNull String deserializeToJson(@NotNull String text, @NotNull TagResolver... placeholders) {
         return GsonComponentSerializer.gson().serialize(deserialize(text, placeholders));
     }
 
@@ -71,15 +85,16 @@ public final class TextUtils {
         // Parse legacy color format.
         text = ChatColor.translateAlternateColorCodes('&', text);
         // Parse legacy to minimessage format.
-        TextComponent textComponent = LEGACY_SERIALIZER.deserialize(text);
+        TextComponent component = LEGACY_SERIALIZER.deserialize(text);
         // Set component to serialized format.
-        String serialized = MINI_MESSAGE.serialize(textComponent.compact());
+        String serialized = MINI_MESSAGE.serialize(component.compact());
         // Remove backslashes to normalize mini-message format.
         return serialized.replace("\\", "");
     }
 
     public static String transformLegacyHex(String text) {
-        return HEX_PATTERN.matcher(text).replaceAll(matcher -> "<color:#" + matcher.group(2) + ">");
+        if (SERVER_VERSION < 16) return text;
+        return HEX_PATTERN.matcher(text).replaceAll(m -> "<color:#" + m.group(2) + ">");
     }
 
     public static String processPlaceholders(final Player player, String text) {
