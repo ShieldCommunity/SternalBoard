@@ -1,7 +1,7 @@
 #
 # SternalBoard - Scoreboard plugin for Spigot and paper servers
 #
-# Version: 2.3.2
+# Version: 2.3.3.1
 # Author: xism4
 #
 # Support discord: https://discord.com/invite/jmWk4pR2SG
@@ -84,11 +84,10 @@ scoreboard-world:
 #
 # Scoreboard per permission configuration
 #
-# If permission no exist or is not configured, will use scoreboard section
+# If permission does not exist or is not configured, it will use the scoreboard section
 #
-# Remember if u use this mode, u need to add permissions to your permission plugin
+# If you use this mode, you must add permissions to your permission plugin
 # Example: sternalboard.admin, sternalboard.mod, sternalboard.dev, sternalboard.owner
-# Having op will make to see all scoreboards, remember deny nodes in your permission plugin
 scoreboard-permission:
   'admin':
     node: 'sternalboard.admin'
@@ -161,7 +160,7 @@ scoreboard-permission:
 #
 # Scoreboard per worldguard regions
 #
-# It will work by searching names for example SPAWN will display an different one
+# It will work by searching names, for example, SPAWN will display a different one
 scoreboard-regions:
   spawn:
     title: "&b&lSternal&f6lBoard &d&lSpawn Scoreboard"

@@ -33,7 +33,7 @@ public abstract class ScoreboardHandler {
                         plugin,
                         this.task(),
                         0,
-                        1
+                        config.getInt(this.intervalUpdateKey, 1) //todo work for this, must be global
                 )
                 .getTaskId();
     }
