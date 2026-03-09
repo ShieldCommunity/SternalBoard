@@ -105,6 +105,6 @@ public class ExampleBoard {
 
 ```
 
-#Servers using SternalBoard
+##Servers using SternalBoard
 
 <img src="https://bstats.org/signatures/bukkit/SternalBoard.svg" alt="ResourceHolders statics">

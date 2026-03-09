@@ -1,6 +1,7 @@
 package com.xism4.sternalboard.command;
 
 import com.xism4.sternalboard.SternalBoardPlugin;
+import com.xism4.sternalboard.manager.animation.AnimationService;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.scoreboard.ScoreboardManager;
 import com.xism4.sternalboard.scoreboard.TabManager;
@@ -29,6 +30,8 @@ public class SternalCommand extends BaseCommand {
     private ScoreboardManager scoreboardManager;
     @Inject
     private TabManager tabManager;
+    @Inject
+    private AnimationService animationService;
 
     @Default
     public void mainCommand(CommandSender sender) {
@@ -56,6 +59,7 @@ public class SternalCommand extends BaseCommand {
     public void reloadSubcommand(CommandSender sender) {
         this.config.reload();
         this.animConfig.reload();
+        this.animationService.reset();
         this.scoreboardManager.reload();
         this.tabManager.reload();
 

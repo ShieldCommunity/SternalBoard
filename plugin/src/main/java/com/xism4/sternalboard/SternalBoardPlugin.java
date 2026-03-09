@@ -4,7 +4,6 @@ import com.xism4.sternalboard.module.PluginModule;
 import com.xism4.sternalboard.service.Service;
 import com.xism4.sternalboard.misc.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.tinylog.Logger;
 import revxrsal.zapper.ZapperJavaPlugin;
 import team.unnamed.inject.Inject;
@@ -36,6 +35,7 @@ public class SternalBoardPlugin extends ZapperJavaPlugin {
         this.services.forEach(Service::stop);
     }
 
+    @SuppressWarnings("Unused")
     public boolean placeholderCheck() {
         return Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
     }

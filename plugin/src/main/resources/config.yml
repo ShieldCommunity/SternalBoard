@@ -14,12 +14,13 @@
 # Issues: https://github.com/ShieldCommunity/SternalBoard/issues
 
 settings:
-  # Select scoreboard mode: NORMAL, WORLD, PERMISSION and WORLDGUARD
+  # Select scoreboard mode: NORMAL, WORLD, PERMISSION, ANIMATED and WORLDGUARD
   #
-  # NORMAL - Shows the scoreboard for all the players
-  # WORLD - Shows the scoreboard filtering worlds
-  # PERMISSION - Shows the scoreboard checking permissions
-  # worldguard - Shows the scoreboard checking permissions
+  # NORMAL - Default scoreboard shown
+  # WORLD - Per world-based scoreboard
+  # PERMISSION - Per permission based scoreboard
+  # WORLDGUARD - Per region-based scoreboard
+  # ANIMATED - Animates frames for scoreboard
   mode: NORMAL
   scoreboard-interval-update: 20
   scoreboard:

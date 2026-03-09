@@ -1,5 +1,6 @@
 package com.xism4.sternalboard.scoreboard;
 
+import com.xism4.sternalboard.manager.animation.AnimationService;
 import com.xism4.sternalboard.misc.BukkitConfiguration;
 import com.xism4.sternalboard.SternalBoardPlugin;
 import com.xism4.sternalboard.scoreboard.handler.*;
@@ -28,6 +29,9 @@ public class ScoreboardFactory {
     @Inject
     private ScoreboardManager manager;
 
+    @Inject
+    AnimationService service;
+
     public ScoreboardHandler create() {
         final FileConfiguration config = configuration.get();
         final var mode = config.getString(SCOREBOARD_MODE_KEY);
@@ -39,7 +43,7 @@ public class ScoreboardFactory {
         return switch (mode.toUpperCase(Locale.ROOT)) {
             case "WORLD" -> new PerWorldScoreboardHandler(this.plugin, this.configuration, this.manager);
             case "PERMISSION" -> new PermissionScoreboardHandler(this.plugin, this.configuration, this.manager);
-            case "ANIMATE" -> new AnimateScoreboardHandler(this.plugin, this.animationConfiguration, this.manager);
+            case "ANIMATED" -> new AnimateScoreboardHandler(this.plugin, this.animationConfiguration, this.manager, service);
             case "WORLDGUARD" -> new WorldGuardScoreboardHandler(this.plugin, this.configuration, this.manager);
             default -> new NaturalScoreboardHandler(this.plugin, this.configuration, this.manager);
         };
