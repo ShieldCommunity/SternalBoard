@@ -2,33 +2,32 @@
 
 ![image](https://user-images.githubusercontent.com/76608233/146663681-08cf1e75-e288-44f4-8c79-fdda3531980b.png)
 
-Lightweight & Async packet-based multi-version scoreboard using FastBoard API.
+Lightweight packet-based multi-version scoreboard using FastBoard API.
 
 ## Official Downloads
 
 * [SpigotMC page](https://www.spigotmc.org/resources/sternalboard-lightweight-animated-scoreboard.89245/)
 * [Polymart page](https://polymart.org/resource/sternalboard-lightweight.1379)
-* [MC-Market page](https://www.mc-market.org/resources/20395/)
+* [BBB page](https://www.mc-market.org/resources/20395/)
 
 ## Maintainers
 * [xism4](https://github.com/xism4) Main developer
 * [jonakls](https://github.com/jonakls) Developer
 
 ## Features
-* High-performance - Well-known libraries are used by their good resource management and cleanup. In addition to running most features asynchronously.
-* Bedrock support - Will look exactly the same as on other platforms with no vision problems
-* Tab system - You will be able to modify the header and footer of the player view 
-* World blacklist - Ability to disable the scoreboard in certain worlds
-* Auto tab-completer for modern Paper, legacy, Spigot and forks
-* MiniMessage formatting support - Adventure colours like <red>hello<reset>
-* Packet-based - The plugin will not bug with plugins that use teams
+* Efficient - The server shouldn't notice the exist of this plugin. Most of tasks are running asynchronously. 
+* Bedrock support - Connections will display the plugin correctly without line breaks
+* Tab system - Modify the modern header and footer component through the settings. 
+* World blacklist - Ability to disable the scoreboard in certain worlds.
+* Auto tab-completer for modern Paper, Legacy Paper and Spigot.
 * Animated scoreboard - The scoreboard data is constantly being modified
-* Per world scoreboard - Ability to display different scoreboards in selected worlds
-* Multi-version plugin - Supports 1.7 to lastest
-* Mini-games support - The API was implemented in several mini-games supporting their custom scoreboards
-* Simple to use - Very intuitive configuration for new people
-* Maximum weight compression thanks to library downloader
-* The plugin will start without relying on other plugins
+* Per world scoreboard - Ability to display different scoreboards in selected worlds.
+* Configuration designed to be very simple and quick to set up.
+* The plugin will start without relying on other plugins plus shouldn't affect team-based plugins.
+* Multi-version plugin - Supports 1.7 to lastest.
+
+## Java 
+The software will continue to support older versions, but due to modern techniques, you will need to use any fork that supports a modern java version for it to function correctly.
   
 ## How to integrate
 If you want to integrate SternalBoard to your proyect, you can use Maven and Gradle:
@@ -39,7 +38,7 @@ Before nothing, remember that you need jitpack for it (https://jitpack.io/#Shiel
         <dependency>
             <groupId>com.github.ShieldCommunity</groupId>
             <artifactId>SternalBoard</artifactId>
-            <version>2.3.1</version>
+            <version>LATEST</version>
             <scope>compile</scope>
         </dependency>
 ```
@@ -55,7 +54,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.xism4.sternalboard:2.3.1'
+    implementation 'com.xism4.sternalboard:LATEST'
 }
 
 shadowJar {
@@ -74,7 +73,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.xism4:sternalboard:2.3.1")
+    implementation("com.xism4:sternalboard:LATEST")
 }
 
 shadowJar {
