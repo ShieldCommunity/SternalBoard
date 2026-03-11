@@ -13,7 +13,7 @@ public class TabListener implements Listener {
     private TabManager tabManager;
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         Player player = event.getPlayer();
         tabManager.sendTabList(player);
     }

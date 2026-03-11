@@ -54,11 +54,11 @@ public class TabManager implements Manager {
     }
 
     @Override
-    public void toggle(Player player) {
+    public void toggle(final Player player) {
         //keep unused
     }
 
-    public void sendTabList(Player player) {
+    public void sendTabList(final Player player) {
         var config = configuration.get();
 
         if (!config.getBoolean(TAB_LIST_ENABLED, false)) {

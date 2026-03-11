@@ -37,7 +37,7 @@ public class ScoreboardManager implements Manager {
     }
 
     @Override
-    public void toggle(Player player) {
+    public void toggle(final Player player) {
         UUID uuid = player.getUniqueId();
 
         if (cacheRepository.exists(uuid)) {

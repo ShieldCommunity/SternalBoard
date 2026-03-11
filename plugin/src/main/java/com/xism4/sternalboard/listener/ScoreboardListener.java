@@ -21,7 +21,7 @@ public class ScoreboardListener implements Listener {
 
 
     @EventHandler
-    private void onRemoveBoard(PlayerQuitEvent event) {
+    private void onRemoveBoard(final PlayerQuitEvent event) {
         this.cacheRepository.delete(event.getPlayer().getUniqueId());
     }
 

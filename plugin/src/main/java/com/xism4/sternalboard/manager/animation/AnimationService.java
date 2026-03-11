@@ -2,6 +2,7 @@ package com.xism4.sternalboard.manager.animation;
 
 import com.xism4.sternalboard.service.Service;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemoryConfiguration;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,42 +12,47 @@ public class AnimationService implements Service {
     private final Map<String, AnimationTrack> titleTracks = new ConcurrentHashMap<>();
     private final Map<String, AnimationTrack> lineTracks = new ConcurrentHashMap<>();
 
-    public ConfigurationSection next(ConfigurationSection animatedSection) {
+    public ConfigurationSection next(final ConfigurationSection animatedSection) {
         if (animatedSection == null) return null;
 
-        String path = animatedSection.getCurrentPath();
-        ConfigurationSection frame = new org.bukkit.configuration.MemoryConfiguration();
+        final String path = animatedSection.getCurrentPath();
+        final ConfigurationSection frame = new MemoryConfiguration();
 
-        ConfigurationSection titleSec = animatedSection.getConfigurationSection("title");
+        final ConfigurationSection titleSec = animatedSection.getConfigurationSection("title");
         if (titleSec != null) {
-            String trackKey = path + ".title";
-            AnimationTrack track = titleTracks.computeIfAbsent(trackKey, k -> buildTrack(titleSec));
+            final AnimationTrack track = titleTracks.computeIfAbsent(
+                    path + ".title",
+                    k -> buildTrack(titleSec)
+            );
             frame.set("title", track.next());
         }
 
-        List<String> finalLines = new ArrayList<>();
-        ConfigurationSection linesSec = animatedSection.getConfigurationSection("score-lines");
+        final List<String> finalLines = new ArrayList<>();
+        final ConfigurationSection linesSec = animatedSection.getConfigurationSection("score-lines");
 
         if (linesSec != null) {
-            Set<String> rawKeys = linesSec.getKeys(false);
-            int[] keys = new int[rawKeys.size()];
-            int i = 0;
+            final List<Integer> keys = new ArrayList<>();
 
-            for (String k : rawKeys) {
-                keys[i++] = Integer.parseInt(k);
+            for (final String key : linesSec.getKeys(false)) {
+                keys.add(Integer.parseInt(key));
             }
 
-            Arrays.sort(keys);
+            Collections.sort(keys);
 
-            for (int key : keys) {
-                ConfigurationSection lineSec = linesSec.getConfigurationSection(String.valueOf(key));
-                if (lineSec != null) {
-                    String trackKey = path + ".line." + key;
-                    AnimationTrack track = lineTracks.computeIfAbsent(trackKey, k -> buildTrack(lineSec));
-                    finalLines.add(track.next());
-                } else {
+            for (final int key : keys) {
+                final ConfigurationSection lineSec = linesSec.getConfigurationSection(String.valueOf(key));
+
+                if (lineSec == null) {
                     finalLines.add("");
+                    continue;
                 }
+
+                final AnimationTrack track = lineTracks.computeIfAbsent(
+                        path + ".line." + key,
+                        k -> buildTrack(lineSec)
+                );
+
+                finalLines.add(track.next());
             }
         }
 
@@ -54,8 +60,8 @@ public class AnimationService implements Service {
         return frame;
     }
 
-    private AnimationTrack buildTrack(ConfigurationSection section) {
-        int updateRate = section.getInt("update-rate", 20);
+    private AnimationTrack buildTrack(final ConfigurationSection section) {
+        final int updateRate = section.getInt("update-rate", 20);
         List<String> frames = section.getStringList("lines");
 
         if (frames.isEmpty()) {
@@ -69,10 +75,11 @@ public class AnimationService implements Service {
 
         private final List<String> frames;
         private final int updateRate;
-        private int index = 0;
-        private int ticks = 0;
 
-        AnimationTrack(List<String> frames, int updateRate) {
+        private int index;
+        private int ticks;
+
+        AnimationTrack(final List<String> frames, final int updateRate) {
             this.frames = frames;
             this.updateRate = Math.max(1, updateRate);
         }

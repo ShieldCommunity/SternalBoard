@@ -34,14 +34,14 @@ public class SternalCommand extends BaseCommand {
     private AnimationService animationService;
 
     @Default
-    public void mainCommand(CommandSender sender) {
+    public void mainCommand(final CommandSender sender) {
         String version = plugin.getDescription().getVersion();
         sender.sendMessage(TextUtils.colorize(String.format("&e&lSternal&f&lBoard &7- &7by &6xism4 &7- &7v%s", version)));
         sender.sendMessage(TextUtils.colorize("&eUse /sternalboard help &fto see more info about the plugin"));
     }
 
     @SubCommand("help")
-    public void helpSubcommand(CommandSender sender) {
+    public void helpSubcommand(final CommandSender sender) {
         sender.sendMessage(TextUtils.colorize("&eSternalBoard &fcommands"));
         sender.sendMessage(TextUtils.colorize("- &e/sb help&f: Shows all available commands"));
         sender.sendMessage(TextUtils.colorize("- &e/sb toggle&f: Toggles the scoreboard on or off"));
@@ -50,13 +50,13 @@ public class SternalCommand extends BaseCommand {
 
     @SubCommand("toggle")
     @Permission("sternalboard.toggle")
-    public void toggleSubcommand(Player player) {
+    public void toggleSubcommand(final Player player) {
         this.scoreboardManager.toggle(player);
     }
 
     @SubCommand("reload")
     @Permission("sternalboard.reload")
-    public void reloadSubcommand(CommandSender sender) {
+    public void reloadSubcommand(final CommandSender sender) {
         this.config.reload();
         this.animConfig.reload();
         this.animationService.reset();
